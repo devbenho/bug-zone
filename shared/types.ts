@@ -23,8 +23,8 @@ export interface IContent {
   content: string;
   liked?: boolean;
   disliked?: boolean;
-  likes: number;
-  dislikes: number;
+  likes?: number;
+  dislikes?: number;
   type: "created" | "shared";
   tags?: ITag[];
   createdAt: Date;
