@@ -22,7 +22,7 @@ app.post("/problems", (req, res) => {
   res.sendStatus(200);
 });
 
-// Get All Posts from InMemoryDB
+// Get All Problems from InMemoryDB
 app.get("/problems", async (_, res) => {
   res.send({ problems: await db.getAllProblems() });
 });
