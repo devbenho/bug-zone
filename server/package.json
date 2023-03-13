@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Solutions for developers by developers ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devbenho/bug-zone.git"
+  },
+  "author": "Muhammad Banhawy (DevBenho)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devbenho/bug-zone/issues"
+  },
+  "homepage": "https://github.com/devbenho/bug-zone#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "express-handlebars": "^6.0.7",
+    "handlebars": "^4.7.7",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.3",
+    "nodemailer": "^6.9.1",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.21"
+  }
+}
