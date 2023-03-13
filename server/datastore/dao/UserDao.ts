@@ -1,10 +1,10 @@
 import { IUser } from "@bugzone/shared/types";
 export interface IUserDAO {
-  create(user: IUser): Promise<IUser>;
-  getById(id: string): Promise<IUser | undefined | null>;
-  getByUsername(username: string): Promise<IUser | undefined | null>;
-  getByEmail(email: string): Promise<IUser | undefined | null>;
-  getAll(): Promise<IUser[]>;
-  update(user: Partial<IUser>): Promise<IUser>;
-  delete(id: string): Promise<IUser>;
+  createUser(user: IUser): Promise<void>;
+  getUserById(id: string): Promise<IUser | undefined | null>;
+  getUserByUsername(username: string): Promise<IUser | undefined | null>;
+  getUserByEmail(email: string): Promise<IUser | undefined | null>;
+  updateUser(user: Partial<IUser>): Promise<IUser>;
+  deleteUser(id: string): Promise<IUser>;
+  getAllUsers(): Promise<IUser[]>;
 }
