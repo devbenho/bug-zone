@@ -32,6 +32,7 @@ export interface IContent {
 
 export interface IProblem extends IContent {
   title: string;
+  solutions: string[] | ISolution[];
 }
 export interface ISolution extends IContent {
   problemId: string;
