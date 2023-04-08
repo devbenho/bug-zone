@@ -1,53 +1,52 @@
+import { ObjectId } from "../server/node_modules/mongodb"
+
 export interface IUser {
-  id: string;
-  username: string;
-  email: string;
-  password: string;
-  profilePic?: string;
-  contributions?: number;
-  rate?: number;
-  createdAt: Date;
-  bio?: string;
-  interests?: ITag[];
-  socialLinks?: string[];
+  _id: ObjectId
+  username: string
+  email: string
+  password: string
+  profilePic?: string
+  contributions?: number
+  rate?: number
+  bio?: string
+  interests?: ITag[]
+  socialLinks?: string[]
   activity: {
-    problems: IProblem[];
-    solutions: ISolution[];
-    reacts: IReact[];
-  };
+    problems: IProblem[]
+    solutions: ISolution[]
+    reacts: IReact[]
+  }
+  createdAt: Date
 }
 
 export interface IContent {
-  id: string;
-  userId: string;
-  content: string;
-  liked?: boolean;
-  disliked?: boolean;
-  likes?: number;
-  dislikes?: number;
-  type: "created" | "shared";
-  tags?: ITag[];
-  createdAt: Date;
+  userId: string
+  content: string
+  liked?: boolean
+  disliked?: boolean
+  likes?: number
+  dislikes?: number
+  type: 'created' | 'shared'
+  tags?: ITag[]
+  createdAt: Date
 }
 
 export interface IProblem extends IContent {
-  title: string;
-  solutions: string[] | ISolution[];
+  title: string
+  solutions: string[] | ISolution[]
 }
 export interface ISolution extends IContent {
-  problemId: string;
+  problemId: string
 }
 
 export interface IReact {
-  id: string;
-  userId: string;
-  reactType: "like" | "dislike";
-  contentType: "problem" | "solution";
-  contentId: string;
-  createdAt: Date;
+  userId: string
+  reactType: 'like' | 'dislike'
+  contentType: 'problem' | 'solution'
+  contentId: string
+  createdAt: Date
 }
 
 export interface ITag {
-  id: string;
-  name: string;
+  name: string
 }
