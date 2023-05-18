@@ -5,6 +5,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
+import { Verify } from './pages/Verify'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register password="" username="" />,
+    errorElement: <h1>Error Page</h1>,
+  },
+  {
+    path: '/verify',
+    element: <Verify username="devBenho" email="benho@benho.com" />,
     errorElement: <h1>Error Page</h1>,
   },
 ])
