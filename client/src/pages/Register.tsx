@@ -8,7 +8,7 @@ interface IFormData {
   password: string
 }
 
-export const Login: React.FC<IFormData> = () => {
+export const Register: React.FC<IFormData> = () => {
   useState({})
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -30,20 +30,22 @@ export const Login: React.FC<IFormData> = () => {
       <div>
         <div className="box flex flex-col gap-8 w-full justify-center">
           <div className="title">
-            <h1 className="text-[22px] font-bold text-[#137898]">Login</h1>
+            <h1 className="text-[22px] font-bold text-[#137898]">Register</h1>
           </div>
           {/* Input(s) container*/}
           <div className="flex flex-col gap-5">
-            <Input id="username" label="Username or Email" />
+            <Input id="username" label="Username" />
+            <Input id="email" label="Email" />
             <Input id="password" label="Password" />
+            <Input id="bio" label="Bio" />
           </div>
           {/* Button(s) container*/}
           <div className="flex items-center gap-4">
-            <Button label="Login" variant="solid" onClick={handleSubmit} size="md" />
+            <Button label="Register" variant="solid" onClick={handleSubmit} size="md" />
             <p className="text-zinc-50">
-              Don't have an account?{' '}
-              <a href="/register">
-                <span className="text-[#137A9B]">Create One</span>
+              Already have an account?{' '}
+              <a href="/login">
+                <span className="text-[#137A9B]">Login</span>
               </a>
             </p>
           </div>

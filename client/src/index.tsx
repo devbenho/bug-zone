@@ -4,7 +4,7 @@ import './index.css'
 // import App from './App';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login } from './pages/Login'
-import { Button } from './components/Button'
+import { Register } from './pages/Register'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
     errorElement: <h1>Error Page</h1>,
   },
   {
-    path: '/test-com',
-    element: <Button label="Login" />,
+    path: '/register',
+    element: <Register password="" username="" />,
     errorElement: <h1>Error Page</h1>,
   },
 ])
