@@ -28,6 +28,7 @@ export const Register: React.FC<IFormData> = () => {
     <div className="bg-[#042631] h-screen w-full flex flex-col justify-center items-center">
       {/* Main Container */}
       <div>
+        {/* Sub-container */}
         <div className="box flex flex-col gap-8 w-full justify-center">
           <div className="title">
             <h1 className="text-[22px] font-bold text-[#137898]">Register</h1>
@@ -51,7 +52,6 @@ export const Register: React.FC<IFormData> = () => {
           </div>
         </div>
       </div>
-      {/* Sub-container */}
     </div>
   )
 }
