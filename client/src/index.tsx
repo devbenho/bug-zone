@@ -6,10 +6,14 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Verify } from './pages/Verify'
+import { Home } from './pages/Home'
+import { Grid } from './components/Grid'
+// import { NavBar } from './components/NavBar'
+// import { Category } from './components/Category'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <h1>Root</h1>,
+    element: <Home />,
     errorElement: <h1>Error Page</h1>,
   },
   {
@@ -25,6 +29,11 @@ const router = createBrowserRouter([
   {
     path: '/verify',
     element: <Verify username="devBenho" email="benho@benho.com" />,
+    errorElement: <h1>Error Page</h1>,
+  },
+  {
+    path: '/test',
+    element: <Grid />,
     errorElement: <h1>Error Page</h1>,
   },
 ])

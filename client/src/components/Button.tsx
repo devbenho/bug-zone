@@ -8,7 +8,7 @@ interface ButtonProps {
 }
 const btnConf = {
   solid: `bg-cyan-600 hover:bg-cyan-700 text-zinc-50 text-center p-2 rounded-md text-sm`,
-  ghost: `hover:bg-cyan-900 text-zinc-50 text-center p-2 rounded-md text-sm`,
+  ghost: `hover:bg-cyan-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
 }
 const btnSizes = {
   sm: `w-[120px] h-[40px]`,
