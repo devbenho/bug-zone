@@ -90,13 +90,7 @@ export const categories = [
     solutions: 19,
     contributors: 13,
   },
-  {
-    id: 13,
-    name: 'digital marketing',
-    problems: 10,
-    solutions: 21,
-    contributors: 16,
-  },
+
   {
     id: 14,
     name: 'augmented reality',
@@ -131,12 +125,5 @@ export const categories = [
     problems: 9,
     solutions: 17,
     contributors: 12,
-  },
-  {
-    id: 19,
-    name: 'natural language processing',
-    problems: 11,
-    solutions: 23,
-    contributors: 15,
   },
 ]

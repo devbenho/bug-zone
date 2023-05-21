@@ -1,10 +1,10 @@
 import { categories } from '../constants/categories'
-import { Category } from './Category'
+import { CategoryCard } from './CategoryCard'
 
 export const Grid = () => {
   const listItems = categories.map(c => (
     <li>
-      <Category
+      <CategoryCard
         key={c.id}
         name={c.name.toUpperCase()}
         problems={c.problems}
@@ -15,8 +15,8 @@ export const Grid = () => {
   ))
   return (
     <>
-      <div className="flex justify-center items-center mx-[140px] py-[160px]">
-        <ul className="grid grid-cols-3 gap-y-10 gap-x-20">{listItems}</ul>
+      <div className="flex justify-center items-center mx-[140px] py-[100px]">
+        <ul className="grid grid-cols-3 gap-y-10 gap-x-24">{listItems}</ul>
       </div>
     </>
   )

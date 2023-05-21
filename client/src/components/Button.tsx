@@ -7,7 +7,7 @@ interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 const btnConf = {
-  solid: `bg-cyan-600 hover:bg-cyan-700 text-zinc-50 text-center p-2 rounded-md text-sm`,
+  solid: `bg-cyan-700 hover:bg-cyan-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
   ghost: `hover:bg-cyan-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
 }
 const btnSizes = {

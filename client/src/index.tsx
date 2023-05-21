@@ -8,12 +8,18 @@ import { Register } from './pages/Register'
 import { Verify } from './pages/Verify'
 import { Home } from './pages/Home'
 import { Grid } from './components/Grid'
+import { Category } from './pages/Category'
 // import { NavBar } from './components/NavBar'
 // import { Category } from './components/Category'
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
+    errorElement: <h1>Error Page</h1>,
+  },
+  {
+    path: '/category/:name',
+    element: <Category />,
     errorElement: <h1>Error Page</h1>,
   },
   {

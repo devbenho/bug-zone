@@ -1,6 +1,6 @@
 import { Button } from './Button'
 
-export const Category: React.FC<{
+export const CategoryCard: React.FC<{
   name?: string
   problems?: number
   solutions?: number
