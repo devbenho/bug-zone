@@ -4,7 +4,7 @@
   "description": "Solutions for developers by developers ",
   "main": "server.ts",
   "scripts": {
-    "start": "nodemon server.ts"
+    "start": "node server.ts"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.15.1",

@@ -1,7 +1,7 @@
 import { Model, Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 
-interface IUser {
+export interface IUser {
   username: string
   email: string
   password: string
@@ -23,6 +23,8 @@ const schema = new Schema<IUser, UserModel, IUserMethods>({
 })
 
 schema.pre('save', async function (next) {
+  console.log('HOOK')
+
   const user = this
 
   if (!user.isModified('password')) return next()
