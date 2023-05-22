@@ -1,18 +1,26 @@
-export const problemData = [
+import { ProblemCardProbs } from '../components/ProblemCard'
+
+export const problemData: ProblemCardProbs[] = [
   {
-    title: 'How to sort an array in JavaScript?',
-    description:
+    id: 1,
+    username: 'devBenho',
+    title: 'Node js connection failed to mongoDB',
+    discription:
       'I have an array of numbers and I want to sort them in ascending order. What is the best way to do this in JavaScript?',
   },
   {
-    title: 'How to center a div horizontally and vertically?',
-    description:
-      'I want to center a div element both horizontally and vertically on the page. What CSS properties should I use to achieve this?',
+    id: 1,
+    username: 'devBenho',
+    title: 'Node js connection failed to mongoDB',
+    discription:
+      'I have an array of numbers and I want to sort them in ascending order. What is the best way to do this in JavaScript?',
   },
   {
-    title: 'How to handle click events in React?',
-    description:
-      "I'm building a React application and I want to handle click events on certain elements. What is the recommended way to do this in React?",
+    id: 1,
+    username: 'devBenho',
+    title: 'Node js connection failed to mongoDB',
+    discription:
+      'I have an array of numbers and I want to sort them in ascending order. What is the best way to do this in JavaScript?',
   },
   // Add more objects as needed...
 ]
