@@ -1,5 +1,5 @@
 // import { Category } from '../components/Category'
-import { Grid } from '../components/Grid'
+import { CategoryGrid } from '../components/CategoryGrid'
 import { NavBar } from '../components/NavBar'
 
 export const Home = () => {
@@ -10,7 +10,7 @@ export const Home = () => {
         <div className="">
           {/* NavBar */}
           <NavBar />
-          <Grid />
+          <CategoryGrid />
         </div>
       </div>
     </>
