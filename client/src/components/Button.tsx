@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from 'react'
 // Just a button with label
 export interface ButtonProps {
+  id?: number
   label: string
   variant?: 'solid' | 'ghost'
   size?: 'sm' | 'md' | 'lg' | 'xl'
@@ -27,7 +28,7 @@ export const Button: React.FC<ButtonProps> = ({
     console.log('Clicked')
   },
 }) => {
-  const className = `${btnConf[variant]} ${btnSizes[size]}} transition-all duration-500 ease-in-out flex justify-center items-center gap-3`
+  const className = `${btnConf[variant]} ${btnSizes[size]} transition-all duration-500 ease-in-out flex justify-center items-center gap-3`
 
   return (
     <>
