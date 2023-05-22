@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 // import App from './App';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Verify } from './pages/Verify'
 import { Home } from './pages/Home'
-import { Grid } from './components/Grid'
-import { Category } from './pages/Category'
-// import { NavBar } from './components/NavBar'
-// import { Category } from './components/Category'
+import { IconButtonGroup } from './components/IconButtonGroup'
+import { iconButtons } from './constants/iconButtons'
+import { ProblemList } from './pages/problem-list'
+import { problemData } from './constants/problemCards'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/category/:name',
-    element: <Category />,
+    element: <ProblemList category="WEB DEVELOPMENT" problems={problemData} />,
     errorElement: <h1>Error Page</h1>,
   },
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/test',
-    element: <Grid />,
+    element: <IconButtonGroup buttons={iconButtons} />,
     errorElement: <h1>Error Page</h1>,
   },
 ])
