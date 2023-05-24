@@ -3,6 +3,29 @@
     "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.1"
-  }
+    "@types/jsonwebtoken": "^9.0.1",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22"
+  },
+  "name": "bug-zone",
+  "description": "A platform for technical discussions through submitting problems and solutions by developers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "server": "nodemon index.js",
+    "client": "cd client && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devbenho/bug-zone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devbenho/bug-zone/issues"
+  },
+  "homepage": "https://github.com/devbenho/bug-zone#readme"
 }

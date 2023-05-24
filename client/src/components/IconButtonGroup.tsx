@@ -10,11 +10,11 @@ export const IconButtonGroup: React.FC<IconButtonGroupProps> = ({
   dir = 'flex',
 }) => {
   const listItems = buttons.map(b => (
-    <li className="list-none">
+    <li className="list-none flex justify-center">
       <IconButton key={b.id} label={b.label} Icon={b.Icon} size={b.size} variant={b.variant} />
     </li>
   ))
-  const className = `${dir ?? 'flex'} ${gap ?? 'gap-4'}  w-fit bg-cyan-700 rounded-sm`
+  const className = `${dir ?? 'flex'} ${gap ?? 'gap-4'}  w-fit bg-cyan-700 rounded-lg p-1`
   return (
     <>
       <div className={className}>{listItems}</div>
