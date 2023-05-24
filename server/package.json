@@ -4,7 +4,7 @@
   "description": "Solutions for developers by developers ",
   "main": "server.ts",
   "scripts": {
-    "start": "node server.ts"
+    "start": "nodemon server.ts"
   },
   "repository": {
     "type": "git",

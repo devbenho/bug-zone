@@ -8,7 +8,7 @@ app.use(morgan('dev'))
 
 // Routers
 app.use('/healthZ', (_req, res, next) => {
-  res.send(`It Works 🤯`)
+  res.send('It works 🤯')
   next()
 })
 
