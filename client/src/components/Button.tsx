@@ -9,8 +9,8 @@ export interface ButtonProps {
 }
 
 const btnConf = {
-  solid: `bg-cyan-700 hover:bg-cyan-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
-  ghost: `hover:bg-cyan-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
+  solid: `bg-brand-700 hover:bg-brand-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
+  ghost: `hover:bg-brand-800 text-zinc-50 text-center p-2 rounded-md text-sm`,
 }
 
 const btnSizes = {

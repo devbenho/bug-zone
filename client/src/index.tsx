@@ -8,10 +8,9 @@ import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Verify } from './pages/Verify'
 import { Home } from './pages/Home'
-import { IconButtonGroup } from './components/IconButtonGroup'
-import { iconButtons } from './constants/iconButtons'
 import { ProblemList } from './pages/problem-list'
 import { problemData } from './constants/problemCards'
+import { UserCard } from './components/UserCard'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -39,8 +38,8 @@ const router = createBrowserRouter([
     errorElement: <h1>Error Page</h1>,
   },
   {
-    path: '/test',
-    element: <IconButtonGroup buttons={iconButtons} />,
+    path: '/user-card',
+    element: <UserCard />,
     errorElement: <h1>Error Page</h1>,
   },
 ])

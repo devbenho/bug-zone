@@ -11,10 +11,10 @@ export const NavBar = () => {
         </Link>
         {/* NavLinks */}
         <ul className="flex justify-between items-center gap-6">
-          <li className="text-cyan-100 hover:bg-cyan-800 py-2 px-4 hover:rounded-md hover:text-cyan-600 transition-all ease-in-out duration-150">
+          <li className="text-cyan-100 hover:bg-brand-800 py-2 px-4 hover:rounded-md hover:text-cyan-600 transition-all ease-in-out duration-150">
             <Link to={'/'}>Home</Link>
           </li>
-          <li className="text-cyan-100 hover:bg-cyan-800 py-2 px-4 hover:rounded-md hover:text-cyan-600 transition-all ease-in-out duration-150">
+          <li className="text-cyan-100 hover:bg-brand-800 py-2 px-4 hover:rounded-md hover:text-cyan-600 transition-all ease-in-out duration-150">
             <Link to={'/'}>About</Link>
           </li>
           <li className="text-cyan-100 hover:bg-zinc-800 py-2 px-4 hover:rounded-md hover:text-cyan-600 transition-all ease-in-out duration-150">

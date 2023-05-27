@@ -9,7 +9,7 @@ export const CategoryCard: React.FC<{
   return (
     <>
       {/* Main Container */}
-      <div className="w-[300px] h-[400px] rounded-md flex flex-col bg-cyan-900 justify-center items-center">
+      <div className="w-[300px] h-[400px] rounded-md flex flex-col bg-brand-800 justify-center items-center transition-all ease-in-out duration-150 hover:bg-zinc-800 hover:cursor-pointer">
         <div className="flex flex-col gap-6 w-[260px] h-[340px] justify-between">
           <div className="title h-[90px]">
             <h1 className="font-bold text-zinc-100 text-[22px]">{name}</h1>

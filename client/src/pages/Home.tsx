@@ -6,7 +6,7 @@ export const Home = () => {
   return (
     <>
       {/* Main container */}
-      <div className="bg-[#042631] h-full w-full">
+      <div className="bg-brand-900 h-full w-full">
         <div className="">
           {/* NavBar */}
           <NavBar />
