@@ -12,6 +12,7 @@ app.use(morgan("dev"));
 app.get("/healthZ", (req, res) => {
   res.send("Hello World");
 });
+
 const router = container.get<ApplicationRouter>(ApplicationRouter);
 router.register(app);
 
