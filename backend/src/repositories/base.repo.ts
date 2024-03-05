@@ -1,5 +1,3 @@
-import { injectable } from "inversify";
-
 export interface IBasicRepository<T> {
   create(data: T): Promise<T>;
   update(id: string, data: T): Promise<T>;
