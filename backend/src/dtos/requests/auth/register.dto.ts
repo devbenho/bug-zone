@@ -1,6 +1,6 @@
 import User from "../../../entities/user";
 
-export type RegisterUserDto = Pick<
+export type RegisterUserRequestDto = Pick<
   User,
   "email" | "password" | "firstName" | "lastName" | "phoneNumber" | "role"
 >;
