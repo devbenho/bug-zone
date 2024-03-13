@@ -1,18 +1,13 @@
 import knex, { Knex } from "knex";
-import path from "path";
-interface IKnexConfig {
-  [key: string]: Knex.Config;
-}
-const config = {
-  client: "sqlite3",
+
+const config: Knex.Config = {
+  client: "sqlite3", // Corrected client name to 'sqlite3'
   connection: {
-    filename: path.join(__dirname, "dev.sqlite3"),
-  },
-  seeds: {
-    directory: path.join(__dirname, "/seeds"),
+    filename: "./dev.sqlite3",
   },
   useNullAsDefault: true,
 };
-const knexInstance = knex(config);
+
+const knexInstance: Knex = knex(config); // Corrected instantiation
 
 export default knexInstance;

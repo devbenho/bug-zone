@@ -57,3 +57,9 @@ export class RepositoryMissingField extends BadRequestError {
     super("Field missing", ...args);
   }
 }
+
+export class EnvVariableMissingError extends InternalError {
+  constructor(variableName: string, ...args: any[]) {
+    super(`Environment variable ${variableName} is missing`, ...args);
+  }
+}

@@ -1,18 +1,21 @@
-import { Container } from "inversify";
-import { UserService } from "../services/user/user.service.imp";
-import { Knex } from "knex";
-import { IUserRepository } from "../repositories/user/user.repo";
-import { KnexUserRepository } from "../database/knex/user/user.repo";
-import knexInstance from "../database/knex/knexfile";
-import { IUserService } from "../services/user/user.service";
+import { Container, injectable, decorate } from "inversify";
+import { AuthController } from "../controllers/auth.controller";
 import { UserController } from "../controllers/user.controller";
+import { KnexUserRepository } from "../database/knex/user/user.repo";
+import { IUserRepository } from "../repositories/user/user.repo";
 import ApplicationRouter from "../routes";
-
+import { AuthService, IAuthService } from "../services";
+import { IJwtService } from "../services/jwt/jwt.service";
+import { JwtService } from "../services/jwt/jwt.service.impl";
+import { IUserService } from "../services/user/user.service";
+import { UserService } from "../services/user/user.service.imp";
 const container = new Container();
 
 container.bind(ApplicationRouter).to(ApplicationRouter);
-container.bind<Knex>("Knex").toConstantValue(knexInstance);
 container.bind<IUserService>("IUserService").to(UserService);
 container.bind<IUserRepository>("IUserRepository").to(KnexUserRepository);
+container.bind<IJwtService>("IJwtService").to(JwtService);
+container.bind<IAuthService>("IAuthService").to(AuthService);
 container.bind<UserController>("IUserController").to(UserController);
+container.bind<AuthController>("IAuthController").to(AuthController);
 export { container };
