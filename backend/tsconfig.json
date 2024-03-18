@@ -1,23 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "target": "ES6",
+    "module": "CommonJS",
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "rootDirs": ["."],
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
-    "typeRoots": ["./src/global.d.ts", "./node_modules/@types"]    
-  }
+
+  },
+  "include": ["**/*.ts", "src/datasource/repositories/knex/user.repo.knex.ts.off"],
+  "exclude": ["node_modules"]
 }

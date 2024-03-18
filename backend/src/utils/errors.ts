@@ -1,4 +1,4 @@
-import ERROR_MESSAGES from "../eums/error-messages.enum";
+import ERROR_MESSAGES from "./eums/error-messages.enum";
 
 export class ApplicationError extends Error {
   public code: number;
