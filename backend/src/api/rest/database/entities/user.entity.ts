@@ -22,8 +22,8 @@ class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column()
   @BeforeInsert()
+  @Column()
   password: string;
 
   @Column({ nullable: true })
