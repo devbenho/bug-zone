@@ -63,3 +63,15 @@ export class EnvVariableMissingError extends InternalError {
     super(`Environment variable ${variableName} is missing`, ...args);
   }
 }
+
+export class TokenExpiredError extends UnauthorizedError {
+  constructor(...args: any[]) {
+    super(ERROR_MESSAGES.TOKEN_EXPIRED);
+  }
+}
+
+export class BadTokenError extends UnauthorizedError {
+  constructor(...args: any[]) {
+    super(ERROR_MESSAGES.BAD_TOKEN);
+  }
+}

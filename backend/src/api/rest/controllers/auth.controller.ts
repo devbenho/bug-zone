@@ -35,7 +35,7 @@ export class AuthController implements BaseController {
   ) => {
     const loginRequestDto = req.body as LoginRequestDto;
     const { user, jwt } = await this._authService.login(loginRequestDto);
-
+    res.locals.user = user; // set the user in the response locals for the next middleware
     return res.status(200).json({
       success: true,
       user,

@@ -1,4 +1,6 @@
 enum ERROR_MESSAGES {
+  TOKEN_EXPIRED = "Token expired",
+  BAD_TOKEN = "Bad token",
   INVALID_REQUEST = "Invalid request",
   INVALID_CREDENTIAL = "Invalid credential",
   UNAUTHORIZED = "Unauthorized",
@@ -11,7 +13,7 @@ enum ERROR_MESSAGES {
   FORBIDDEN = "Forbidden",
   USERNAME_NOT_AVAILABLE = "Try another username",
   EMAIL_NOT_AVAILABLE = "Try another email",
-  UNKNOWN_ERROR_TRY_AGAIN = "Unknown error occured. Please try again.",
+  UNKNOWN_ERROR_TRY_AGAIN = "Unknown error occured, Please try again.",
   REPOSITORY_ERROR_INVALID_ID = "Invalid id",
 }
 

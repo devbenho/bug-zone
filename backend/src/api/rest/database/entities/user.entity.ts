@@ -5,7 +5,7 @@ import LikePost from "./like-post.entity";
 import Reply from "./reply.entity";
 import Post from "./post.entity";
 import Comment from "./comment.entity";
-import bcrypt from "bcrypt";
+
 @Entity()
 class User extends BaseEntity {
   @Column()
