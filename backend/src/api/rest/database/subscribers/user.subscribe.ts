@@ -18,24 +18,4 @@ export class UserSubscriber implements EntitySubscriberInterface {
     const hashedPassword = await bcrypt.hash(password, 10);
     event.entity.password = hashedPassword;
   }
-
-  afterInsert(event: InsertEvent<User>) {
-    console.log(`AFTER USER INSERTED: `, event.entity);
-  }
-
-  beforeUpdate(event: UpdateEvent<User>) {
-    console.log(`BEFORE USER UPDATED: `, event.entity);
-  }
-
-  afterUpdate(event: UpdateEvent<User>) {
-    console.log(`AFTER USER UPDATED: `, event.entity);
-  }
-
-  beforeRemove(event: RemoveEvent<User>) {
-    console.log(`BEFORE USER REMOVED: `, event.entity);
-  }
-
-  afterRemove(event: RemoveEvent<User>) {
-    console.log(`AFTER USER REMOVED: `, event.entity);
-  }
 }
