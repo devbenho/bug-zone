@@ -8,6 +8,7 @@ const appDataSource = new DataSource({
   logging: true,
   entities: [__dirname + "/../**/*.entity.ts"],
   migrations: [__dirname + "/../migrations/**/*.ts"],
+
   subscribers: [UserSubscriber],
 });
 
