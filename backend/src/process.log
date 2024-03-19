@@ -1,3 +1,3 @@
-{"level":30,"time":1710799748500,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1710799748503,"msg":"Environment: development"}
-{"level":30,"time":1710799748664,"msg":"Database is connected"}
+{"level":30,"time":1710878884843,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1710878884846,"msg":"Environment: development"}
+{"level":50,"time":1710878884923,"msg":"Database connection failed"}

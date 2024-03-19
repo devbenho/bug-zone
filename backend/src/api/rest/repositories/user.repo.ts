@@ -1,64 +1,75 @@
-import User from "../database/entities/user.entity";
-import { DataSource, Repository } from "typeorm";
+import { IUserRepository } from '../interfaces/repos/user.repo';
+import { inject, injectable } from 'inversify';
+import { DeleteUserRequestDto } from '../dtos/requests/user/delete.dto';
+import { GetUserByEmailRequestDto } from '../dtos/requests/user/get-by-email.dto';
+import { GetUserByIdRequestDto } from '../dtos/requests/user/get-by-id.dto';
+import { GetUserByUsernameRequestDto } from '../dtos/requests/user/get-by-username.dto';
+import { CreateUserRequestDto } from '../dtos/requests/user/create.dto';
+import { UpdateUserRequestDto } from '../dtos/requests/user/update.dto';
+import appDataSource from '../database/data-source';
+import User from '../database/entities/user.entity';
 
-export class UserRepository extends Repository<User> {
-  constructor(dataSource: DataSource) {
-    super(User, dataSource.createEntityManager());
-  }
-  findByName(firstName: string, lastName: string) {
-    return this.createQueryBuilder("user")
-      .where("user.firstName = :firstName", { firstName })
-      .andWhere("user.lastName = :lastName", { lastName })
-      .getMany();
-  }
-  findByEmail(email: string) {
-    return this.createQueryBuilder("user")
-      .where("user.email = :email", { email })
+@injectable()
+export class UserRepository implements IUserRepository {
+  private _userRepo = appDataSource.getRepository(User);
+  findById(id: GetUserByIdRequestDto): Promise<User | null> {
+    const query = this._userRepo
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: id.id })
       .getOne();
+    return query;
   }
-  findByUsername(username: string) {
-    return this.createQueryBuilder("user")
-      .where("user.username = :username", { username })
+  findByEmail(email: GetUserByEmailRequestDto): Promise<User | null> {
+    const query = this._userRepo
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
       .getOne();
+    return query;
   }
-  findByPhoneNumber(phoneNumber: string) {
-    return this.createQueryBuilder("user")
-      .where("user.phoneNumber = :phoneNumber", { phoneNumber })
+  delete(paload: DeleteUserRequestDto): Promise<boolean> {
+    const query = this._userRepo.softDelete(paload.id);
+    if (!query) throw new Error('User not deleted');
+    return query.then(res => res.affected === 1);
+  }
+  findByUsername(payload: GetUserByUsernameRequestDto): Promise<User | null> {
+    const query = this._userRepo
+      .createQueryBuilder('user')
+      .where('user.username = :username', { username: payload.username })
       .getOne();
+    return query;
   }
-  findByRole(role: string) {
-    return this.createQueryBuilder("user")
-      .where("user.role = :role", { role })
-      .getMany();
-  }
-  findByUsernameOrEmail(username: string, email: string) {
-    return this.createQueryBuilder("user")
-      .where("user.username = :username", { username })
-      .orWhere("user.email = :email", { email })
+  async isEmailExists(payload: GetUserByEmailRequestDto): Promise<boolean> {
+    const query = await this._userRepo
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email: payload.email })
       .getOne();
+    return query ? true : false;
   }
-  isAdmin(username: string) {
-    return this.createQueryBuilder("user")
-      .where("user.username = :username", { username })
-      .andWhere("user.role = :role", { role: "admin" })
+  async isUsernameExists(payload: GetUserByUsernameRequestDto): Promise<boolean> {
+    const query = await this._userRepo
+      .createQueryBuilder('user')
+      .where('user.username = :username', { username: payload.username })
       .getOne();
+    return query ? true : false;
   }
-  assignRole(username: string, role: string) {
-    return this.createQueryBuilder("user")
+
+  async create(user: CreateUserRequestDto): Promise<User> {
+    const query = (await this._userRepo.createQueryBuilder('user').insert().values(user).execute())
+      .identifiers[0];
+    if (!query) throw new Error('User not created');
+    return this._userRepo.findOne(query) as Promise<User>;
+  }
+  async update(user: UpdateUserRequestDto): Promise<User> {
+    const query = await this._userRepo
+      .createQueryBuilder('user')
       .update(User)
-      .set({
-        role: () => role,
-      })
-      .where("username = :username", { username })
+      .set(user as any)
+      .where('id = :id', { id: user.id })
       .execute();
-  }
-  removeRole(username: string) {
-    return this.createQueryBuilder("user")
-      .update(User)
-      .set({
-        role: () => "user",
-      })
-      .where("username = :username", { username })
-      .execute();
+    if (!query) throw new Error('User not updated');
+    return (await this._userRepo
+      .createQueryBuilder('user')
+      .where('id = :id', { id: user.id })
+      .getOne()) as User;
   }
 }

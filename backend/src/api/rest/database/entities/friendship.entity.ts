@@ -1,5 +1,5 @@
-import { Column, Entity } from "typeorm";
-import BaseEntity from "./base.entity";
+import { Column, Entity } from 'typeorm';
+import BaseEntity from './base.model';
 
 @Entity()
 export class Friendship extends BaseEntity {
@@ -10,5 +10,5 @@ export class Friendship extends BaseEntity {
   friendId: string;
 
   @Column()
-  type: "pending" | "accepted" | "rejected" | "blocked";
+  type: 'pending' | 'accepted' | 'rejected' | 'blocked';
 }

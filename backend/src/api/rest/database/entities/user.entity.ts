@@ -1,10 +1,10 @@
-import { Role } from "../../../../utils/eums/role.enum";
-import { Entity, Column, OneToMany, Unique, BeforeInsert } from "typeorm";
-import BaseEntity from "./base.entity";
-import LikePost from "./like-post.entity";
-import Reply from "./reply.entity";
-import Post from "./post.entity";
-import Comment from "./comment.entity";
+import { Role } from '../../../../utils/eums/role.enum';
+import { Entity, Column, OneToMany, Unique, BeforeInsert } from 'typeorm';
+import BaseEntity from './base.entity';
+import LikePost from './like-post.entity';
+import Reply from './reply.entity';
+import Post from './post.entity';
+import Comment from './comment.entity';
 
 @Entity()
 class User extends BaseEntity {
@@ -14,11 +14,11 @@ class User extends BaseEntity {
   @Column()
   lastName: string;
 
-  @Unique("unique_username", ["username"])
+  @Unique('unique_username', ['username'])
   @Column({ unique: true })
   username: string;
 
-  @Unique("unique_email", ["email"])
+  @Unique('unique_email', ['email'])
   @Column({ unique: true })
   email: string;
 
@@ -29,20 +29,23 @@ class User extends BaseEntity {
   @Column({ nullable: true })
   phoneNumber?: string;
 
-  @Column({ nullable: false, default: "user" })
+  @Column({ nullable: false, default: 'user' })
   role: Role;
 
-  @OneToMany(() => LikePost, (likePost) => likePost.user)
+  @OneToMany(() => LikePost, likePost => likePost.user)
   likedPosts: LikePost[];
 
-  @OneToMany(() => Reply, (reply) => reply.user)
+  @OneToMany(() => Reply, reply => reply.user)
   replies: Reply[];
 
-  @OneToMany(() => Comment, (comment) => comment.user)
+  @OneToMany(() => Comment, comment => comment.user)
   comments: Comment[];
 
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, post => post.user)
   posts: Post[];
+
+  @OneToMany(() => Post, post => post.editors)
+  editedPosts: Post[];
 }
 
 export default User;
