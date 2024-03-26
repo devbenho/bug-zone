@@ -1,26 +1,20 @@
+import { Nullable } from '@domain/types';
+import { User } from '@domain/entities/user';
+import { Comment } from '@domain/entities/comment';
+import likePost
+  from '@/infrastcuture/LikePosts/like-post.persistence';
+
 export class Post {
-  id: number;
-  title: string;
-  content: string;
-  authorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
   constructor(
-    id: number,
-    title: string,
-    content: string,
-    authorId: number,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date
-  ) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.authorId = authorId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
-  }
+    public id: Nullable<string>,
+    public title: string,
+    public content: string,
+    public authorId: string,
+    public author: User,
+    public comments: Comment[],
+    public likes: likePost[],
+    public createdAt: Date,
+    public updatedAt: Date,
+    public deletedAt: Date,
+  ) {}
 }

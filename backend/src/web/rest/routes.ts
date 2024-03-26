@@ -1,6 +1,6 @@
 import { Application } from "express";
 import { injectable, inject } from "inversify";
-import asyncWrapper from "../../domain/models/async-wrapper";
+import asyncWrapper from "./infrastucture/async-wrapper";
 import BaseController from "./controllers/base.controller";
 import { UserController } from "./controllers/user.controller";
 import { AuthController } from "./controllers/auth.controller";

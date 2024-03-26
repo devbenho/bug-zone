@@ -1,6 +1,6 @@
-import { UserDomain } from '../../../../../domain/entities/user.domain';
+import { User } from '@domain/entities/user';
 
 export type CreateUserRequestDto = Pick<
-  UserDomain,
+  User,
   'firstName' | 'lastName' | 'username' | 'email' | 'password'
 >;

@@ -1,10 +1,10 @@
 import {
-  AddEditorRequestDto,
+  AddEditorPostCommand,
   CreatePostRequestDto,
   DeletePostRequestDto,
   GetAllPostsRequestDto,
-  GetPostRequestDto,
-  UpdatePostRequestDto,
+  GetPostQuery,
+  UpdatePostCommand,
 } from '../../dtos/requests';
 import {
   AddEditorResponseDto,
@@ -17,9 +17,9 @@ import {
 
 export interface IPostService {
   getAllPosts(payload: GetAllPostsRequestDto): Promise<GetAllPostsResponseDto>;
-  getPostById(payload: GetPostRequestDto): Promise<GetPostResponseDto>;
+  getPostById(payload: GetPostQuery): Promise<GetPostResponseDto>;
   createPost(payload: CreatePostRequestDto): Promise<CreatePostResponseDto>;
-  updatePost(payload: UpdatePostRequestDto): Promise<UpdatePostResponseDto>;
+  updatePost(payload: UpdatePostCommand): Promise<UpdatePostResponseDto>;
   deletePost(payload: DeletePostRequestDto): Promise<DeletePostResponseDto>;
-  addEditor(addEditorRequestDto: AddEditorRequestDto): Promise<AddEditorResponseDto>;
+  addEditor(addEditorRequestDto: AddEditorPostCommand): Promise<AddEditorResponseDto>;
 }

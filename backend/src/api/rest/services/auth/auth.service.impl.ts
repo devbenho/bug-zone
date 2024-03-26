@@ -8,7 +8,7 @@ import { IJwtService } from '../jwt/jwt.service';
 import { IAuthService } from './auth.service';
 import bcrypt from 'bcrypt';
 import { IUserRepository } from '../../../../contracts/repositories/user.repository';
-import { UserDomain } from '../../../../domain/entities/user.domain';
+import { User } from '@domain/entities/user';
 @injectable()
 export class AuthService implements IAuthService {
   constructor(
@@ -22,7 +22,7 @@ export class AuthService implements IAuthService {
     }
     const user =
       (await this._userRepository.findByEmail({ email: login })) ||
-      ((await this._userRepository.findByUsername({ username: login })) as UserDomain);
+      ((await this._userRepository.findByUsername({ username: login })) as User);
 
     if (!user) {
       throw new Error('Invalid Credentials');

@@ -1,34 +1,26 @@
-
-import { IUserRepository } from '../../../contracts/repositories/user.repository';
-import { inject, injectable } from 'inversify';
-import { DeleteUserRequestDto } from '../dtos/requests/user/delete.dto';
-import { GetUserByEmailRequestDto } from '../dtos/requests/user/get-by-email.dto';
-import { GetUserByIdRequestDto } from '../dtos/requests/user/get-by-id.dto';
-import { GetUserByUsernameRequestDto } from '../dtos/requests/user/get-by-username.dto';
-import { CreateUserRequestDto } from '../dtos/requests/user/create.dto';
-import { UpdateUserRequestDto } from '../dtos/requests/user/update.dto';
-import appDataSource from '../database/data-source';
-import User from '../database/entities/user.entity';
-
+import  {injectable} from "inversify"
+import appDataSource from '@/infrastcuture/shared/presestance/data-source';
+import UserPersistence from '@/infrastcuture/users/user.persistence';
+import { User } from '@domain/entities';
 @injectable()
 export class UserRepository implements IUserRepository {
-  private _userRepo = appDataSource.getRepository(User);
-  findById(id: GetUserByIdRequestDto): Promise<User | null> {
+  private _userRepo = appDataSource.getRepository(UserPersistence);
+  findById(id: string): Promise<UserPersistence | null> {
     const query = this._userRepo
       .createQueryBuilder('user')
       .where('user.id = :id', { id: id.id })
       .getOne();
     return query;
   }
-  findByEmail(email: GetUserByEmailRequestDto): Promise<User | null> {
-    const query = this._userRepo
+  async findByEmail(email: string): Promise<User> {
+    const query = await  this._userRepo
       .createQueryBuilder('user')
       .where('user.email = :email', { email })
       .getOne();
-    return query;
+
   }
-  delete(paload: DeleteUserRequestDto): Promise<boolean> {
-    const query = this._userRepo.softDelete(paload.id);
+  delete(paload: string): Promise<boolean> {
+    const query = this._userRepo.softDelete();
     if (!query) throw new Error('User not deleted');
     return query.then(res => res.affected === 1);
   }
@@ -44,14 +36,14 @@ export class UserRepository implements IUserRepository {
       .createQueryBuilder('user')
       .where('user.email = :email', { email: payload.email })
       .getOne();
-    return query ? true : false;
+    return !!query;
   }
   async isUsernameExists(payload: GetUserByUsernameRequestDto): Promise<boolean> {
     const query = await this._userRepo
       .createQueryBuilder('user')
       .where('user.username = :username', { username: payload.username })
       .getOne();
-    return query ? true : false;
+    return !!query;
   }
 
   async create(user: CreateUserRequestDto): Promise<User> {

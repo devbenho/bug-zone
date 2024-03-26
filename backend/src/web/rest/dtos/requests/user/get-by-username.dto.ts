@@ -1,3 +1,3 @@
-import { UserDomain } from '../../../../../domain/entities/user.domain';
+import { User } from '@domain/entities/user';
 
-export type GetUserByUsernameRequestDto = Pick<UserDomain, 'username'>;
+export type GetUserByUsernameRequestDto = Pick<User, 'username'>;

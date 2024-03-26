@@ -1,3 +1,3 @@
-import { UserDomain } from '../../../../../domain/entities/user.domain';
+import { User } from '@domain/entities/user';
 
-export type UpdateUserRequestDto = Partial<Omit<UserDomain, 'password'>>;
+export type UpdateUserRequestDto = Partial<Omit<User, 'password'>>;

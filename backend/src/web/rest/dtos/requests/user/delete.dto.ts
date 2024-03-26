@@ -1,3 +1,3 @@
-import { UserDomain } from '../../../../../domain/entities/user.domain';
+import { User } from '@domain/entities/user';
 
-export type DeleteUserRequestDto = Pick<UserDomain, 'id'>;
+export type DeleteUserRequestDto = Pick<User, 'id'>;

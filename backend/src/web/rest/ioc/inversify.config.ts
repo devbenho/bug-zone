@@ -1,0 +1,25 @@
+import { Container } from 'inversify';
+import { AuthController } from '../controllers/auth.controller';
+import { UserController } from '../controllers/user.controller';
+import ApplicationRouter from '../routes';
+import { AuthService, IAuthService } from '../services';
+import { IJwtService } from '../../../infrastcuture/jwt/jwt.service';
+import { JwtService } from '../../../infrastcuture/jwt/jwt.service.impl';
+import { IUserService } from '../services/user/user.service';
+import { UserService } from '../../../application/users/user.service.imp';
+import { symbols } from './symbols';
+import { DataSource, Repository } from 'typeorm';
+import { IUserRepository } from '../../../contracts/repositories/user.repository';
+import { UserRepository } from '../rest/repositories/user.repo';
+import { User } from '@domain/entities/user';
+const container = new Container();
+
+container.bind(ApplicationRouter).to(ApplicationRouter);
+container.bind<IUserService>(symbols.IUserService).to(UserService);
+container.bind<IUserRepository>(symbols.IUserRepository).to(UserRepository).inSingletonScope();
+container.bind<IJwtService>(symbols.IJwtService).to(JwtService);
+container.bind<IAuthService>(symbols.IAuthService).to(AuthService);
+container.bind<UserController>(symbols.IUserController).to(UserController);
+container.bind<AuthController>(symbols.IAuthController).to(AuthController);
+container.bind<DataSource>(symbols.DataSource).to(DataSource);
+export { container };

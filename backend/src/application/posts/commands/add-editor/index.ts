@@ -1,0 +1,1 @@
+export * from './add-editor-post.command';

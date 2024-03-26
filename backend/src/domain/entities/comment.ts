@@ -1,5 +1,7 @@
+import { Nullable } from '@domain/types';
+
 export class Comment {
-  id: string;
+  id: Nullable<string>;
   postId: string;
   userId: string;
   content: string;
@@ -7,7 +9,7 @@ export class Comment {
   updatedAt: Date;
   deletedAt: Date;
   constructor(
-    id: string,
+    id: Nullable<string>,
     postId: string,
     authorId: string,
     content: string,
