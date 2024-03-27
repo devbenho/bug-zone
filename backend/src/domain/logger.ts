@@ -1,9 +1,12 @@
 /* eslint-disable hexagonal-architecture/enforce */
-import { Nullable } from '@domain/shared/types';
-import { PINO_LOGGER } from '@infrastructure/shared/logger/pino-logger';
+import { PINO_LOGGER } from '@/infrastcuture/shared/logger/pino-logger';
+import { LoggerDomainService } from '@contracts/services/logger.domain-service';
+import { Nullable } from '@domain/types';
 
-import { LoggerDomainService } from './services';
-
+/**
+ * Logger class is a domain service that provides logging functionalities.
+ * It is a wrapper around the actual logger implementation.
+ */
 class Logger implements LoggerDomainService {
   private static loggerInstance: LoggerDomainService = PINO_LOGGER;
 
@@ -32,27 +35,35 @@ class Logger implements LoggerDomainService {
   }
 
   public debug(message: any, ...optionalParameters: any[]): void {
-    const optionalParametersWithContext = this.getMergedContextWithOptionalParameters(optionalParameters);
+    const optionalParametersWithContext =
+      this.getMergedContextWithOptionalParameters(optionalParameters);
     Logger.loggerInstance.debug(message, ...optionalParametersWithContext);
   }
 
   public info(message: any, ...optionalParameters: any[]): void {
-    const optionalParametersWithContext = this.getMergedContextWithOptionalParameters(optionalParameters);
+    const optionalParametersWithContext =
+      this.getMergedContextWithOptionalParameters(optionalParameters);
     Logger.loggerInstance.info(message, ...optionalParametersWithContext);
   }
 
   public warn(message: any, ...optionalParameters: any[]): void {
-    const optionalParametersWithContext = this.getMergedContextWithOptionalParameters(optionalParameters);
+    const optionalParametersWithContext =
+      this.getMergedContextWithOptionalParameters(optionalParameters);
     Logger.loggerInstance.warn(message, ...optionalParametersWithContext);
   }
 
   public error(message: any, ...optionalParameters: any[]): void {
-    const optionalParametersWithContext = this.getMergedContextWithOptionalParameters(optionalParameters);
+    const optionalParametersWithContext =
+      this.getMergedContextWithOptionalParameters(optionalParameters);
     Logger.loggerInstance.error(message, ...optionalParametersWithContext);
   }
 
-  private getMergedContextWithOptionalParameters(optionalParameters: any[]): any[] {
-    return this.context ? optionalParameters.concat(this.context) : optionalParameters;
+  private getMergedContextWithOptionalParameters(
+    optionalParameters: any[],
+  ): any[] {
+    return this.context
+      ? optionalParameters.concat(this.context)
+      : optionalParameters;
   }
 }
 

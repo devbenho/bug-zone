@@ -17,14 +17,16 @@
       "@application/*": ["src/application/*"],
       "@domain/*": ["src/domain/*"],
       "@contracts/*": ["src/contracts/*"],
-      "@dtos/*" :["src/contracts/dtos/*"],
+      "@dtos/*": ["src/contracts/dtos/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
       "@presentation/*": ["src/presentation/*"],
       "@test/*": ["test/*"],
       "@/*": ["src/*"]
     }
-
   },
-  "include": ["**/*.ts", "src/datasource/repositories/knex/user.repo.knex.ts.off"],
+  "include": [
+    "**/*.ts",
+    "src/datasource/repositories/knex/user.repo.knex.ts.off"
+  ],
   "exclude": ["node_modules"]
 }
