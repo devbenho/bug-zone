@@ -1,23 +1,12 @@
-export class LikeReply {
-  id: string;
-  replyId: string;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
+
+class LikeReply extends AuditableBaseEntity {
   constructor(
-    id: string,
-    replyId: string,
-    authorId: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date
+    public replyId: string,
+    public userId: string,
   ) {
-    this.id = id;
-    this.replyId = replyId;
-    this.userId = authorId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+    super(new Date(), userId, new Date(), userId, null, null);
   }
 }
+
+export { LikeReply };

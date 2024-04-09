@@ -1,23 +1,12 @@
-export class LikeComment {
-  id: string;
-  commentId: string;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
+
+class LikeComment extends AuditableBaseEntity {
   constructor(
-    id: string,
-    commentId: string,
-    authorId: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date
+    public commentId: string,
+    public userId: string,
   ) {
-    this.id = id;
-    this.commentId = commentId;
-    this.userId = authorId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+    super(new Date(), userId, new Date(), userId, null, null);
   }
 }
+
+export { LikeComment };

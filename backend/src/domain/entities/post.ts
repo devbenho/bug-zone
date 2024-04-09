@@ -1,20 +1,18 @@
-import { Nullable } from '@domain/types';
-import { User } from '@domain/entities/user';
+import likePost from '@/infrastcuture/LikePosts/like-post.persistence';
 import { Comment } from '@domain/entities/comment';
-import likePost
-  from '@/infrastcuture/LikePosts/like-post.persistence';
+import { User } from '@domain/entities/user';
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 
-export class Post {
+class Post extends AuditableBaseEntity {
   constructor(
-    public id: Nullable<string>,
     public title: string,
     public content: string,
     public authorId: string,
     public author: User,
     public comments: Comment[],
     public likes: likePost[],
-    public createdAt: Date,
-    public updatedAt: Date,
-    public deletedAt: Date,
-  ) {}
+  ) {
+    super(new Date(), authorId, new Date(), authorId, null, null);
+  }
 }
+export { Post };
