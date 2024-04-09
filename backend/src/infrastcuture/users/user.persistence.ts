@@ -48,4 +48,4 @@ class UserPersistence extends BaseEntity {
   editedPosts: PostPersistence[];
 }
 
-export default UserPersistence;
+export { UserPersistence };
