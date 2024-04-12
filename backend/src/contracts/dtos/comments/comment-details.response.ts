@@ -1,5 +1,6 @@
 import { Nullable } from '@domain/types';
 import { UserResponseDto } from '@dtos/users';
+import { PostResponseDto } from '../posts';
 
 export class CommentDetailsResponseDto {
   constructor(
@@ -8,6 +9,5 @@ export class CommentDetailsResponseDto {
     public author: UserResponseDto,
     public post: PostResponseDto,
     public createdAt: Nullable<Date>,
-  ) {
-  }
+  ) {}
 }

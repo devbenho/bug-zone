@@ -1,3 +1,2 @@
-
-export * from './comment.response'
-export * from './comment-details.response'
+export * from './comment.response';
+export * from './comment-details.response';
