@@ -8,6 +8,7 @@ class User extends AuditableBaseEntity {
     public username: string,
     public password: string,
     public role: string,
+    public profilePicture: string,
   ) {
     super(new Date(), username, new Date(), username, null, null);
   }

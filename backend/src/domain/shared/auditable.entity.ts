@@ -1,7 +1,7 @@
-import { BaseEnity } from '@domain/shared/base.entity';
 import { Nullable } from '@domain/types';
 import { deepEqual } from 'fast-equals';
-abstract class AuditableBaseEntity extends BaseEnity {
+import { BaseEntity } from './base.entity';
+abstract class AuditableBaseEntity extends BaseEntity {
   constructor(
     public createdAt: Date,
     public createdBy: string,

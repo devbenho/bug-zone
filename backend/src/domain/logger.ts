@@ -1,5 +1,5 @@
 /* eslint-disable hexagonal-architecture/enforce */
-import { PINO_LOGGER } from '@/infrastcuture/shared/logger/pino-logger';
+import { PINO_LOGGER } from '@infrastructure/shared/logger/pino-logger';
 import { LoggerDomainService } from '@contracts/services/logger.domain-service';
 import { Nullable } from '@domain/types';
 

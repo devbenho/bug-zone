@@ -1,7 +1,7 @@
 import { Nullable } from '@domain/types';
 
-abstract class BaseEnity {
+abstract class BaseEntity {
   constructor(public id: Nullable<string>) {}
 }
 
-export { BaseEnity };
+export { BaseEntity };

@@ -1,4 +1,4 @@
-import likePost from '@/infrastcuture/LikePosts/like-post.persistence';
+import likePost from '@infrastructure/LikePosts/like-post.persistence';
 import { Comment } from '@domain/entities/comment';
 import { User } from '@domain/entities/user';
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
