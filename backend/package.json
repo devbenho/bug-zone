@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon src/app.ts",
+    "start:dev": "nodemon src/web/rest/app.ts",
     "typeorm": "typeorm-ts-node-esm",
     "typeorm:generate": "npm run typeorm -- migration:generate -n",
     "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tsed/di": "^7.67.5",
     "bcrypt": "^5.1.1",
     "express": "^4.18.2",
     "faker": "^6.6.6",
