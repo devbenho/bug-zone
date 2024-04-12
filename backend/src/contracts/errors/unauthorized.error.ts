@@ -1,6 +1,5 @@
-import ERROR_MESSAGES from "../../../domain/eums/error-messages.enum";
-import { ApplicationError } from "./application.error";
-
+import ERROR_MESSAGES from '@domain/eums/error-messages.enum';
+import { ApplicationError } from './application.error';
 
 export class UnauthorizedError extends ApplicationError {
   constructor(message?: string) {

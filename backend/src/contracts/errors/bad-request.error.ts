@@ -1,6 +1,5 @@
-import ERROR_MESSAGES from "../../../domain/eums/error-messages.enum";
-import { ApplicationError } from "./application.error";
-
+import ERROR_MESSAGES from '@domain/eums/error-messages.enum';
+import { ApplicationError } from './application.error';
 
 export class BadRequestError extends ApplicationError {
   constructor(message: string, ...args: any[]) {
@@ -16,6 +15,6 @@ export class InvalidIdError extends BadRequestError {
 
 export class RepositoryMissingField extends BadRequestError {
   constructor(...args: any[]) {
-    super("Field missing", ...args);
+    super('Field missing', ...args);
   }
 }
