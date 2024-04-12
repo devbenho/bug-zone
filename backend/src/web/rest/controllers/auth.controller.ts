@@ -1,50 +1,45 @@
 import BaseController from './base.controller';
 import { ExpressHandler } from '../infrastucture/express-handler';
-import { RegisterUserRequestDto } from '@domain/dtos/requests/auth/register.dto';
-import { RegisterUserResponseDto } from '@domain/dtos/responses/auth/register.dto';
-import { LoginRequestDto } from '@domain/dtos/requests/auth/login.dto';
-import { LoginResponseDto } from '@domain/dtos/responses/auth/login.dto';
-import { LoginPresenter } from '@application/auth/login/login.presenter';
-import { ILoginInputPort } from '@application/auth/login/login.input-port';
-import { IRegisterInputPort } from '@application/auth/register/register.input-port';
+import { AuthRequest, AuthResponse } from '@contracts/dtos/auth';
+import { CreateUserDto } from '@contracts/dtos/users';
+import { ILoginOutPort } from '@application/auth/login/login.out-port';
+import { IRegisterOutPort } from '@application/auth/register/register.out-port';
+import { inject, injectable } from 'inversify';
+import { symbols } from '../ioc/symbols';
+import { BaseUseCase } from '@application/shared';
+
+@injectable()
 export class AuthController implements BaseController {
-  private _loginInteractor: ILoginInputPort;
-  private _registerInteractor: IRegisterInputPort;
-  private readonly _loginPresenter: LoginPresenter;
+  constructor(
+    @inject(symbols.ILoginInputPort)
+    private _loginInteractor: BaseUseCase<AuthRequest, AuthResponse>,
+    @inject(symbols.ILoginOutputPort) private _loginPresenter: ILoginOutPort,
+    @inject(symbols.IRegisterInputPort)
+    private _registerInteractor: BaseUseCase<CreateUserDto, AuthResponse>,
+    @inject(symbols.IRegisterOutputPort)
+    private _registerPresenter: IRegisterOutPort,
+  ) {}
 
-  constructor() {}
-
-  public register: ExpressHandler<
-    RegisterUserRequestDto,
-    RegisterUserResponseDto
-  > = async (req, res) => {
-    const { email, password, firstName, lastName, username, phoneNumber } =
-      req.body;
-
-    if (
-      !email ||
-      !password ||
-      !firstName ||
-      !lastName ||
-      !username ||
-      !phoneNumber
-    ) {
-      throw new Error('All fields are required');
-    }
-
-    await this._registerInteractor.execute(req.body as RegisterUserRequestDto);
-    res.json(this._loginPresenter.loginVm);
-  };
-
-  public login: ExpressHandler<LoginRequestDto, LoginResponseDto> = async (
+  public register: ExpressHandler<CreateUserDto, AuthResponse> = async (
     req,
     res,
   ) => {
-    const { login, password } = req.body;
-    if (!login || !password) {
-      throw new Error('Login and password are required');
+    const { email, password, firstName, lastName, username } = req.body;
+
+    if (!email || !password || !firstName || !lastName || !username) {
+      throw new Error('All fields are required');
     }
-    await this._loginInteractor.execute({ login, password });
-    res.json(this._loginPresenter.loginVm);
+
+    await this._registerInteractor.execute(req.body as CreateUserDto);
+    res.json(this._registerPresenter.RegisterUserVM);
+  };
+
+  public login: ExpressHandler<AuthRequest, AuthResponse> = async (
+    req,
+    res,
+  ) => {
+    const data = new AuthRequest(req.body.login!, req.body.password!);
+    await this._loginInteractor.execute(data);
+    res.json(this._loginPresenter.LoginUserVM);
   };
 }

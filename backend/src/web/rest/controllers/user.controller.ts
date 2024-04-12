@@ -1,14 +1,14 @@
-import "reflect-metadata";
-import { Response } from "express";
-import { inject, injectable } from "inversify";
-import { IUserService } from "../services/user/user.service";
-import BaseController from "./base.controller";
-import { symbols } from "../../../utils/ioc/symbols";
+import 'reflect-metadata';
+import { Response } from 'express';
+import { inject, injectable } from 'inversify';
+import { IUserService } from '../services/user/user.service';
+import BaseController from './base.controller';
+import { symbols } from '../ioc/symbols';
 
 @injectable()
 export class UserController extends BaseController {
   constructor(
-    @inject(symbols.IUserService) private _userService: IUserService
+    @inject(symbols.IUserService) private _userService: IUserService,
   ) {
     super();
   }
