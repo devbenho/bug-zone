@@ -1,8 +1,7 @@
 import { performance } from 'node:perf_hooks';
 
-import { Logger } from '@domain/';
-
 import { UseCaseRequest } from './usecase.request';
+import { Logger } from '@domain/logger';
 
 abstract class BaseUseCase<IRequest extends UseCaseRequest, IResponse> {
   public async execute(request: IRequest): Promise<IResponse> {

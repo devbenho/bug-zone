@@ -1,11 +1,13 @@
-import { LoginResponseDto } from '@domain/dtos/responses/auth/login.dto';
+import { AuthResponse } from '@contracts/dtos/auth';
 import { ILoginOutPort } from './login.out-port';
+import { injectable } from 'inversify';
 
+@injectable()
 class LoginPresenter implements ILoginOutPort {
-  presentLoginResponse(responseModel: LoginResponseDto): void {
-    this.loginVm = responseModel;
+  public LoginUserVM: AuthResponse;
+  presentLoginResponse(responseModel: AuthResponse): void {
+    this.LoginUserVM = responseModel;
   }
-  public loginVm: LoginResponseDto;
 }
 
 export { LoginPresenter };

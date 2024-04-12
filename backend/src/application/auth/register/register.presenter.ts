@@ -1,9 +1,11 @@
-import { RegisterUserResponseDto } from '@domain/dtos/responses/auth/register.dto';
+import { AuthResponse } from '@contracts/dtos/auth';
 import { IRegisterOutPort } from './register.out-port';
+import { injectable } from 'inversify';
 
+@injectable()
 class RegisterPresenter implements IRegisterOutPort {
-  RegisterUserVM: RegisterUserResponseDto;
-  presentRegisterResponse(responseModel: RegisterUserResponseDto): void {
+  public RegisterUserVM: AuthResponse;
+  presentRegisterResponse(responseModel: AuthResponse): void {
     this.RegisterUserVM = responseModel;
   }
 }

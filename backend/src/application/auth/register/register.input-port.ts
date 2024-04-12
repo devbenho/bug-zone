@@ -1,8 +1,8 @@
-import { RegisterUserRequestDto } from '@domain/dtos/requests/auth/register.dto';
-import { RegisterUserResponseDto } from '@domain/dtos/responses/auth/register.dto';
+import { AuthResponse } from '@contracts/dtos/auth';
+import { CreateUserDto } from '@contracts/dtos/users';
 
 interface IRegisterInputPort {
-  execute(request: RegisterUserRequestDto): Promise<RegisterUserResponseDto>;
+  execute(request: CreateUserDto): Promise<AuthResponse>;
 }
 
 export { IRegisterInputPort };

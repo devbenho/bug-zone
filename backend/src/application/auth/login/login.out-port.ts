@@ -1,7 +1,8 @@
-import { LoginResponseDto } from '@domain/dtos/responses/auth/login.dto';
+import { AuthResponse } from '@contracts/dtos/auth';
 
 interface ILoginOutPort {
-  presentLoginResponse(responseModel: LoginResponseDto): void;
+  presentLoginResponse(responseModel: AuthResponse): void;
+  LoginUserVM: AuthResponse;
 }
 
 export { ILoginOutPort };

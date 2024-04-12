@@ -1,25 +1,33 @@
 import { IUserRepository } from '@contracts/repositories/user.repository';
-import { IRegisterInputPort } from './register.input-port';
-import { RegisterUserRequestDto } from '@domain/dtos/requests/auth/register.dto';
-import { RegisterUserResponseDto } from '@domain/dtos/responses/auth/register.dto';
 import { User } from '@domain/entities';
 import { IMapper } from '@application/shared/mapper';
 import { IJwtService } from '@contracts/services/IJwt';
+import { CreateUserDto } from '@contracts/dtos/users';
+import { AuthResponse } from '@contracts/dtos/auth';
+import { inject, injectable } from 'inversify';
+import { symbols } from '@/web/rest/ioc/symbols';
+import { BaseUseCase } from '@application/shared';
 
-class RegisterInteractor implements IRegisterInputPort {
+@injectable()
+class RegisterInteractor extends BaseUseCase<CreateUserDto, AuthResponse> {
   constructor(
-    private _userRepository: IUserRepository,
-    private _mapper: IMapper<User, RegisterUserRequestDto>,
-    private _jwtService: IJwtService,
-  ) {}
-  async execute(
-    request: RegisterUserRequestDto,
-  ): Promise<RegisterUserResponseDto> {
-    const user: User = this._mapper.mapFromDto(request);
+    @inject(symbols.IUserRepository) private _userRepository: IUserRepository,
+    @inject(symbols.IJwtService) private _jwtService: IJwtService,
+    @inject(symbols.IMapper) private _mapper: IMapper<User, CreateUserDto>,
+  ) {
+    super();
+  }
+  protected async performOperation(
+    request: CreateUserDto,
+  ): Promise<AuthResponse> {
+    const user = this._mapper.mapFromDto(request);
     const createdUser = await this._userRepository.create(user);
-    const result: RegisterUserResponseDto = {
-      userId: createdUser.id!,
-      jwt: this._jwtService.sign(createdUser.id!),
+    const result: AuthResponse = {
+      token: this._jwtService.sign(createdUser.id!),
+      tokenExpiration: new Date(Date.now() + 1000 * 60 * 60),
+      refreshToken: this._jwtService.sign(createdUser.id!),
+      refreshTokenExpiration: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      userDetails: createdUser,
     };
     return result;
   }

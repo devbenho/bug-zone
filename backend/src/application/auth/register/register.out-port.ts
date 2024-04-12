@@ -1,7 +1,8 @@
-import { RegisterUserResponseDto } from '@domain/dtos/responses/auth/register.dto';
+import { AuthResponse } from '@contracts/dtos/auth';
 
 interface IRegisterOutPort {
-  presentRegisterResponse(responseModel: RegisterUserResponseDto): void;
+  presentRegisterResponse(responseModel: AuthResponse): void;
+  RegisterUserVM: AuthResponse;
 }
 
 export { IRegisterOutPort };
