@@ -1,5 +1,5 @@
 import { Nullable } from '@domain/types';
-import { Post } from '@domain/entities/post';
+import { Post } from '@domain/entities/posts/post';
 import { User } from '@domain/entities/user';
 
 export class LikePost {

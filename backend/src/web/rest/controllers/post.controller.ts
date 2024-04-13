@@ -1,4 +1,4 @@
-import { CreatePostCommandFf } from '@application/posts/commands/create';
+import { CreatePostCommandFf } from '@application/posts/create';
 import { CommandBus } from '@nestjs/cqrs';
 import { ExpressHandler } from '../infrastucture/express-handler';
 import { CreatePostRequestDto } from '../dtos/requests';
