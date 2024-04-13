@@ -1,14 +1,12 @@
-export class Chat {
-  id: string;
-  members: string[]; // userIds
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
-  constructor(id: string, members: string[], createdAt: Date, updatedAt: Date, deletedAt: Date) {
-    this.id = id;
-    this.members = members;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
+
+class Chat extends AuditableBaseEntity {
+  constructor(
+    public ownerId: string,
+    public participants: string[],
+  ) {
+    super(new Date(), ownerId, new Date(), ownerId, null, null);
   }
 }
+
+export { Chat };

@@ -1,28 +1,15 @@
-import { Nullable } from '@domain/types';
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
+import { User } from './user';
+import { Post } from './post';
 
-export class Comment {
-  id: Nullable<string>;
-  postId: string;
-  userId: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+export class Comment extends AuditableBaseEntity {
   constructor(
-    id: Nullable<string>,
-    postId: string,
-    authorId: string,
-    content: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date
+    public postId: string,
+    public post: Post,
+    public userId: string,
+    public author: User,
+    public content: string,
   ) {
-    this.id = id;
-    this.postId = postId;
-    this.userId = authorId;
-    this.content = content;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+    super(new Date(), userId, new Date(), userId, null, null);
   }
 }

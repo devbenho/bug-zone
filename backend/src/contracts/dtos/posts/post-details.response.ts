@@ -1,4 +1,4 @@
-import { Nullable } from "@domain/types";
+import { Nullable } from '@domain/types';
 import { UserResponseDto } from '@dtos/users';
 
 export class PostDetailsResponseDto {
@@ -9,5 +9,5 @@ export class PostDetailsResponseDto {
     public author: UserResponseDto,
     public createdAt: Date,
     public lastModifiedAt: Nullable<Date>,
-  ){}
+  ) {}
 }

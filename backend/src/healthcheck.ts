@@ -4,14 +4,7 @@
 
 import * as http from 'node:http';
 
-import { AppConfig } from '@presentation/rest/config';
-
-const options = {
-  host: 'localhost',
-  port: AppConfig.PORT,
-  timeout: 2000,
-  path: `${AppConfig.BASE_PATH}/healthz`
-};
+const options = {};
 
 const request = http.request(options, (response: http.IncomingMessage) => {
   process.exitCode = response.statusCode === 200 ? 0 : 1;

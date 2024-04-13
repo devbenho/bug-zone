@@ -1,6 +1,5 @@
-import ERROR_MESSAGES from "../../../domain/eums/error-messages.enum";
-import { ApplicationError } from "./application.error";
-
+import ERROR_MESSAGES from '@domain/eums/error-messages.enum';
+import { ApplicationError } from './application.error';
 
 export class NotFoundError extends ApplicationError {
   constructor(message?: string, ...args: any[]) {

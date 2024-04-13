@@ -1,19 +1,17 @@
 import { Nullable } from '@domain/types';
-import { Post } from '@domain/entities/posts/post';
+import { Post } from '@domain/entities/posts';
 import { User } from '@domain/entities/user';
 
-export class LikePost {
+class LikePost {
   id: Nullable<string>;
-
   postId: string;
   post: Post
-
   userId: string;
   user: User;
-
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
+
   constructor(
     id: Nullable<string>,
     postId: string,
@@ -30,3 +28,5 @@ export class LikePost {
     this.deletedAt = deletedAt;
   }
 }
+
+export { LikePost };

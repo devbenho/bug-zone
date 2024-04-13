@@ -1,36 +1,20 @@
-export class User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  username: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 
+class User extends AuditableBaseEntity {
   constructor(
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    username: string,
-    password: string,
-    role: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public username: string,
+    public password: string,
+    public role: string,
+    public profilePicture: string,
   ) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.role = role;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+    super(new Date(), username, new Date(), username, null, null);
+  }
+  isPasswordMatched(password: string): boolean {
+    return this.password === password;
   }
 }
+
+export { User };

@@ -1,8 +1,7 @@
 import { performance } from 'node:perf_hooks';
 
-import { Logger } from '@domain/shared';
-
 import { UseCaseRequest } from './usecase.request';
+import { Logger } from '@domain/logger';
 
 abstract class BaseUseCase<IRequest extends UseCaseRequest, IResponse> {
   public async execute(request: IRequest): Promise<IResponse> {
@@ -17,11 +16,15 @@ abstract class BaseUseCase<IRequest extends UseCaseRequest, IResponse> {
 
       const useCaseExecutionTime = endTime - startTime;
 
-      Logger.info(`${this.constructor.name}.execute(${request}) took +${useCaseExecutionTime} ms to execute!`);
+      Logger.info(
+        `${this.constructor.name}.execute(${request}) took +${useCaseExecutionTime} ms to execute!`,
+      );
 
       return response;
     } catch (error) {
-      Logger.error(`[@UseCase] ${this.constructor.name}.execute(${request}) threw the following error! --- ${error}`);
+      Logger.error(
+        `[@UseCase] ${this.constructor.name}.execute(${request}) threw the following error! --- ${error}`,
+      );
       throw error;
     }
   }

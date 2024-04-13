@@ -1,7 +1,7 @@
 import { Nullable } from '@domain/types';
 import { CommentResponseDto } from '@dtos/comments';
 import { UserResponseDto } from '@dtos/users';
-import { Post } from '@domain/entities';
+import { Comment, Post } from '@domain/entities';
 
 export class PostResponseDto {
   constructor(
@@ -12,18 +12,17 @@ export class PostResponseDto {
     public comments: CommentResponseDto[],
     public createdAt: Date,
     public lastModifiedAt: Nullable<Date>,
-  ) {
-  }
+  ) {}
 
   public static fromEntity(entity: Post): PostResponseDto {
-   return new PostResponseDto(
+    return new PostResponseDto(
       entity.id,
       entity.title,
       entity.content,
       UserResponseDto.fromEntity(entity.author),
-      entity.comments.map(CommentResponseDto.fromEntity),
+      entity.comments.map(comment => CommentResponseDto.fromEntity(comment)),
       entity.createdAt,
       entity.updatedAt,
-   );
+    );
   }
 }
