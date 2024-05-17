@@ -1,8 +1,8 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
-import BaseEntity from '../shared/presestance/entities/base.entity';
-import UserPersistence from '../users/user.persistence';
-import { PostPersistence } from '../posts/post.persistence';
 import { Nullable } from '@domain/types';
+import { UserPersistence } from '@infrastructure/users';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { PostPersistence } from '../posts/post.persistence';
+import BaseEntity from '../shared/presestance/entities/base.entity';
 
 @Entity()
 class LikePostPersistence extends BaseEntity {

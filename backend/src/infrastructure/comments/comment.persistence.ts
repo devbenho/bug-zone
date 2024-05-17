@@ -1,10 +1,10 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import BaseEntity from '../shared/presestance/entities/base.entity';
-import UserPersistence from '../users/user.persistence';
-import PostPersistence from '../posts/post.persistence';
 import LikeComment from '../shared/presestance/entities/like-comment.entity';
 import Reply from '../shared/presestance/entities/reply.entity';
 import { Nullable } from '@domain/types';
+import { UserPersistence } from '@infrastructure/users';
+import { PostPersistence } from '@infrastructure/posts/post.persistence';
 
 @Entity()
 class CommentPersistence extends BaseEntity {
@@ -59,7 +59,7 @@ class CommentPersistence extends BaseEntity {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
-  };
+  }
 }
 
 export default CommentPersistence;

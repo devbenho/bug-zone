@@ -1,13 +1,19 @@
-import { Entity, Column, OneToMany, OneToOne, ManyToOne, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  OneToOne,
+  ManyToOne,
+  ManyToMany,
+} from 'typeorm';
 import BaseEntity from '../shared/presestance/entities/base.entity';
 import LikePostPersistence from '../LikePosts/like-post.persistence';
 import CommentPersistence from '../comments/comment.persistence';
-import UserPersistence from '../users/user.persistence';
 import { Nullable } from '@domain/types';
+import { UserPersistence } from '@infrastructure/users';
 
 @Entity()
 class PostPersistence extends BaseEntity {
-
   @Column()
   title: string;
 
@@ -33,7 +39,7 @@ class PostPersistence extends BaseEntity {
     authorId: string,
     author: UserPersistence,
     comments: CommentPersistence[],
-    likes : LikePostPersistence[],
+    likes: LikePostPersistence[],
     createdAt: Date,
     updatedAt: Date,
     deletedAt: Date,
