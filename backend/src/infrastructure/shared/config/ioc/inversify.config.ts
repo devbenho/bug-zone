@@ -3,11 +3,12 @@ import { Container } from 'inversify';
 import { TYPES } from './types';
 import { JwtService } from '@infrastructure/shared/jwt/jwt.service.impl';
 import { UserMapper, UserRepository } from '@infrastructure/users';
-import { LoginInteractor } from '@application/auth/login/login.interactor';
-import { RegisterInteractor } from '@application/auth/register/register.interactor';
+
 import { HasherService } from '@infrastructure/shared/hasher/hasher.service';
 import { AuthController } from '@/web/rest/controllers';
 import ApplicationRouter from '@/web/rest/routes';
+import { LoginUseCase } from '@application/auth/login/login.use-case';
+import { RegisterUsecase } from '@application/auth/register/register.use-case';
 
 const container = new Container();
 // Bind the extrernal dependencies
@@ -19,8 +20,8 @@ container.bind(TYPES.IUserMapper).to(UserMapper);
 container.bind(TYPES.IUserRepository).to(UserRepository);
 
 // Inject input ports
-container.bind(TYPES.ILoginInputPort).to(LoginInteractor);
-container.bind(TYPES.IRegisterInputPort).to(RegisterInteractor);
+container.bind(TYPES.ILoginInputPort).to(LoginUseCase);
+container.bind(TYPES.IRegisterInputPort).to(RegisterUsecase);
 
 // Bind the controllers
 container.bind(TYPES.IAuthController).to(AuthController);

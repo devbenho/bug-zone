@@ -1,6 +1,6 @@
 import { JwtPayload, VerifyErrors } from 'jsonwebtoken';
 import { ExpressHandler } from '../infrastucture/express-handler';
-import { JwtService } from '../../../infrastructure/jwt/jwt.service.impl';
+import { JwtService } from '../../../infrastructure/shared/jwt/jwt.service.impl';
 import { BadTokenError, TokenExpiredError } from '../../../utils/errors';
 import appDataSource from '../database/data-source';
 import { UserRepository } from '../repositories/user.repo';
