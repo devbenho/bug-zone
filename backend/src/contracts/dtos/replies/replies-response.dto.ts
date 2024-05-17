@@ -1,0 +1,6 @@
+
+class RepliesResponseDto {
+
+}
+
+export { RepliesResponseDto }
