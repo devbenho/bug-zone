@@ -1,15 +1,15 @@
+import 'reflect-metadata';
+import { TYPES } from '@infrastructure/shared/config/ioc/types';
 import { Application } from 'express';
-import { injectable, inject } from 'inversify';
-import asyncWrapper from './infrastucture/async-wrapper';
-import BaseController from './controllers/base.controller';
-import { UserController } from './controllers/user.controller';
+import { inject, injectable } from 'inversify';
 import { AuthController } from './controllers/auth.controller';
-import { symbols } from './ioc/symbols';
+import BaseController from './controllers/base.controller';
+import asyncWrapper from './infrastucture/async-wrapper';
+
 @injectable()
 export default class ApplicationRouter {
   constructor(
-    @inject(symbols.IUserController) private userController: UserController,
-    @inject(symbols.IAuthController) private authController: AuthController,
+    @inject(TYPES.IAuthController) private authController: AuthController,
   ) {}
   // We need to bind proper context to the controller methods
   private getController(context: BaseController, func: string) {
@@ -17,7 +17,6 @@ export default class ApplicationRouter {
   }
 
   public register(app: Application) {
-    app.get('/users', this.getController(this.userController, 'getAll'));
     app.post(
       '/auth/register',
       this.getController(this.authController, 'register'),

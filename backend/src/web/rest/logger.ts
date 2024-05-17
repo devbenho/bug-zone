@@ -17,3 +17,4 @@ export const LOGGER = pino(
   },
   pino.multistream(streams)
 );
+

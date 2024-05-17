@@ -1,7 +1,7 @@
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import { User } from '@domain/entities';
 import { IUserRepository } from '@contracts/repositories/user.repository';
-import 'reflect-metadata ';
+
 @injectable()
 class UserRepository implements IUserRepository {
   constructor(private users: User[] = []) {}
