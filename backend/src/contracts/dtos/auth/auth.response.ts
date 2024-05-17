@@ -1,6 +1,6 @@
 import { User } from '@domain/entities';
 
-class AuthResponse {
+class AuthResponseDto {
   constructor(
     public token: string,
     public tokenExpiration: Date,
@@ -10,4 +10,4 @@ class AuthResponse {
   ) {}
 }
 
-export { AuthResponse };
+export { AuthResponseDto };
