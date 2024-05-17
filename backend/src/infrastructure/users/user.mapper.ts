@@ -1,5 +1,7 @@
 import { User } from '@domain/entities/user';
 import { UserPersistence } from './user.persistence';
+import { injectable } from 'inversify';
+@injectable()
 class UserMapper {
   public static toDomain(userPersistenceModel: UserPersistence): User {
     return new User(
