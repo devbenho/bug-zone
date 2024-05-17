@@ -1,2 +1,2 @@
 export * from './auth.response';
-export * from './auth.request';
+export * from '../../../application/auth/login/auth.request';

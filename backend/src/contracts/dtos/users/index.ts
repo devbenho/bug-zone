@@ -1,3 +1,3 @@
 export * from './user-details.response';
 export * from './user.response';
-export * from './create-user.request';
+export * from '../../../application/auth/register/create-user.request';
