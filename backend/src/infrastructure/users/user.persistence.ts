@@ -4,7 +4,8 @@ import LikePostPersistence from '../LikePosts/like-post.persistence';
 import { Reply } from '@domain/entities';
 import CommentPersistence from '../comments/comment.persistence';
 import { PostPersistence } from '../posts/post.persistence';
-import BaseEntity from '../shared/presestance/entities/base.entity';
+import { BaseEntity } from '@domain/shared/base.entity';
+
 
 @Entity()
 class UserPersistence extends BaseEntity {

@@ -6,7 +6,7 @@ import {
   ManyToOne,
   ManyToMany,
 } from 'typeorm';
-import BaseEntity from '../shared/presestance/entities/base.entity';
+import BaseEntity from '../shared/persistence/entities/base.entity';
 import LikePostPersistence from '../LikePosts/like-post.persistence';
 import CommentPersistence from '../comments/comment.persistence';
 import { Nullable } from '@domain/types';

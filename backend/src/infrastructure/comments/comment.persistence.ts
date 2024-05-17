@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import BaseEntity from '../shared/presestance/entities/base.entity';
-import LikeComment from '../shared/presestance/entities/like-comment.entity';
-import Reply from '../shared/presestance/entities/reply.entity';
+import BaseEntity from '../shared/persistence/entities/base.entity';
+import LikeComment from '../shared/persistence/entities/like-comment.entity';
+import Reply from '../shared/persistence/entities/reply.entity';
 import { Nullable } from '@domain/types';
 import { UserPersistence } from '@infrastructure/users';
 import { PostPersistence } from '@infrastructure/posts/post.persistence';
