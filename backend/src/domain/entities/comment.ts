@@ -1,6 +1,6 @@
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 import { User } from './user';
-import { Post } from './post';
+import { Post } from './posts';
 
 export class Comment extends AuditableBaseEntity {
   constructor(
