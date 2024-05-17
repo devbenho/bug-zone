@@ -20,12 +20,14 @@
     "fast-equals": "^5.0.1",
     "i18next": "^23.10.1",
     "inversify": "^6.0.2",
+    "inversify-express-utils": "^6.4.6",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "nodemon": "^3.0.3",
     "pino": "^8.19.0",
     "pino-pretty": "^10.3.1",
-    "reflect-metadata": "^0.2.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
     "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",
     "typedi": "^0.10.0",
@@ -40,6 +42,7 @@
     "@types/node": "^20.11.28",
     "dotenv": "^16.4.2",
     "morgan": "^1.10.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.2"
   }
 }
