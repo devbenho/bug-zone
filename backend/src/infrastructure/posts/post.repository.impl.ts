@@ -1,11 +1,20 @@
-import { DataSource, DeleteResult, FindOptionsWhere, Repository, UpdateResult } from 'typeorm';
+import {
+  DataSource,
+  DeleteResult,
+  FindOptionsWhere,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { injectable } from 'inversify';
 import { Post } from '@domain/entities';
-import { IPostRepository } from '@/contracts/repositories/post.repository';
+import { IPostRepository } from '@domain/repositories/post.repository';
 
 @injectable()
-export class PostRepositoryImpl extends Repository<Post> implements IPostRepository {
+export class PostRepositoryImpl
+  extends Repository<Post>
+  implements IPostRepository
+{
   constructor(dataSource: DataSource) {
     super(Post, dataSource.createEntityManager());
   }
@@ -15,8 +24,7 @@ export class PostRepositoryImpl extends Repository<Post> implements IPostReposit
   }
 
   async findPostById(postId: string): Promise<Post | null> {
-    return this
-      .createQueryBuilder('post')
+    return this.createQueryBuilder('post')
       .where('post.id = :postId', { postId })
       .getOne();
   }
@@ -38,22 +46,19 @@ export class PostRepositoryImpl extends Repository<Post> implements IPostReposit
   }
 
   async findByTitle(title: string): Promise<Post | null> {
-    return this
-      .createQueryBuilder('post')
+    return this.createQueryBuilder('post')
       .where('post.title = :title', { title })
       .getOne();
   }
 
   async findByContent(content: string): Promise<Post | null> {
-    return this
-      .createQueryBuilder('post')
+    return this.createQueryBuilder('post')
       .where('post.content = :content', { content })
       .getOne();
   }
 
   async findByAuthor(authorId: string): Promise<Post | null> {
-    return this
-      .createQueryBuilder('post')
+    return this.createQueryBuilder('post')
       .where('post.authorId = :author', { authorId })
       .getOne();
   }
@@ -74,16 +79,14 @@ export class PostRepositoryImpl extends Repository<Post> implements IPostReposit
   }
 
   addEditor(postId: string, editorId: string) {
-    return this
-      .createQueryBuilder('post')
+    return this.createQueryBuilder('post')
       .relation(Post, 'editors')
       .of(postId)
       .add(editorId);
   }
 
   removeEditor(postId: string, editorId: string) {
-    return this
-      .createQueryBuilder('post')
+    return this.createQueryBuilder('post')
       .relation(Post, 'editors')
       .of(postId)
       .remove(editorId);
