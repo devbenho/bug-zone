@@ -19,5 +19,5 @@ export default class BaseEntity {
   updatedAt: Date;
 
   @DeleteDateColumn({ nullable: true })
-  deletedAt: Date;
+  deletedAt: Nullable<Date>;
 }
