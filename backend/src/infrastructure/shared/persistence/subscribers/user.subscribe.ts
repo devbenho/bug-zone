@@ -2,11 +2,9 @@ import {
   EventSubscriber,
   EntitySubscriberInterface,
   InsertEvent,
-  UpdateEvent,
-  RemoveEvent,
 } from "typeorm";
-import UserPersistence from "../../../users/user.persistence";
 import bcrypt from "bcrypt";
+import { UserPersistence } from "@infrastructure/users";
 @EventSubscriber()
 export class UserSubscriber implements EntitySubscriberInterface {
   listenTo() {
