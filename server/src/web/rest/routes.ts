@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { TYPES } from '@infrastructure/shared/config/ioc/types';
+import { TYPES } from '@infrastructure/shared/ioc/types';
 import { Application } from 'express';
 import { inject, injectable } from 'inversify';
 import { AuthController } from './controllers/auth.controller';

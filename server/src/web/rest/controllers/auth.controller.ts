@@ -2,7 +2,7 @@ import { BaseUseCase } from '@application/shared';
 import BaseController from './base.controller';
 import { TriggeredByUser } from '@domain/shared/entities';
 import { CreateUserDto } from '@dtos/users';
-import { TYPES } from '@infrastructure/shared/config/ioc/types';
+import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
 import { ExpressHandler } from '../infrastucture/express-handler';
 import { AuthRequestDto, AuthResponseDto } from '@contracts/dtos/auth';

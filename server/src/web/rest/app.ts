@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import { errorHandlerMiddleware } from './middlewares/error.mw';
 import { LOGGER } from './logger';
 import ApplicationRouter from './routes';
-import { container } from '@infrastructure/shared/config/ioc/inversify.config';
+import { container } from '@infrastructure/shared/ioc/inversify.config';
 const app = express();
 dotenv.config();
 app.use(express.json());

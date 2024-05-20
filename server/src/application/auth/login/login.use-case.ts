@@ -2,7 +2,7 @@ import { AuthRequestDto, AuthResponseDto } from '@contracts/dtos/auth';
 import { UnauthorizedError } from '@contracts/errors/unauthorized.error';
 import { IHasherService } from '@contracts/services/IHasher';
 import { IJwtService } from '@contracts/services/IJwt';
-import { TYPES } from '@infrastructure/shared/config/ioc/types';
+import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
 import { BaseUseCase } from '@application/shared';
 import { IUserRepository } from '@domain/repositories/user.repository';
