@@ -1,4 +1,4 @@
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { Post } from '@domain/entities/posts';
 import { User } from '@domain/entities/user';
 

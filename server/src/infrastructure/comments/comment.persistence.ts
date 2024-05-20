@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { UserPersistence } from '@infrastructure/users';
 import { PostPersistence } from '@infrastructure/posts/post.persistence';
 import { ReplyPersistence } from '@infrastructure/replies/reply.persistence';

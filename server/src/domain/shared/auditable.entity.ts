@@ -1,4 +1,4 @@
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { deepEqual } from 'fast-equals';
 import { BaseEntity } from './base.entity';
 abstract class AuditableBaseEntity extends BaseEntity {

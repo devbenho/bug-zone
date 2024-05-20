@@ -16,7 +16,7 @@ import { PostPersistence } from '../posts/post.persistence';
 import { LikeCommentPersistence } from '@infrastructure/like-comments/like-comment.persistence';
 import LikePostPersistence from '@infrastructure/like-posts/like-post.persistence';
 import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 
 @Entity('users')
 class UserPersistence {

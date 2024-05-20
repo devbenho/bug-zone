@@ -1,14 +1,13 @@
 import { Reply } from '@domain/entities';
 import { IReplyRepository } from '@domain/repositories/reply.repository';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { injectable } from 'inversify';
 import { DataSource, Repository } from 'typeorm';
 
 @injectable()
 export class ReplyRepository
   extends Repository<Reply>
-  implements IReplyRepository
-{
+  implements IReplyRepository {
   constructor(dataSource: DataSource) {
     super(Reply, dataSource.createEntityManager());
   }

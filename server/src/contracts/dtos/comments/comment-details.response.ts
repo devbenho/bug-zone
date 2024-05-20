@@ -1,4 +1,4 @@
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { UserResponseDto } from '@dtos/users';
 import { PostResponseDto } from '../posts';
 import { RepliesResponseDto } from '../replies/replies-response.dto';
@@ -12,5 +12,5 @@ export class CommentDetailsResponseDto {
     public createdAt: Nullable<Date>,
     public replies: RepliesResponseDto[],
     public likes: number,
-  ) {}
+  ) { }
 }

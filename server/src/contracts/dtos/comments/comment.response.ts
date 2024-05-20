@@ -1,5 +1,5 @@
 import { Comment } from '@domain/entities';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { UserResponseDto } from '@dtos/users';
 
 export class CommentResponseDto {
@@ -9,7 +9,7 @@ export class CommentResponseDto {
     public author: UserResponseDto,
     public postId: string,
     public createdAt: Nullable<Date>,
-  ) {}
+  ) { }
 
   public static fromEntity(entity: Comment): CommentResponseDto {
     return new CommentResponseDto(

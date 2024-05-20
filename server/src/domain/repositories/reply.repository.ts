@@ -1,5 +1,5 @@
 import { Reply } from '@domain/entities';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 
 interface IReplyRepository {
   saveReply(reply: Reply): Promise<Reply>;

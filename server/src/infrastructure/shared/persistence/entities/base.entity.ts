@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 
 Entity();
 export default class BaseEntity {

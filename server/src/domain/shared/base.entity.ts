@@ -1,7 +1,7 @@
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 
 abstract class BaseEntity {
-  constructor(public id: Nullable<string>) {}
+  constructor(public id: Nullable<string>) { }
 }
 
 export { BaseEntity };

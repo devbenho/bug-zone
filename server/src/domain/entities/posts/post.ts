@@ -2,7 +2,7 @@ import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 import { User } from '../user';
 import { LikePost } from '../like-post';
 import { Comment } from '../comment';
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 
 class Post extends AuditableBaseEntity {
   public author: User;

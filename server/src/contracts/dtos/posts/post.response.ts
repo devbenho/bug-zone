@@ -1,4 +1,4 @@
-import { Nullable } from '@domain/types';
+import { Nullable } from '@domain/shared/types';
 import { CommentResponseDto } from '@dtos/comments';
 import { UserResponseDto } from '@dtos/users';
 import { Comment, Post } from '@domain/entities';
@@ -12,7 +12,7 @@ export class PostResponseDto {
     public comments: CommentResponseDto[],
     public createdAt: Date,
     public lastModifiedAt: Nullable<Date>,
-  ) {}
+  ) { }
 
   public static fromEntity(entity: Post): PostResponseDto {
     return new PostResponseDto(
