@@ -1,38 +1,22 @@
 import { Post } from '@domain/entities';
+import { CommentMapper } from '@infrastructure/comments/comment.mapper';
+import { LikePostMapper } from '@infrastructure/like-posts/like-post.mapper';
 import { PostPersistence } from '@infrastructure/posts/post.persistence';
 import { UserMapper } from '@infrastructure/users';
-import { CommentMapper } from '@infrastructure/comments/comment.mapper';
-import { LikePostMapper } from '@infrastcuture/LikePosts/like-post.mapper';
-
 class PostMapper {
-  static toDomain(postPer: PostPersistence): Post {
+  public static toDomain(postPersistence: PostPersistence): Post {
     return new Post(
-      postPer.id,
-      postPer.title,
-      postPer.content,
-      postPer.authorId,
-      UserMapper.toDomain(postPer.author),
-      postPer.comments.map(CommentMapper.toDomain),
-      postPer.likes,
-      postPer.createdAt,
-      postPer.updatedAt,
-      postPer.deletedAt,
+      postPersistence.id!,
+      postPersistence.content,
+      postPersistence.authorId,
+      UserMapper.toDomain(postPersistence.author),
+      postPersistence.comments.map(comment => CommentMapper.toDomain(comment)),
+      postPersistence.likes.map(like => LikePostMapper.toDomain(like)),
     );
   }
 
-  static toPersistence(post: Post): PostPersistence {
-    return new PostPersistence(
-      post.id,
-      post.title,
-      post.content,
-      post.authorId,
-      UserMapper.toPersistence(post.author),
-      post.comments.map(CommentMapper.toPersistence),
-      post.likes.map(LikePostMapper.toPersistence),
-      post.createdAt,
-      post.updatedAt,
-      post.deletedAt,
-    );
+  public static toPersistence(post: Post): PostPersistence {
+    return new PostPersistence(post.title, post.content, post.authorId);
   }
 }
 

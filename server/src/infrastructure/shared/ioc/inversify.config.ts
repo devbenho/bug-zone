@@ -9,6 +9,8 @@ import { AuthController } from '@/web/rest/controllers';
 import ApplicationRouter from '@/web/rest/routes';
 import { LoginUseCase } from '@application/auth/login/login.use-case';
 import { RegisterUsecase } from '@application/auth/register/register.use-case';
+import { DataSource } from 'typeorm';
+import appDataSource from '@infrastructure/shared/persistence/data-source';
 
 const container = new Container();
 // Bind the extrernal dependencies
@@ -28,5 +30,8 @@ container.bind(TYPES.IAuthController).to(AuthController);
 
 // Bind ApplicationRouter
 container.bind<ApplicationRouter>(ApplicationRouter).to(ApplicationRouter);
+
+// bind the datastore
+container.bind<DataSource>(DataSource).toConstantValue(appDataSource);
 
 export { container };

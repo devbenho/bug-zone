@@ -1,16 +1,8 @@
-import {
-  Entity,
-  Column,
-  OneToMany,
-  OneToOne,
-  ManyToOne,
-  ManyToMany,
-} from 'typeorm';
-import BaseEntity from '../shared/persistence/entities/base.entity';
-import LikePostPersistence from '../LikePosts/like-post.persistence';
+import { Entity, Column, OneToMany, ManyToOne } from 'typeorm';
 import CommentPersistence from '../comments/comment.persistence';
-import { Nullable } from '@domain/types';
 import { UserPersistence } from '@infrastructure/users';
+import LikePostPersistence from '@infrastructure/like-posts/like-post.persistence';
+import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
 
 @Entity()
 class PostPersistence extends BaseEntity {
@@ -23,38 +15,22 @@ class PostPersistence extends BaseEntity {
   @Column()
   authorId: string;
 
-  @ManyToOne(() => UserPersistence, user => user.posts)
+  @ManyToOne(() => UserPersistence, user => user.posts, { lazy: true })
   author: UserPersistence;
 
-  @OneToMany(() => CommentPersistence, comment => comment.post)
+  @OneToMany(() => CommentPersistence, comment => comment.post, { lazy: true })
   comments: CommentPersistence[];
 
-  @OneToMany(() => LikePostPersistence, likePost => likePost.post)
+  @OneToMany(() => LikePostPersistence, likePost => likePost.post, {
+    lazy: true,
+  })
   likes: LikePostPersistence[];
 
-  constructor(
-    id: Nullable<string>,
-    title: string,
-    content: string,
-    authorId: string,
-    author: UserPersistence,
-    comments: CommentPersistence[],
-    likes: LikePostPersistence[],
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date,
-  ) {
+  constructor(title: string, content: string, authorId: string) {
     super();
-    this.id = id;
     this.title = title;
     this.content = content;
     this.authorId = authorId;
-    this.author = author;
-    this.comments = comments;
-    this.likes = likes;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
   }
 }
 

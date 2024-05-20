@@ -1,64 +1,51 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import BaseEntity from '../shared/persistence/entities/base.entity';
-import LikeComment from '../shared/persistence/entities/like-comment.entity';
-import Reply from '../shared/persistence/entities/reply.entity';
 import { Nullable } from '@domain/types';
 import { UserPersistence } from '@infrastructure/users';
 import { PostPersistence } from '@infrastructure/posts/post.persistence';
+import { ReplyPersistence } from '@infrastructure/replies/reply.persistence';
+import { LikeCommentPersistence } from '@infrastructure/like-comments/like-comment.persistence';
+import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
 
 @Entity()
 class CommentPersistence extends BaseEntity {
   @Column()
   userId: Nullable<string>;
 
-  @ManyToOne(() => UserPersistence, user => user.comments)
+  @ManyToOne(() => UserPersistence, user => user.comments, { lazy: true })
   user: UserPersistence;
 
   @Column()
   postId: string;
 
-  @ManyToOne(() => PostPersistence, post => post.comments)
+  @ManyToOne(() => PostPersistence, post => post.comments, { lazy: true })
   post: PostPersistence;
 
   @Column()
   content: string;
 
-  @Column()
-  noLikes: number;
+  @OneToMany(() => LikeCommentPersistence, like => like.comment, { lazy: true })
+  likes: LikeCommentPersistence[];
 
-  @OneToMany(() => LikeComment, like => like.comment)
-  likes: LikeComment[];
-
-  @OneToMany(() => Reply, reply => reply.comment)
-  replies: Reply[];
+  @OneToMany(() => ReplyPersistence, reply => reply.comment, { lazy: true })
+  replies: ReplyPersistence[];
 
   constructor(
-    id: Nullable<string>,
     userId: string,
     user: UserPersistence,
     postId: string,
     post: PostPersistence,
     content: string,
-    noLikes: number,
-    likes: LikeComment[],
-    replies: Reply[],
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date,
+    likes: LikeCommentPersistence[],
+    replies: ReplyPersistence[],
   ) {
     super();
-    this.id = id;
     this.userId = userId;
     this.user = user;
     this.postId = postId;
     this.post = post;
     this.content = content;
-    this.noLikes = noLikes;
     this.likes = likes;
     this.replies = replies;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
   }
 }
 

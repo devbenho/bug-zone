@@ -1,10 +1,10 @@
 import { UserPersistence } from '@infrastructure/users';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { PostPersistence } from '../posts/post.persistence';
+import { ReplyPersistence } from '@infrastructure/replies/reply.persistence';
 import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
 
 @Entity()
-class LikePostPersistence extends BaseEntity {
+class LikeReplyPersistence extends BaseEntity {
   @Column()
   userId: string;
 
@@ -12,23 +12,23 @@ class LikePostPersistence extends BaseEntity {
   user: UserPersistence;
 
   @Column()
-  postId: string;
+  replyId: string;
 
-  @ManyToOne(() => PostPersistence)
-  post: PostPersistence;
+  @ManyToOne(() => ReplyPersistence, reply => reply.likes, { lazy: true })
+  reply: ReplyPersistence;
 
   constructor(
     userId: string,
     user: UserPersistence,
-    postId: string,
-    post: PostPersistence,
+    replyId: string,
+    reply: ReplyPersistence,
   ) {
     super();
     this.userId = userId;
     this.user = user;
-    this.postId = postId;
-    this.post = post;
+    this.replyId = replyId;
+    this.reply = reply;
   }
 }
 
-export default LikePostPersistence;
+export { LikeReplyPersistence };
