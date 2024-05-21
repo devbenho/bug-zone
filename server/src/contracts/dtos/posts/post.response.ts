@@ -14,13 +14,13 @@ export class PostResponseDto {
     public lastModifiedAt: Nullable<Date>,
   ) { }
 
-  public static fromEntity(entity: Post): PostResponseDto {
+  public static async fromEntity(entity: Post): Promise<PostResponseDto> {
     return new PostResponseDto(
       entity.id,
       entity.title,
       entity.content,
       UserResponseDto.fromEntity(entity.author),
-      entity.comments.map(comment => CommentResponseDto.fromEntity(comment)),
+      entity.comments ? (await entity.comments).map(CommentResponseDto.fromEntity) : [],
       entity.createdAt,
       entity.updatedAt,
     );
