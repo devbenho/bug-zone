@@ -20,7 +20,6 @@ class ReplyMapper {
       reply.userId,
       reply.commentId,
       CommentMapper.toPersistence(reply.comment),
-      reply.likes,
     );
   }
 }

@@ -31,4 +31,4 @@ class LikePostPersistence extends BaseEntity {
   }
 }
 
-export default LikePostPersistence;
+export { LikePostPersistence };

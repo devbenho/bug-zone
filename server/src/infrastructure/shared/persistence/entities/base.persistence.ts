@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Nullable } from '@domain/shared/types';
 
-Entity();
+Entity()
 export default class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: Nullable<string>;

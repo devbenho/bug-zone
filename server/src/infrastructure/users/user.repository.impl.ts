@@ -4,6 +4,7 @@ import { injectable } from 'inversify';
 import { DataSource, Repository } from 'typeorm';
 import { UserMapper } from './user.mapper';
 import { UserPersistence } from './user.persistence';
+import { log } from 'console';
 
 @injectable()
 class UserRepository implements IUserRepository {
@@ -39,7 +40,9 @@ class UserRepository implements IUserRepository {
   }
 
   async saveUser(user: User): Promise<User> {
+    log('user', user);
     const persistence = UserMapper.toPersistence(user);
+    log('persistence', persistence);
     const createdUser = await this.repository.save(persistence);
     return UserMapper.toDomain(createdUser);
   }

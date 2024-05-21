@@ -1,7 +1,7 @@
 import { Entity, Column, OneToMany, ManyToOne } from 'typeorm';
 import CommentPersistence from '../comments/comment.persistence';
 import { UserPersistence } from '@infrastructure/users';
-import LikePostPersistence from '@infrastructure/like-posts/like-post.persistence';
+import { LikePostPersistence } from '@infrastructure/like-posts/';
 import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
 
 @Entity()

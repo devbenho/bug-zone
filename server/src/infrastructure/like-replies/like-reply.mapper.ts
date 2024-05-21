@@ -15,14 +15,10 @@ class LikeReplyMapper {
 
   static toPersistence(likeReply: LikeReply): LikeReplyPersistence {
     return new LikeReplyPersistence(
-      likeReply.id,
       likeReply.userId,
       UserMapper.toPersistence(likeReply.user),
       likeReply.replyId,
       ReplyMapper.toPersistence(likeReply.reply),
-      likeReply.createdAt,
-      likeReply.updatedAt!,
-      likeReply.deletedAt!,
     );
   }
 }

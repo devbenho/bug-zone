@@ -6,7 +6,7 @@ const appDataSource = new DataSource({
   database: 'db.sqlite3',
   synchronize: true,
   logging: true,
-  entities: [__dirname + '/../**/*.persistence.ts  '],
+  entities: [__dirname + '/../**/*.persistence.ts'],
   migrations: [__dirname + '/../migrations/**/*.ts'],
   subscribers: [UserSubscriber],
 });
