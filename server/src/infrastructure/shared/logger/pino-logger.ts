@@ -123,7 +123,7 @@ class PinoLogger implements LoggerDomainService {
 
     const errorRotateFileTarget = {
       level: LogLevel.ERROR,
-      target: PinoLoggerConfig.ROTATE_FILE_TRANSPORT_PATH,
+      // target: PinoLoggerConfig.ROTATE_FILE_TRANSPORT_PATH,
       options: {
         folder: PinoLoggerConfig.LOGS_FOLDER,
         filename: 'error',
@@ -143,10 +143,10 @@ class PinoLogger implements LoggerDomainService {
       options: { destination: 1, append: true }
     };
 
-    const targets: TransportTargetOptions[] = [
-      ...(GlobalConfig.IS_TEST ? [] : [errorRotateFileTarget, rotateFileTarget]),
-      GlobalConfig.IS_DEVELOPMENT ? pinoPrettyTarget : standardOutputTarget
-    ];
+    // const targets: TransportTargetOptions[] = [
+    //   ...(GlobalConfig.IS_TEST ? [] : [errorRotateFileTarget, rotateFileTarget]),
+    //   GlobalConfig.IS_DEVELOPMENT ? pinoPrettyTarget : standardOutputTarget
+    // ];
 
     return pino(
       {
@@ -154,7 +154,7 @@ class PinoLogger implements LoggerDomainService {
         level: PinoLoggerConfig.LOG_LEVEL,
         messageKey: 'message'
       },
-      pino.transport({ targets, dedupe: false })
+      // pino.transport({ targets, dedupe: false })
     );
   };
 }
