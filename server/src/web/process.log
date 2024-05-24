@@ -1,3 +1,6 @@
-{"level":30,"time":1716258038573,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1716258038579,"msg":"Environment: development"}
-{"level":50,"time":1716258047449,"err":{"type":"EntityMetadataNotFoundError","message":"No metadata for \"UserPersistence\" was found.","stack":"EntityMetadataNotFoundError: No metadata for \"UserPersistence\" was found.\n    at DataSource.getMetadata (/Users/mbanhawy/dev/projects/bug-zone/server/node_modules/src/data-source/DataSource.ts:450:30)\n    at Repository.get metadata [as metadata] (/Users/mbanhawy/dev/projects/bug-zone/server/node_modules/src/repository/Repository.ts:53:40)\n    at Repository.save (/Users/mbanhawy/dev/projects/bug-zone/server/node_modules/src/repository/Repository.ts:206:18)\n    at UserRepository.<anonymous> (/Users/mbanhawy/dev/projects/bug-zone/server/src/infrastructure/users/user.repository.impl.ts:46:47)\n    at Generator.next (<anonymous>)\n    at /Users/mbanhawy/dev/projects/bug-zone/server/src/infrastructure/users/user.repository.impl.ts:17:71\n    at new Promise (<anonymous>)\n    at __awaiter (/Users/mbanhawy/dev/projects/bug-zone/server/src/infrastructure/users/user.repository.impl.ts:13:12)\n    at UserRepository.saveUser (/Users/mbanhawy/dev/projects/bug-zone/server/src/infrastructure/users/user.repository.impl.ts:62:16)\n    at RegisterUsecase.<anonymous> (/Users/mbanhawy/dev/projects/bug-zone/server/src/application/auth/register/register.use-case.ts:25:52)"},"msg":"No metadata for \"UserPersistence\" was found."}
+{"level":30,"time":1716524984596,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1716524984605,"msg":"Environment: development"}
+{"level":30,"time":1716524984668,"msg":"Loaded entities"}
+{"level":30,"time":1716524984668,"msg":7}
+{"level":30,"time":1716524984668,"msg":1}
+{"level":30,"time":1716524984668,"msg":"Data source initialized"}
