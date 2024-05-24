@@ -8,14 +8,13 @@ export class UserResponseDto {
     public username: string,
     public email: string,
     public pictureProfile?: string,
-  ) {}
+  ) { }
 
   public static fromEntity(entity: User): UserResponseDto {
     return new UserResponseDto(
       entity.id!,
       entity.firstName,
       entity.lastName,
-      entity.profilePicture,
       entity.email,
       entity.username,
     );
