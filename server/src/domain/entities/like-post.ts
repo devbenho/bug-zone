@@ -1,32 +1,26 @@
 import { Nullable } from '@domain/shared/types';
 import { Post } from '@domain/entities/posts';
 import { User } from '@domain/entities/user';
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 
-class LikePost {
-  id: Nullable<string>;
-  postId: string;
-  post: Post
-  userId: string;
-  user: User;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
-
+class LikePost extends AuditableBaseEntity {
   constructor(
-    id: Nullable<string>,
-    postId: string,
-    authorId: string,
-    createdAt: Date,
-    updatedAt: Date,
-    deletedAt: Date
+    public id: Nullable<string>,
+    public postId: string,
+    public post: Post,
+    public userId: string,
+    public user: User,
+    public createdAt: Date,
+    public createdBy: string,
+    public updatedAt: Nullable<Date>,
+    public updatedBy: Nullable<string>,
+    public deletedAt: Nullable<Date>,
+    public deletedBy: Nullable<string>,
   ) {
-    this.id = id;
-    this.postId = postId;
-    this.userId = authorId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
+    super(id, createdAt, createdBy, updatedAt, updatedBy, deletedAt, deletedBy);
   }
+
+
 }
 
 export { LikePost };

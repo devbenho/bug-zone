@@ -1,16 +1,27 @@
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 import { Comment } from './comment';
 import { LikeReply } from './like-reply';
+import { Nullable } from '@domain/shared/types';
+import { User } from './user';
 
 class Reply extends AuditableBaseEntity {
   constructor(
+    public id: Nullable<string>,
     public commentId: string,
-    public userId: string,
-    public content: string,
     public comment: Comment,
-    public likes: LikeReply[],
+    public userId: string,
+    public user: User,
+    public content: string,
+    public likes: Nullable<LikeReply[]>,
+    public createdAt: Date,
+    public createdBy: string,
+    public updatedAt: Nullable<Date>,
+    public updatedBy: Nullable<string>,
+    public deletedAt: Nullable<Date>,
+    public deletedBy: Nullable<string>,
+
   ) {
-    super(new Date(), userId, new Date(), userId, null, null);
+    super(id, createdAt, createdBy, updatedAt, updatedBy, deletedAt, deletedBy);
   }
 }
 
