@@ -20,7 +20,7 @@ class UserMapper {
       lastName: userPersistenceModel.lastName,
       email: userPersistenceModel.email,
       username: userPersistenceModel.username,
-      password: userPersistenceModel.password,
+      password: userPersistenceModel.hashedPassword,
       createdAt: userPersistenceModel.createdAt,
       updatedAt: userPersistenceModel.updatedAt,
       deletedAt: userPersistenceModel.deletedAt,
@@ -39,7 +39,7 @@ class UserMapper {
       updatedBy: userPersistenceModel.id,
       deletedBy: userPersistenceModel.id,
       isPasswordMatched: (password: string) =>
-        userPersistenceModel.password === password,
+        userPersistenceModel.hashedPassword === password,
       posts: userPersistenceModel.posts.map(post => PostMapper.toDomain(post)),
       replies: userPersistenceModel.replies.map(reply =>
         ReplyMapper.toDomain(reply),
@@ -52,38 +52,48 @@ class UserMapper {
 
   public static toPersistence(user: User): UserPersistence {
     const userPersistence = new UserPersistence();
+
     if (user.id != null) {
       userPersistence.id = user.id;
     }
+
     userPersistence.firstName = user.firstName;
+
     userPersistence.lastName = user.lastName;
+
     userPersistence.email = user.email;
+
     userPersistence.username = user.username;
-    userPersistence.password = user.password;
+
+    userPersistence.hashedPassword = user.password;
+
     userPersistence.role = user.role;
+
     userPersistence.createdAt = user.createdAt;
+
     userPersistence.updatedAt = user.updatedAt;
+
     userPersistence.deletedAt = user.deletedAt;
-    // userPersistence.likedReplies = user.likedReplies?.map(like =>
-    //   LikeReplyMapper.toPersistence(like),
-    // ) as any[];
 
-    // if (user.comments?.length) {
-    //   userPersistence.comments = user.comments.map(CommentMapper.toPersistence)
-    // }
+    userPersistence.likedReplies =
+      user.likedReplies?.map(LikeReplyMapper.toPersistence) ?? [];
 
-    // userPersistence.likedPosts = user.likedPosts?.map(like =>
-    //   LikePostMapper.toPersistence(like),
-    // ) as any[];
-    // userPersistence.likedComments = user.likedComments?.map(like =>
-    //   LikeCommentMapper.toPersistence(like),
-    // ) as any[];
-    // userPersistence.posts = user.posts?.map(post =>
-    //   PostMapper.toPersistence(post),
-    // ) as any[];
-    // userPersistence.replies = user.replies?.map(reply =>
-    //   ReplyMapper.toPersistence(reply),
-    // ) as any[];
+    userPersistence.likedReplies =
+      user.likedReplies?.map(LikeReplyMapper.toPersistence) ?? [];
+
+    userPersistence.comments =
+      user.comments?.map(CommentMapper.toPersistence) ?? [];
+
+    userPersistence.likedPosts =
+      user.likedPosts?.map(LikePostMapper.toPersistence) ?? [];
+
+    userPersistence.likedComments =
+      user.likedComments?.map(LikeCommentMapper.toPersistence) ?? [];
+
+    userPersistence.posts = user.posts?.map(PostMapper.toPersistence) ?? [];
+
+    userPersistence.replies =
+      user.replies?.map(ReplyMapper.toPersistence) ?? [];
 
     return userPersistence;
   }
