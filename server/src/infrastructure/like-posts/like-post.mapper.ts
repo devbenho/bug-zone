@@ -8,20 +8,29 @@ class LikePostMapper {
     return new LikePost(
       likePostPer.id,
       likePostPer.postId,
+      PostMapper.toDomain(likePostPer.post),
       likePostPer.userId,
+      UserMapper.toDomain(likePostPer.user),
       likePostPer.createdAt,
+      likePostPer.userId,
       likePostPer.updatedAt,
-      likePostPer.deletedAt!,
+      likePostPer.userId,
+      likePostPer.deletedAt,
+      likePostPer.userId,
     );
   }
 
   static toPersistence(likePost: LikePost): LikePostPersistence {
-    return new LikePostPersistence(
-      likePost.userId,
-      UserMapper.toPersistence(likePost.user),
-      likePost.postId,
-      PostMapper.toPersistence(likePost.post),
-    );
+    return {
+      id: likePost.id!,
+      createdAt: likePost.createdAt,
+      updatedAt: likePost.updatedAt!,
+      deletedAt: likePost.deletedAt!,
+      user: UserMapper.toPersistence(likePost.user),
+      post: PostMapper.toPersistence(likePost.post),
+      postId: likePost.postId,
+      userId: likePost.userId,
+    }
   }
 }
 
