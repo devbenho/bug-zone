@@ -10,35 +10,14 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { Reply } from '@domain/entities';
-import CommentPersistence from '../comments/comment.persistence';
+import { CommentPersistence } from '../comments/comment.persistence';
 import { PostPersistence } from '../posts/post.persistence';
 import { LikeCommentPersistence } from '@infrastructure/like-comments/like-comment.persistence';
 import { Nullable } from '@domain/shared/types';
-import { LikePostPersistence } from '..';
+import { LikePostPersistence, LikeReplyPersistence, ReplyPersistence } from '..';
 
-@Entity('users')
+@Entity()
 class UserPersistence {
-  constructor(
-    firstName: string,
-    lastName: string,
-    username: string,
-    email: string,
-    password: string,
-    phoneNumber?: string,
-    role: Role = Role.USER,
-    profilePicture?: string,
-  ) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.phoneNumber = phoneNumber;
-    this.role = role;
-    this.profilePicture = profilePicture;
-  }
-
   @PrimaryGeneratedColumn('uuid')
   id: Nullable<string>;
 
@@ -46,7 +25,7 @@ class UserPersistence {
   createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Nullable<Date>;
 
   @DeleteDateColumn({ nullable: true })
   deletedAt: Nullable<Date>;
@@ -69,19 +48,16 @@ class UserPersistence {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
-  phoneNumber?: string;
-
   @Column({ nullable: false, default: 'user' })
   role: Role;
 
   @OneToMany(() => LikePostPersistence, likePost => likePost.user, {
     lazy: true,
   })
-  likedPosts: Promise<LikePostPersistence[]>;
+  likedPosts: LikePostPersistence[];
 
-  @OneToMany(() => Reply, reply => reply.userId, { lazy: true })
-  replies: Reply[];
+  @OneToMany(() => ReplyPersistence, reply => reply.userId, { lazy: true })
+  replies: ReplyPersistence[];
 
   @OneToMany(() => CommentPersistence, comment => comment.user, { lazy: true })
   comments: CommentPersistence[];
@@ -89,8 +65,6 @@ class UserPersistence {
   @OneToMany(() => PostPersistence, post => post.author, { lazy: true })
   posts: PostPersistence[];
 
-  @OneToMany(() => PostPersistence, post => post.author, { lazy: true })
-  editedPosts: PostPersistence[];
 
   // add likeComment
   @OneToMany(() => LikeCommentPersistence, likeComment => likeComment.user, {
@@ -98,8 +72,9 @@ class UserPersistence {
   })
   likedComments: LikeCommentPersistence[];
 
-  @Column({ nullable: true })
-  profilePicture?: string;
+  @OneToMany(() => LikeReplyPersistence, likePost => likePost.user, {})
+  likedReplies: LikeReplyPersistence[];
+
 }
 
 export { UserPersistence };

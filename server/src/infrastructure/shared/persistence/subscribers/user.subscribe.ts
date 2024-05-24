@@ -2,9 +2,9 @@ import {
   EventSubscriber,
   EntitySubscriberInterface,
   InsertEvent,
-} from "typeorm";
-import bcrypt from "bcrypt";
-import { UserPersistence } from "@infrastructure/users";
+} from 'typeorm';
+import bcrypt from 'bcrypt';
+import { UserPersistence } from '@infrastructure/users';
 @EventSubscriber()
 export class UserSubscriber implements EntitySubscriberInterface {
   listenTo() {
