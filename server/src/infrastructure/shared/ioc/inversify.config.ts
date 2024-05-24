@@ -10,7 +10,7 @@ import ApplicationRouter from '@/web/rest/routes';
 import { LoginUseCase } from '@application/auth/login/login.use-case';
 import { RegisterUsecase } from '@application/auth/register/register.use-case';
 import { DataSource } from 'typeorm';
-import appDataSource from '@infrastructure/shared/persistence/data-source';
+import { appDataSource } from '@infrastructure/shared/persistence/data-source';
 
 const container = new Container();
 // Bind the extrernal dependencies
