@@ -1,6 +1,6 @@
-{"level":30,"time":1716524984596,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1716524984605,"msg":"Environment: development"}
-{"level":30,"time":1716524984668,"msg":"Loaded entities"}
-{"level":30,"time":1716524984668,"msg":7}
-{"level":30,"time":1716524984668,"msg":1}
-{"level":30,"time":1716524984668,"msg":"Data source initialized"}
+{"level":30,"time":1716567617876,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1716567617878,"msg":"Environment: development"}
+{"level":30,"time":1716567617916,"msg":"Loaded entities"}
+{"level":30,"time":1716567617916,"msg":7}
+{"level":30,"time":1716567617916,"msg":1}
+{"level":30,"time":1716567617916,"msg":"Data source initialized"}

@@ -9,7 +9,6 @@ import { Post } from './posts';
 import { Reply } from './reply';
 
 class User extends AuditableBaseEntity {
-
   constructor(
     public id: Nullable<string>,
     public firstName: string,
@@ -25,47 +24,38 @@ class User extends AuditableBaseEntity {
     public deletedAt: Nullable<Date>,
     public deletedBy: Nullable<string>,
     public comments: Nullable<Comment[]>,
-    public likeComments: Nullable<LikeComment[]>,
+    public likedComments: Nullable<LikeComment[]>,
     public posts: Nullable<Post[]>,
     public likedPosts: Nullable<LikePost[]>,
     public replies: Nullable<Reply[]>,
-    public likeReplies: Nullable<LikeReply[]>,
+    public likedReplies: Nullable<LikeReply[]>,
   ) {
-    super(
-      id,
-      createdAt,
-      createdBy,
-      updatedAt,
-      updatedBy,
-      deletedAt,
-      deletedBy,
-    );
+    super(id, createdAt, createdBy, updatedAt, updatedBy, deletedAt, deletedBy);
   }
   isPasswordMatched(password: string): boolean {
     return this.password === password;
   }
 
   public static create(
-    id: Nullable<string>,
+    id: Nullable<string> = undefined,
     firstName: string,
     lastName: string,
     email: string,
     username: string,
     password: string,
     role: Role = Role.USER,
-    profilePicture: Nullable<string>,
     createdAt: Date,
     createdBy: string,
-    updatedAt: Nullable<Date>,
-    updatedBy: Nullable<string>,
-    deletedAt: Nullable<Date>,
-    deletedBy: Nullable<string>,
-    comments: Nullable<Comment[]>,
-    likeComments: Nullable<LikeComment[]>,
-    posts: Nullable<Post[]>,
-    likedPosts: Nullable<LikePost[]>,
-    replies: Nullable<Reply[]>,
-    likeReplies: Nullable<LikeReply[]>,
+    updatedAt: Nullable<Date> = undefined,
+    updatedBy: Nullable<string> = undefined,
+    deletedAt: Nullable<Date> = undefined,
+    deletedBy: Nullable<string> = undefined,
+    comments: Nullable<Comment[]> = [],
+    likeComments: Nullable<LikeComment[]> = [],
+    posts: Nullable<Post[]> = [],
+    likedPosts: Nullable<LikePost[]> = [],
+    replies: Nullable<Reply[]> = [],
+    likeReplies: Nullable<LikeReply[]> = [],
   ): User {
     return new User(
       id,
@@ -89,7 +79,6 @@ class User extends AuditableBaseEntity {
       likeReplies,
     );
   }
-
 }
 
 export { User };
