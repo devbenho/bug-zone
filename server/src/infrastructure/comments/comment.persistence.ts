@@ -1,13 +1,33 @@
-import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Nullable } from '@domain/shared/types';
 import { UserPersistence } from '@infrastructure/users';
 import { PostPersistence } from '@infrastructure/posts/post.persistence';
 import { ReplyPersistence } from '@infrastructure/replies/reply.persistence';
 import { LikeCommentPersistence } from '@infrastructure/like-comments/like-comment.persistence';
-import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
 
 @Entity()
-class CommentPersistence extends BaseEntity {
+class CommentPersistence {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Nullable<Date>;
+
   @Column()
   userId: Nullable<string>;
 
@@ -28,25 +48,6 @@ class CommentPersistence extends BaseEntity {
 
   @OneToMany(() => ReplyPersistence, reply => reply.comment, { lazy: true })
   replies: ReplyPersistence[];
-
-  constructor(
-    userId: string,
-    user: UserPersistence,
-    postId: string,
-    post: PostPersistence,
-    content: string,
-    likes: LikeCommentPersistence[],
-    replies: ReplyPersistence[],
-  ) {
-    super();
-    this.userId = userId;
-    this.user = user;
-    this.postId = postId;
-    this.post = post;
-    this.content = content;
-    this.likes = likes;
-    this.replies = replies;
-  }
 }
 
-export default CommentPersistence;
+export { CommentPersistence };
