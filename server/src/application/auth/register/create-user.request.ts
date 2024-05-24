@@ -59,7 +59,7 @@ class CreateUserDto extends UseCaseRequest {
 
   public toEntity(): User {
     return User.create(
-      null, // Assuming the first parameter is some identifier or ID which is undefined here
+      null,
       this.firstName,
       this.lastName,
       this.email,

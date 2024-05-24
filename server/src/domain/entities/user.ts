@@ -21,23 +21,21 @@ class User extends AuditableBaseEntity {
     public createdBy: string,
     public updatedAt: Nullable<Date>,
     public updatedBy: Nullable<string>,
-    public deletedAt: Nullable<Date>,
-    public deletedBy: Nullable<string>,
-    public comments: Nullable<Comment[]>,
-    public likedComments: Nullable<LikeComment[]>,
-    public posts: Nullable<Post[]>,
-    public likedPosts: Nullable<LikePost[]>,
-    public replies: Nullable<Reply[]>,
-    public likedReplies: Nullable<LikeReply[]>,
+    public comments?: Comment[],
+    public likedComments?: LikeComment[],
+    public posts?: Post[],
+    public likedPosts?: LikePost[],
+    public replies?: Reply[],
+    public likedReplies?: LikeReply[],
   ) {
-    super(id, createdAt, createdBy, updatedAt, updatedBy, deletedAt, deletedBy);
+    super(id, createdAt, createdBy, updatedAt, updatedBy);
   }
   isPasswordMatched(password: string): boolean {
     return this.password === password;
   }
 
   public static create(
-    id: Nullable<string> = undefined,
+    id: Nullable<string>,
     firstName: string,
     lastName: string,
     email: string,
@@ -46,16 +44,14 @@ class User extends AuditableBaseEntity {
     role: Role = Role.USER,
     createdAt: Date,
     createdBy: string,
-    updatedAt: Nullable<Date> = undefined,
-    updatedBy: Nullable<string> = undefined,
-    deletedAt: Nullable<Date> = undefined,
-    deletedBy: Nullable<string> = undefined,
-    comments: Nullable<Comment[]> = [],
-    likeComments: Nullable<LikeComment[]> = [],
-    posts: Nullable<Post[]> = [],
-    likedPosts: Nullable<LikePost[]> = [],
-    replies: Nullable<Reply[]> = [],
-    likeReplies: Nullable<LikeReply[]> = [],
+    updatedAt?: Nullable<Date>,
+    updatedBy?: Nullable<string>,
+    comments?: Comment[],
+    likeComments?: LikeComment[],
+    posts?: Post[],
+    likedPosts?: LikePost[],
+    replies?: Reply[],
+    likeReplies?: LikeReply[],
   ): User {
     return new User(
       id,
@@ -69,8 +65,6 @@ class User extends AuditableBaseEntity {
       createdBy,
       updatedAt,
       updatedBy,
-      deletedAt,
-      deletedBy,
       comments,
       likeComments,
       posts,

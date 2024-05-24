@@ -21,60 +21,56 @@ import { LikePostPersistence } from '@infrastructure/like-posts';
 @Entity()
 class UserPersistence {
   @PrimaryGeneratedColumn('uuid')
-  id: Nullable<string>;
+  public id: Nullable<string>;
 
   @CreateDateColumn()
-  createdAt: Date;
+  public createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Nullable<Date>;
+  public updatedAt: Nullable<Date>;
 
   @DeleteDateColumn({ nullable: true })
-  deletedAt: Nullable<Date>;
+  public deletedAt: Nullable<Date>;
 
   @Column()
-  firstName: string;
+  public firstName: string;
 
   @Column()
-  lastName: string;
+  public lastName: string;
 
   @Unique('unique_username', ['username'])
   @Column({ unique: true })
-  username: string;
+  public username: string;
 
   @Unique('unique_email', ['email'])
   @Column({ unique: true })
-  email: string;
+  public email: string;
 
   @BeforeInsert()
   @Column()
-  password: string;
+  public password: string;
 
   @Column({ nullable: false, default: 'user' })
-  role: Role;
+  public role: Role;
 
-  @OneToMany(() => LikePostPersistence, likePost => likePost.user, {
-    lazy: true,
-  })
-  likedPosts: LikePostPersistence[];
+  @OneToMany(() => LikePostPersistence, likePost => likePost.user, /** {lazy: true,}*/)
+  public likedPosts: LikePostPersistence[];
 
-  @OneToMany(() => ReplyPersistence, reply => reply.userId, { lazy: true })
-  replies: ReplyPersistence[];
+  @OneToMany(() => ReplyPersistence, reply => reply.userId, /** {lazy: true,}*/)
+  public replies: ReplyPersistence[];
 
-  @OneToMany(() => CommentPersistence, comment => comment.user, { lazy: true })
-  comments: CommentPersistence[];
+  @OneToMany(() => CommentPersistence, comment => comment.user, /** {lazy: true,}*/)
+  public comments: CommentPersistence[];
 
-  @OneToMany(() => PostPersistence, post => post.author, { lazy: true })
-  posts: PostPersistence[];
+  @OneToMany(() => PostPersistence, post => post.author, /** {lazy: true,}*/)
+  public posts: PostPersistence[];
 
   // add likeComment
-  @OneToMany(() => LikeCommentPersistence, likeComment => likeComment.user, {
-    lazy: true,
-  })
-  likedComments: LikeCommentPersistence[];
+  @OneToMany(() => LikeCommentPersistence, likeComment => likeComment.user, /** {lazy: true,}*/)
+  public likedComments: LikeCommentPersistence[];
 
   @OneToMany(() => LikeReplyPersistence, likePost => likePost.user, {})
-  likedReplies: LikeReplyPersistence[];
+  public likedReplies: LikeReplyPersistence[];
 }
 
 export { UserPersistence };

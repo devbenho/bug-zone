@@ -1,6 +1,7 @@
-{"level":30,"time":1716579068083,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1716579068086,"msg":"Environment: development"}
-{"level":30,"time":1716579068119,"msg":"Loaded entities"}
-{"level":30,"time":1716579068119,"msg":7}
-{"level":30,"time":1716579068119,"msg":1}
-{"level":30,"time":1716579068119,"msg":"Data source initialized"}
+{"level":30,"time":1716581809746,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1716581809752,"msg":"Environment: development"}
+{"level":30,"time":1716581809841,"msg":"Loaded entities"}
+{"level":30,"time":1716581809842,"msg":7}
+{"level":30,"time":1716581809842,"msg":1}
+{"level":30,"time":1716581809842,"msg":"Data source initialized"}
+{"level":50,"time":1716581848775,"err":{"type":"TypeError","message":"entity[this.propertyName] is not a function","stack":"TypeError: entity[this.propertyName] is not a function\n    at EntityListenerMetadata.execute (/home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/metadata/EntityListenerMetadata.ts:78:69)\n    at /home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/subscriber/Broadcaster.ts:126:54\n    at Array.forEach (<anonymous>)\n    at Broadcaster.broadcastBeforeInsertEvent (/home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/subscriber/Broadcaster.ts:124:44)\n    at /home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/persistence/SubjectExecutor.ts:240:46\n    at Array.forEach (<anonymous>)\n    at SubjectExecutor.broadcastBeforeEventsForAll (/home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/persistence/SubjectExecutor.ts:239:33)\n    at SubjectExecutor.execute (/home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/persistence/SubjectExecutor.ts:109:38)\n    at EntityPersistExecutor.execute (/home/modsyan/projects/bug-zone/server/node_modules/.pnpm/typeorm@0.3.20_ioredis@5.4.1_sqlite3@5.1.7_ts-node@10.9.2/node_modules/src/persistence/EntityPersistExecutor.ts:182:36)"},"msg":"entity[this.propertyName] is not a function"}

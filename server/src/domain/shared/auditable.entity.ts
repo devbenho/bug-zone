@@ -8,8 +8,8 @@ abstract class AuditableBaseEntity extends BaseEntity {
     public createdBy: string,
     public updatedAt: Nullable<Date>,
     public updatedBy: Nullable<string>,
-    public deletedAt: Nullable<Date>,
-    public deletedBy: Nullable<string>,
+    public deletedAt?: Nullable<Date>,
+    public deletedBy?: Nullable<string>,
   ) {
     super(id);
   }

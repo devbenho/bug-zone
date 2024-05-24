@@ -52,7 +52,7 @@ class UserMapper {
 
   public static toPersistence(user: User): UserPersistence {
     const userPersistence = new UserPersistence();
-    if (user.id !== null) {
+    if (user.id != null) {
       userPersistence.id = user.id;
     }
     userPersistence.firstName = user.firstName;
@@ -64,24 +64,26 @@ class UserMapper {
     userPersistence.createdAt = user.createdAt;
     userPersistence.updatedAt = user.updatedAt;
     userPersistence.deletedAt = user.deletedAt;
-    userPersistence.likedReplies = user.likedReplies?.map(like =>
-      LikeReplyMapper.toPersistence(like),
-    ) as any[];
-    userPersistence.comments = user.comments?.map(comment =>
-      CommentMapper.toPersistence(comment),
-    ) as CommentPersistence[];
-    userPersistence.likedPosts = user.likedPosts?.map(like =>
-      LikePostMapper.toPersistence(like),
-    ) as any[];
-    userPersistence.likedComments = user.likedComments?.map(like =>
-      LikeCommentMapper.toPersistence(like),
-    ) as any[];
-    userPersistence.posts = user.posts?.map(post =>
-      PostMapper.toPersistence(post),
-    ) as any[];
-    userPersistence.replies = user.replies?.map(reply =>
-      ReplyMapper.toPersistence(reply),
-    ) as any[];
+    // userPersistence.likedReplies = user.likedReplies?.map(like =>
+    //   LikeReplyMapper.toPersistence(like),
+    // ) as any[];
+
+    // if (user.comments?.length) {
+    //   userPersistence.comments = user.comments.map(CommentMapper.toPersistence)
+    // }
+
+    // userPersistence.likedPosts = user.likedPosts?.map(like =>
+    //   LikePostMapper.toPersistence(like),
+    // ) as any[];
+    // userPersistence.likedComments = user.likedComments?.map(like =>
+    //   LikeCommentMapper.toPersistence(like),
+    // ) as any[];
+    // userPersistence.posts = user.posts?.map(post =>
+    //   PostMapper.toPersistence(post),
+    // ) as any[];
+    // userPersistence.replies = user.replies?.map(reply =>
+    //   ReplyMapper.toPersistence(reply),
+    // ) as any[];
 
     return userPersistence;
   }
