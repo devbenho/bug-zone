@@ -13,6 +13,9 @@ class UserRepository implements IUserRepository {
   constructor(private readonly dataSource: DataSource) {
     this._repository = this.dataSource.getRepository(UserPersistence);
   }
+  delete(user: User): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
 
   async findById(id: string): Promise<User | null> {
     const user = await this._repository.findOne({ where: { id } });
