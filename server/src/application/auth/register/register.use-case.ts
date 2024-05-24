@@ -21,7 +21,7 @@ class RegisterUsecase extends BaseUseCase<CreateUserDto, AuthResponseDto> {
   public async performOperation(
     request: CreateUserDto,
   ): Promise<AuthResponseDto> {
-    const user = request.toEntity();
+    const user = this._mapper.mapFromDto(request);
     const createdUser = await this._userRepository.saveUser(user);
     const result: AuthResponseDto = {
       token: this._jwtService.sign(createdUser.id!),
