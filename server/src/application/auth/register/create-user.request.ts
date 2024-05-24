@@ -1,5 +1,4 @@
 import { UseCaseRequest } from '@application/shared';
-import { User } from '@domain/entities';
 import { TriggeredBy, TriggeredByUser } from '@domain/shared/entities';
 
 class CreateUserDto extends UseCaseRequest {
@@ -55,15 +54,7 @@ class CreateUserDto extends UseCaseRequest {
     );
   }
 
-  public toEntity(): User {
-    return new User(
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.username,
-      this.password,
-    );
-  }
+
 }
 
 export { CreateUserDto };
