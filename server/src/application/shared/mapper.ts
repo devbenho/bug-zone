@@ -31,4 +31,4 @@ interface IMapper<E, D> {
   mapToDto(entity: E): D;
 }
 
-export { IMapper };
+export { IMapper, Mapper };

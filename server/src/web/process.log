@@ -1,6 +1,7 @@
-{"level":30,"time":1716567617876,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1716567617878,"msg":"Environment: development"}
-{"level":30,"time":1716567617916,"msg":"Loaded entities"}
-{"level":30,"time":1716567617916,"msg":7}
-{"level":30,"time":1716567617916,"msg":1}
-{"level":30,"time":1716567617916,"msg":"Data source initialized"}
+{"level":30,"time":1716577274747,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1716577274753,"msg":"Environment: development"}
+{"level":30,"time":1716577274794,"msg":"Loaded entities"}
+{"level":30,"time":1716577274794,"msg":7}
+{"level":30,"time":1716577274795,"msg":1}
+{"level":30,"time":1716577274795,"msg":"Data source initialized"}
+{"level":50,"time":1716577287764,"err":{"type":"QueryFailedError","message":"SQLITE_CONSTRAINT: UNIQUE constraint failed: user_persistence.username","stack":"QueryFailedError: SQLITE_CONSTRAINT: UNIQUE constraint failed: user_persistence.username\n    at Statement.handler (/Users/mbanhawy/dev/projects/bug-zone/server/node_modules/typeorm/src/driver/sqlite/SqliteQueryRunner.ts:135:29)","query":"INSERT INTO \"user_persistence\"(\"id\", \"createdAt\", \"updatedAt\", \"deletedAt\", \"firstName\", \"lastName\", \"username\", \"email\", \"password\", \"role\") VALUES (?, ?, datetime('now'), NULL, ?, ?, ?, ?, ?, 1)","parameters":["7215c1fd-7b12-4f6c-8d20-24747e4f0744","2024-05-24 19:01:27.685","Mu","Banhawy","devbenho22","benho22@benho.com","$2b$10$kfQ0tpZeixV36CyKHo0vz.7tIeAvgs/58KKYESWSzHZXB3jfOehqm"],"driverError":{"type":"Error","message":"SQLITE_CONSTRAINT: UNIQUE constraint failed: user_persistence.username","stack":"Error: SQLITE_CONSTRAINT: UNIQUE constraint failed: user_persistence.username","errno":19,"code":"SQLITE_CONSTRAINT"},"errno":19,"code":"SQLITE_CONSTRAINT"},"msg":"SQLITE_CONSTRAINT: UNIQUE constraint failed: user_persistence.username"}

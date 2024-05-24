@@ -6,9 +6,7 @@ dotenv.config();
 @injectable()
 export class JwtService implements IJwtService {
   sign = (payload: string): string => {
-    return jwt.sign(payload, 'secret', {
-      expiresIn: process.env.JWT_EXPIRE!,
-    });
+    return jwt.sign(payload, 'secret');
   };
   verify = (token: string): string => {
     return jwt.verify(token, 'secret') as string;
