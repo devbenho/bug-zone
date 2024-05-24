@@ -14,7 +14,9 @@ import { CommentPersistence } from '../comments/comment.persistence';
 import { PostPersistence } from '../posts/post.persistence';
 import { LikeCommentPersistence } from '@infrastructure/like-comments/like-comment.persistence';
 import { Nullable } from '@domain/shared/types';
-import { LikePostPersistence, LikeReplyPersistence, ReplyPersistence } from '..';
+import { ReplyPersistence } from '@infrastructure/replies';
+import { LikeReplyPersistence } from '@infrastructure/like-replies';
+import { LikePostPersistence } from '@infrastructure/like-posts';
 
 @Entity()
 class UserPersistence {
@@ -65,7 +67,6 @@ class UserPersistence {
   @OneToMany(() => PostPersistence, post => post.author, { lazy: true })
   posts: PostPersistence[];
 
-
   // add likeComment
   @OneToMany(() => LikeCommentPersistence, likeComment => likeComment.user, {
     lazy: true,
@@ -74,7 +75,6 @@ class UserPersistence {
 
   @OneToMany(() => LikeReplyPersistence, likePost => likePost.user, {})
   likedReplies: LikeReplyPersistence[];
-
 }
 
 export { UserPersistence };

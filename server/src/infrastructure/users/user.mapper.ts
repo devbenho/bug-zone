@@ -51,34 +51,39 @@ class UserMapper {
   }
 
   public static toPersistence(user: User): UserPersistence {
-    return {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      username: user.username,
-      password: user.password,
-      role: user.role,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-      deletedAt: user.deletedAt,
-      likedReplies: user.likedReplies?.map(like =>
-        LikeReplyMapper.toPersistence(like),
-      ) as any[], // Add likedReplies property
-      comments: user.comments?.map(comment =>
-        CommentMapper.toPersistence(comment),
-      ) as CommentPersistence[],
-      likedPosts: user.likedPosts?.map(like =>
-        LikePostMapper.toPersistence(like),
-      ) as any[],
-      likedComments: user.likedComments?.map(like =>
-        LikeCommentMapper.toPersistence(like),
-      ) as any[],
-      posts: user.posts?.map(post => PostMapper.toPersistence(post)) as any[],
-      replies: user.replies?.map(reply =>
-        ReplyMapper.toPersistence(reply),
-      ) as any[],
-    };
+    const userPersistence = new UserPersistence();
+    if (user.id !== null) {
+      userPersistence.id = user.id;
+    }
+    userPersistence.firstName = user.firstName;
+    userPersistence.lastName = user.lastName;
+    userPersistence.email = user.email;
+    userPersistence.username = user.username;
+    userPersistence.password = user.password;
+    userPersistence.role = user.role;
+    userPersistence.createdAt = user.createdAt;
+    userPersistence.updatedAt = user.updatedAt;
+    userPersistence.deletedAt = user.deletedAt;
+    userPersistence.likedReplies = user.likedReplies?.map(like =>
+      LikeReplyMapper.toPersistence(like),
+    ) as any[];
+    userPersistence.comments = user.comments?.map(comment =>
+      CommentMapper.toPersistence(comment),
+    ) as CommentPersistence[];
+    userPersistence.likedPosts = user.likedPosts?.map(like =>
+      LikePostMapper.toPersistence(like),
+    ) as any[];
+    userPersistence.likedComments = user.likedComments?.map(like =>
+      LikeCommentMapper.toPersistence(like),
+    ) as any[];
+    userPersistence.posts = user.posts?.map(post =>
+      PostMapper.toPersistence(post),
+    ) as any[];
+    userPersistence.replies = user.replies?.map(reply =>
+      ReplyMapper.toPersistence(reply),
+    ) as any[];
+
+    return userPersistence;
   }
 }
 

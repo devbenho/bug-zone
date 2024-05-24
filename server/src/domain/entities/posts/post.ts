@@ -21,7 +21,6 @@ class Post extends AuditableBaseEntity {
   ) {
     super(id, createdAt, authorId, updatedAt, authorId, deletedAt, authorId);
   }
-
 }
 
 export { Post };
