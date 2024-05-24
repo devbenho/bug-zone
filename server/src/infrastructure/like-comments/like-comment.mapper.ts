@@ -6,20 +6,22 @@ import { CommentMapper } from '@infrastructure/comments/comment.mapper';
 class LikeCommentMapper {
   static toDomain(likeCommentPer: LikeCommentPersistence): LikeComment {
     return new LikeComment(
+      likeCommentPer.id,
       likeCommentPer.commentId,
       CommentMapper.toDomain(likeCommentPer.comment),
       likeCommentPer.userId,
       UserMapper.toDomain(likeCommentPer.user),
+      likeCommentPer.createdAt,
+      likeCommentPer.userId,
+      likeCommentPer.updatedAt,
+      likeCommentPer.userId,
+      likeCommentPer.deletedAt,
+      likeCommentPer.userId,
     );
   }
 
   static toPersistence(likeComment: LikeComment): LikeCommentPersistence {
-    return new LikeCommentPersistence(
-      likeComment.userId,
-      UserMapper.toPersistence(likeComment.user),
-      likeComment.commentId,
-      CommentMapper.toPersistence(likeComment.comment),
-    );
+    return new LikeCommentPersistence();
   }
 }
 

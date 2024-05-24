@@ -1,10 +1,30 @@
 import { UserPersistence } from '@infrastructure/users';
-import { Column, Entity, ManyToOne } from 'typeorm';
-import CommentPersistence from '@infrastructure/comments/comment.persistence';
-import BaseEntity from '@infrastructure/shared/persistence/entities/base.persistence';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { CommentPersistence } from '@infrastructure/comments';
+import { Nullable } from '@domain/shared/types';
 
 @Entity()
-class LikeCommentPersistence extends BaseEntity {
+class LikeCommentPersistence {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Nullable<Date>;
+
   @Column()
   userId: string;
 
@@ -16,19 +36,6 @@ class LikeCommentPersistence extends BaseEntity {
 
   @ManyToOne(() => CommentPersistence, comment => comment.likes, { lazy: true })
   comment: CommentPersistence;
-
-  constructor(
-    userId: string,
-    user: UserPersistence,
-    commentId: string,
-    comment: CommentPersistence,
-  ) {
-    super();
-    this.userId = userId;
-    this.user = user;
-    this.commentId = commentId;
-    this.comment = comment;
-  }
 }
 
 export { LikeCommentPersistence };
