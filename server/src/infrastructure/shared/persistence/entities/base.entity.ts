@@ -8,16 +8,7 @@ import {
 import { Nullable } from '@domain/shared/types';
 
 Entity();
-export default class BaseEntity {
+export class TestPersistence {
   @PrimaryGeneratedColumn('uuid')
-  id: Nullable<string>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt: Nullable<Date>;
+  id: string;
 }
