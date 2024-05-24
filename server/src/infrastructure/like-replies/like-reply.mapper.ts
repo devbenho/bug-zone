@@ -5,21 +5,34 @@ import { ReplyMapper } from '@infrastructure/replies/reply.mapper';
 
 class LikeReplyMapper {
   static toDomain(likeReplyPer: LikeReplyPersistence): LikeReply {
-    return new LikeReply(
-      likeReplyPer.replyId,
-      ReplyMapper.toDomain(likeReplyPer.reply),
-      likeReplyPer.userId,
-      UserMapper.toDomain(likeReplyPer.user),
-    );
+    return {
+      id: likeReplyPer.id,
+      createdAt: likeReplyPer.createdAt,
+      updatedAt: likeReplyPer.updatedAt,
+      deletedAt: likeReplyPer.deletedAt,
+      user: UserMapper.toDomain(likeReplyPer.user),
+      reply: ReplyMapper.toDomain(likeReplyPer.reply),
+      replyId: likeReplyPer.replyId,
+      userId: likeReplyPer.userId,
+      createdBy: likeReplyPer.userId,
+      updatedBy: likeReplyPer.userId,
+      deletedBy: likeReplyPer.userId,
+      equals: (likeReply: LikeReply) => likeReply.id === likeReplyPer.id,
+      // Add the other two missing properties here
+    }
   }
 
   static toPersistence(likeReply: LikeReply): LikeReplyPersistence {
-    return new LikeReplyPersistence(
-      likeReply.userId,
-      UserMapper.toPersistence(likeReply.user),
-      likeReply.replyId,
-      ReplyMapper.toPersistence(likeReply.reply),
-    );
+    return {
+      id: likeReply.id!,
+      createdAt: likeReply.createdAt,
+      updatedAt: likeReply.updatedAt!,
+      deletedAt: likeReply.deletedAt,
+      user: UserMapper.toPersistence(likeReply.user),
+      reply: ReplyMapper.toPersistence(likeReply.reply),
+      replyId: likeReply.replyId,
+      userId: likeReply.userId,
+    }
   }
 }
 
