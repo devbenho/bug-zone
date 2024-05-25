@@ -13,12 +13,12 @@ class CreatePostRequest extends UseCaseRequest {
     triggeredBy: TriggeredBy,
     title: string,
     content: string,
-    attachments: UploadedFiles[],
+    attachments?: UploadedFiles[],
   ) {
     super(triggeredBy);
     this.title = title;
     this.content = content;
-    this.attachments = attachments;
+    this.attachments = attachments || [];
   }
 
   public static create(
@@ -31,7 +31,7 @@ class CreatePostRequest extends UseCaseRequest {
   }
 
   // Validate here using EnsureClass
-  protected validatePayload(): void {}
+  protected validatePayload(): void { }
 }
 
 export { CreatePostRequest };
