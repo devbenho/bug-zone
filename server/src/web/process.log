@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 {"level":30,"time":1717071773671,"msg":"Application is running on port 2105 🚀"}
 {"level":30,"time":1717071773674,"msg":"Environment: development"}
 {"level":30,"time":1717071773694,"msg":"Data source initialized"}
+=======
+{"level":30,"time":1716762870073,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1716762870077,"msg":"Environment: development"}
+{"level":30,"time":1716762870107,"msg":"Data source initialized"}
+>>>>>>> e6a80b6 (Removing nullable wrapper from lists)
