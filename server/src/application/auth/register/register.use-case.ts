@@ -26,9 +26,9 @@ class RegisterUsecase extends BaseUseCase<CreateUserDto, AuthResponseDto> {
     const createdUser = await this._userRepository.saveUser(user);
     log('createdUser', createdUser);
     const result: AuthResponseDto = {
-      token: this._jwtService.sign(createdUser.id!),
+      token: this._jwtService.sign({ userId: createdUser.id as string }),
       tokenExpiration: new Date(Date.now() + 1000 * 60 * 60),
-      refreshToken: this._jwtService.sign(createdUser.id!),
+      refreshToken: this._jwtService.sign({ userId: createdUser.id as string }),
       refreshTokenExpiration: new Date(Date.now() + 1000 * 60 * 60 * 24),
       userDetails: createdUser,
     };
