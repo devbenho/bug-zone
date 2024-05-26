@@ -24,13 +24,13 @@ class UserMapper {
       createdAt: userPersistenceModel.createdAt,
       updatedAt: userPersistenceModel.updatedAt,
       deletedAt: userPersistenceModel.deletedAt,
-      comments: userPersistenceModel.comments.map(comment =>
+      comments: userPersistenceModel.comments?.map(comment =>
         CommentMapper.toDomain(comment),
       ),
-      likedPosts: userPersistenceModel.likedPosts.map(like => {
+      likedPosts: userPersistenceModel.likedPosts?.map(like => {
         return LikePostMapper.toDomain(like);
       }),
-      likedComments: userPersistenceModel.likedComments.map(like =>
+      likedComments: userPersistenceModel.likedComments?.map(like =>
         LikeCommentMapper.toDomain(like),
       ),
       equals: (user: User) => user.id === id,
@@ -40,11 +40,11 @@ class UserMapper {
       deletedBy: userPersistenceModel.id,
       isPasswordMatched: (password: string) =>
         userPersistenceModel.hashedPassword === password,
-      posts: userPersistenceModel.posts.map(post => PostMapper.toDomain(post)),
-      replies: userPersistenceModel.replies.map(reply =>
+      posts: userPersistenceModel.posts?.map(post => PostMapper.toDomain(post)),
+      replies: userPersistenceModel.replies?.map(reply =>
         ReplyMapper.toDomain(reply),
       ),
-      likedReplies: userPersistenceModel.likedReplies.map(like =>
+      likedReplies: userPersistenceModel.likedReplies?.map(like =>
         LikeReplyMapper.toDomain(like),
       ),
     };
