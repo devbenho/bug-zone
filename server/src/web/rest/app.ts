@@ -14,11 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 appDataSource
   .initialize()
   .then(() => {
-    // LOGGER.info(appDataSource.subscribers);
-    // log the loaded entities
-    LOGGER.info('Loaded entities');
-    LOGGER.info(appDataSource.entityMetadatas.length);
-    LOGGER.info(appDataSource.subscribers.length);
     LOGGER.info('Data source initialized');
   })
   .catch(err => {
