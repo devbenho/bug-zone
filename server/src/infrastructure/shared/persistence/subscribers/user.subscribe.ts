@@ -12,8 +12,8 @@ export class UserSubscriber implements EntitySubscriberInterface {
   }
 
   async beforeInsert(event: InsertEvent<UserPersistence>) {
-    const { hashedPassword } = event.entity;
-    const hash = await bcrypt.hash(hashedPassword, 10);
-    event.entity.hashedPassword = hash;
+    const { hashedPassword: password } = event.entity;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    event.entity.hashedPassword = hashedPassword;
   }
 }

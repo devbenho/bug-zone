@@ -1,33 +1,39 @@
 import { UseCaseRequest } from '@application/shared';
 import { TriggeredBy } from '@domain/shared/entities';
+import { InvalidParameterException } from '@domain/shared/exceptions';
 
-class AuthRequestDto extends UseCaseRequest {
-  protected validatePayload(): void {
-    if (!this.login || !this.password) {
-      throw new Error('Invalid request');
-    }
-  }
+class AuthRequest extends UseCaseRequest {
+  readonly triggeredBy: TriggeredBy;
+  readonly login: string;
+  readonly password: string;
+
   private constructor(
-    public triggeredBy: TriggeredBy,
-    public login: string,
-    public password: string,
+    triggeredBy: TriggeredBy,
+    login: string,
+    password: string,
   ) {
     super(triggeredBy);
-  }
-  validate(): void {
-    if (this.triggeredBy === null) {
-      throw new Error(`The usecase should be triggered by a user`);
-    }
-    this.validatePayload();
+    this.login = login;
+    this.password = password;
   }
 
   public static create(
     triggeredBy: TriggeredBy,
     login: string,
     password: string,
-  ): AuthRequestDto {
-    return new AuthRequestDto(triggeredBy, login, password);
+  ): AuthRequest {
+    return new AuthRequest(triggeredBy, login, password);
+  }
+
+  protected validatePayload(): void {
+    if (this.login == null) {
+      throw new InvalidParameterException('Username must be provided');
+    }
+
+    if (this.password == null) {
+      throw new InvalidParameterException('Password must be provided');
+    }
   }
 }
 
-export { AuthRequestDto };
+export { AuthRequest };
