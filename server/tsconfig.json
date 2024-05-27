@@ -1,8 +1,6 @@
 {
   "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   },
   "compilerOptions": {
     "target": "ES6",
@@ -11,48 +9,27 @@
     "esModuleInterop": true,
     "outDir": "./dist",
     "skipLibCheck": true,
-    "rootDirs": [
-      "."
-    ],
+    "rootDirs": ["."],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "baseUrl": "./",
-    "types": [
-      "reflect-metadata"
-    ],
+    "types": ["reflect-metadata"],
     "paths": {
-      "@application/*": [
-        "src/application/*"
-      ],
-      "@domain/*": [
-        "src/domain/*"
-      ],
-      "@contracts/*": [
-        "src/contracts/*"
-      ],
-      "@dtos/*": [
-        "src/contracts/dtos/*"
-      ],
-      "@infrastructure/*": [
-        "src/infrastructure/*"
-      ],
-      "@presentation/*": [
-        "src/presentation/*"
-      ],
-      "@test/*": [
-        "test/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
+      "@application/*": ["src/application/*"],
+      "@domain/*": ["src/domain/*"],
+      "@contracts/*": ["src/contracts/*"],
+      "@dtos/*": ["src/contracts/dtos/*"],
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@web/*": ["src/web/*"],
+      "@test/*": ["test/*"],
+      "@/*": ["src/*"]
     }
   },
   "include": [
     "**/*.ts",
     "src/datasource/repositories/knex/user.repo.knex.ts.off"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
+
