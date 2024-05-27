@@ -5,32 +5,27 @@ import { TriggeredBy } from '@domain/shared/entities/triggered-by';
 
 class FindAllPostRequest extends UseCaseRequest {
 
-  readonly postId: string;
   readonly pageSize: number;
   readonly pageNumber: number;
 
   // Constructor Section
   constructor(
     triggeredBy: TriggeredBy,
-    postId: string,
-    pageSize: number,
-    pageNumber: number,
+    pageSize: number = 5,
+    pageNumber: number = 10,
   ) {
     super(triggeredBy);
-    this.postId = postId;
     this.pageSize = pageSize;
     this.pageNumber = pageNumber;
   }
 
   public static create(
     triggeredBy: TriggeredBy,
-    postId: string,
     pageSize: number,
     pageNumber: number,
   ): FindAllPostRequest {
     return new FindAllPostRequest(
       triggeredBy,
-      postId,
       pageSize,
       pageNumber,
     );
@@ -38,6 +33,13 @@ class FindAllPostRequest extends UseCaseRequest {
 
   // Validate here using EnsureClass
   protected validatePayload(): void {
+    if (this.pageSize <= 0) {
+      throw new Error('Page size must be greater than 0');
+    }
+
+    if (this.pageNumber <= 0) {
+      throw new Error('Page number must be greater than 0');
+    }
   }
 }
 
