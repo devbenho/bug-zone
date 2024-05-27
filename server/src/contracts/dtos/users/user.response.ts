@@ -8,7 +8,7 @@ export class UserResponseDto {
     public username: string,
     public email: string,
     public pictureProfile?: string,
-  ) { }
+  ) {}
 
   public static fromEntity(entity: User): UserResponseDto {
     return new UserResponseDto(

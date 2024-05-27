@@ -22,9 +22,11 @@ class CreatePostUseCase extends BaseUseCase<
   ): Promise<PostDetailsResponseDto> {
     const post = CreatePostRequest.toEntity(request);
     const createdPost = await this._postRepository.createPost(post);
+    LOGGER.info('Post created successfully');
     if (createdPost) {
       return PostDetailsResponseDto.fromEntity(createdPost);
     }
+
     return {} as PostDetailsResponseDto;
   }
 }

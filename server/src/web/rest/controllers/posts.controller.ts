@@ -6,10 +6,13 @@ import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
 import { ExpressHandler } from '../infrastucture/express-handler';
 import BaseController from './base.controller';
-import { LOGGER } from '../logger';
 import { POST_STATUS } from '@domain/eums/post-status.enum';
+<<<<<<< HEAD
 import { FindAllPostRequest } from '@application/post/find-all/find-all-post.request';
 import { PostResponseDto } from '@contracts/dtos/posts';
+=======
+import { log } from 'console';
+>>>>>>> 9816199 (Post creation works (User mapping bug))
 
 @injectable()
 export class PostsController implements BaseController {
@@ -36,7 +39,6 @@ export class PostsController implements BaseController {
 
   public create: ExpressHandler<CreatePostRequest, CreatePostResponseDto> =
     async (req, res) => {
-      LOGGER.info('PostsController.create');
       const { title, content } = req.body;
       if (!title || !content) {
         return res.status(400).json({});

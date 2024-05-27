@@ -3,7 +3,6 @@ import { Container } from 'inversify';
 import { TYPES } from './types';
 import { JwtService } from '@infrastructure/shared/jwt/jwt.service.impl';
 import { UserMapper, UserRepository } from '@infrastructure/users';
-
 import { HasherService } from '@infrastructure/shared/hasher/hasher.service';
 import { AuthController } from '@/web/rest/controllers';
 import ApplicationRouter from '@/web/rest/routes';
@@ -17,7 +16,8 @@ import { CreatePostUseCase } from '@application/post';
 import { FindAllPostUseCase } from '@application/post/find-all/find-all-post.usecase';
 
 const container = new Container();
-// Bind the extrernal dependencies
+
+// Bind the external dependencies
 container.bind(TYPES.IJwtService).to(JwtService);
 container.bind(TYPES.IHasherService).to(HasherService);
 container.bind(TYPES.IUserMapper).to(UserMapper);
@@ -29,7 +29,6 @@ container.bind(TYPES.IPostRepository).to(PostRepository);
 // Inject input ports
 container.bind(TYPES.ILoginInputPort).to(LoginUseCase);
 container.bind(TYPES.IRegisterInputPort).to(RegisterUsecase);
-
 container.bind(TYPES.ICreatePostInputPort).to(CreatePostUseCase);
 container.bind(TYPES.IFindAllPostInputPort).to(FindAllPostUseCase);
 
@@ -40,7 +39,7 @@ container.bind(TYPES.IPostController).to(PostsController);
 // Bind ApplicationRouter
 container.bind<ApplicationRouter>(ApplicationRouter).to(ApplicationRouter);
 
-// bind the datastore
+// Bind the datastore
 container.bind<DataSource>(DataSource).toConstantValue(appDataSource);
 
 export { container };
