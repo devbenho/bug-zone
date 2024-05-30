@@ -14,6 +14,7 @@ import { appDataSource } from '@infrastructure/shared/persistence/data-source';
 import { PostsController } from '@/web/rest/controllers/posts.controller';
 import { PostRepository } from '@infrastructure/posts';
 import { CreatePostUseCase } from '@application/post';
+import { FindAllPostUseCase } from '@application/post/find-all/find-all-post.usecase';
 
 const container = new Container();
 // Bind the extrernal dependencies
@@ -30,6 +31,7 @@ container.bind(TYPES.ILoginInputPort).to(LoginUseCase);
 container.bind(TYPES.IRegisterInputPort).to(RegisterUsecase);
 
 container.bind(TYPES.ICreatePostInputPort).to(CreatePostUseCase);
+container.bind(TYPES.IFindAllPostInputPort).to(FindAllPostUseCase);
 
 // Bind the controllers
 container.bind(TYPES.IAuthController).to(AuthController);
