@@ -1,99 +1,91 @@
 import { User } from '@domain/entities/user';
-import { UserPersistence } from './user.persistence';
-import { injectable } from 'inversify';
-import {
-  CommentMapper,
-  CommentPersistence,
-  LikeCommentMapper,
-  LikeReplyMapper,
-  PostMapper,
-  ReplyMapper,
-} from '..';
+import { UserPersistence } from '@infrastructure/users/user.persistence';
 import { LikePostMapper } from '@infrastructure/like-posts/like-post.mapper';
-@injectable()
+import { LikeCommentMapper } from '@infrastructure/like-comments/like-comment.mapper';
+import { LikeReplyMapper } from '@infrastructure/like-replies/like-reply.mapper';
+import { CommentMapper } from '@infrastructure/comments/comment.mapper';
+import { PostMapper } from '@infrastructure/posts/post.mapper';
+import { ReplyMapper } from '@infrastructure/replies/reply.mapper';
+
 class UserMapper {
-  public static toDomain(userPersistenceModel: UserPersistence): User {
-    const { id } = userPersistenceModel;
-    return {
-      id: userPersistenceModel.id,
-      firstName: userPersistenceModel.firstName,
-      lastName: userPersistenceModel.lastName,
-      email: userPersistenceModel.email,
-      username: userPersistenceModel.username,
-      password: userPersistenceModel.hashedPassword,
-      createdAt: userPersistenceModel.createdAt,
-      updatedAt: userPersistenceModel.updatedAt,
-      deletedAt: userPersistenceModel.deletedAt,
-      comments: userPersistenceModel.comments?.map(comment =>
-        CommentMapper.toDomain(comment),
-      ),
-      likedPosts: userPersistenceModel.likedPosts?.map(like => {
-        return LikePostMapper.toDomain(like);
-      }),
-      likedComments: userPersistenceModel.likedComments?.map(like =>
-        LikeCommentMapper.toDomain(like),
-      ),
-      equals: (user: User) => user.id === id,
-      role: userPersistenceModel.role,
-      createdBy: userPersistenceModel.id as string,
-      updatedBy: userPersistenceModel.id,
-      deletedBy: userPersistenceModel.id,
-      isPasswordMatched: (password: string) =>
-        userPersistenceModel.hashedPassword === password,
-      posts: userPersistenceModel.posts?.map(post => PostMapper.toDomain(post)),
-      replies: userPersistenceModel.replies?.map(reply =>
-        ReplyMapper.toDomain(reply),
-      ),
-      likedReplies: userPersistenceModel.likedReplies?.map(like =>
-        LikeReplyMapper.toDomain(like),
-      ),
-    };
+  static async toDomain(persistence: UserPersistence): Promise<User> {
+    const comments = await (persistence.comments ?? Promise.resolve([]));
+    const posts = await (persistence.posts ?? Promise.resolve([]));
+    const likedPosts = await (persistence.likedPosts ?? Promise.resolve([]));
+    const likedReplies = await (persistence.likedReplies ?? Promise.resolve([]));
+    const replies = await (persistence.replies ?? Promise.resolve([]));
+    const likedComments = await (persistence.likedComments ?? Promise.resolve([]));
+
+    return User.create(
+      persistence.id,
+      persistence.firstName,
+      persistence.lastName,
+      persistence.email,
+      persistence.username,
+      persistence.hashedPassword,
+      persistence.role,
+      persistence.createdAt,
+      persistence.id ?? '',
+      persistence.updatedAt,
+      persistence.id ?? '',
+      await Promise.all(comments.map(comment => CommentMapper.toDomain(comment))),
+      await Promise.all(likedComments.map(likeComment => LikeCommentMapper.toDomain(likeComment))),
+      await Promise.all(posts.map(post => PostMapper.toDomain(post)),),
+      await Promise.all(likedPosts.map(likePost => LikePostMapper.toDomain(likePost))),
+      await Promise.all(replies.map(reply => ReplyMapper.toDomain(reply))),
+      await Promise.all(likedReplies.map(likeReply => LikeReplyMapper.toDomain(likeReply))),
+    );
   }
 
-  public static toPersistence(user: User): UserPersistence {
+  static async toPersistence(domain: User): Promise<UserPersistence> {
     const userPersistence = new UserPersistence();
 
-    if (user.id != null) {
-      userPersistence.id = user.id;
-    }
+    userPersistence.id = domain.id;
+    userPersistence.username = domain.username;
+    userPersistence.email = domain.email;
+    userPersistence.firstName = domain.firstName;
+    userPersistence.lastName = domain.lastName;
+    userPersistence.hashedPassword = domain.password;
+    userPersistence.role = domain.role;
+    userPersistence.createdAt = domain.createdAt;
+    userPersistence.updatedAt = domain.updatedAt;
+    userPersistence.deletedAt = domain.deletedAt;
 
-    userPersistence.firstName = user.firstName;
+    userPersistence.likedPosts = Promise.resolve(
+      await Promise.all(
+        domain.likedPosts?.map(likePost => LikePostMapper.toPersistence(likePost)) ?? []
+      )
+    );
 
-    userPersistence.lastName = user.lastName;
+    userPersistence.replies = Promise.resolve(
+      await Promise.all(
+        domain.replies?.map(reply => ReplyMapper.toPersistence(reply)) ?? []
+      )
+    );
 
-    userPersistence.email = user.email;
+    userPersistence.comments = Promise.resolve(
+      await Promise.all(
+        domain.comments?.map(comment => CommentMapper.toPersistence(comment)) ?? []
+      )
+    );
 
-    userPersistence.username = user.username;
+    userPersistence.posts = Promise.resolve(
+      await Promise.all(
+        domain.posts?.map(post => PostMapper.toPersistence(post)) ?? []
+      )
+    );
 
-    userPersistence.hashedPassword = user.password;
+    userPersistence.likedComments = Promise.resolve(
+      await Promise.all(
+        domain.likedComments?.map(likeComment => LikeCommentMapper.toPersistence(likeComment)) ?? []
+      )
+    );
 
-    userPersistence.role = user.role;
-
-    userPersistence.createdAt = user.createdAt;
-
-    userPersistence.updatedAt = user.updatedAt;
-
-    userPersistence.deletedAt = user.deletedAt;
-
-    userPersistence.likedReplies =
-      user.likedReplies?.map(LikeReplyMapper.toPersistence) ?? [];
-
-    userPersistence.likedReplies =
-      user.likedReplies?.map(LikeReplyMapper.toPersistence) ?? [];
-
-    userPersistence.comments =
-      user.comments?.map(CommentMapper.toPersistence) ?? [];
-
-    userPersistence.likedPosts =
-      user.likedPosts?.map(LikePostMapper.toPersistence) ?? [];
-
-    userPersistence.likedComments =
-      user.likedComments?.map(LikeCommentMapper.toPersistence) ?? [];
-
-    userPersistence.posts = user.posts?.map(PostMapper.toPersistence) ?? [];
-
-    userPersistence.replies =
-      user.replies?.map(ReplyMapper.toPersistence) ?? [];
+    userPersistence.likedReplies = Promise.resolve(
+      await Promise.all(
+        domain.likedReplies?.map(likeReply => LikeReplyMapper.toPersistence(likeReply)) ?? []
+      )
+    );
 
     return userPersistence;
   }

@@ -1,16 +1,12 @@
-import {
-  DataSource,
-  DeleteResult,
-  FindOptionsWhere,
-  Repository,
-  UpdateResult,
-} from 'typeorm';
+import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { injectable } from 'inversify';
 import { Post } from '@domain/entities';
 import { IPostRepository } from '@domain/repositories/post.repository';
 import { PostPersistence } from './post.persistence';
 import { PostMapper } from './post.mapper';
+import { LOGGER } from '@/web/rest/logger';
+import { log } from 'console';
 
 @injectable()
 export class PostRepository implements IPostRepository {
@@ -25,7 +21,7 @@ export class PostRepository implements IPostRepository {
   }
 
   async createPost(post: Post): Promise<Post> {
-    const postPersistence = PostMapper.toPersistence(post);
+    const postPersistence = await PostMapper.toPersistence(post);
     const createdPost = await this._repository.save(postPersistence);
     return PostMapper.toDomain(createdPost);
   }
@@ -45,15 +41,15 @@ export class PostRepository implements IPostRepository {
       take: limit,
       skip: (page - 1) * limit,
     });
-    return posts.map(PostMapper.toDomain);
+
+    const postPromises = posts.map(post => PostMapper.toDomain(post));
+    return Promise.all(postPromises);
   }
 
   async findAll(limit: number, page: number): Promise<Post[]> {
-    const [posts, count] = await this._repository.findAndCount({
-      take: limit,
-      skip: (page - 1) * limit,
-    });
-    return posts.map(PostMapper.toDomain);
+    const [posts, count] = await this._repository.findAndCount();
+    const postPromises = posts.map(post => PostMapper.toDomain(post));
+    return Promise.all(postPromises);
   }
 
   async findByTitle(title: string): Promise<Post | null> {

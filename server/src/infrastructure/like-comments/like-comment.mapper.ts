@@ -4,13 +4,18 @@ import { LikeComment } from '@domain/entities/like-comment';
 import { CommentMapper } from '@infrastructure/comments/comment.mapper';
 
 class LikeCommentMapper {
-  static toDomain(likeCommentPer: LikeCommentPersistence): LikeComment {
+  static async toDomain(
+    likeCommentPer: LikeCommentPersistence,
+  ): Promise<LikeComment> {
+    const comment = await CommentMapper.toDomain(likeCommentPer.comment);
+    const user = await UserMapper.toDomain(likeCommentPer.user);
+
     return new LikeComment(
       likeCommentPer.id,
       likeCommentPer.commentId,
-      CommentMapper.toDomain(likeCommentPer.comment),
+      comment,
       likeCommentPer.userId,
-      UserMapper.toDomain(likeCommentPer.user),
+      user,
       likeCommentPer.createdAt,
       likeCommentPer.userId,
       likeCommentPer.updatedAt,
