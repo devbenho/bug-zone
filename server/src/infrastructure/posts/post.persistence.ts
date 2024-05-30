@@ -36,16 +36,16 @@ class PostPersistence {
   @Column()
   authorId: string;
 
-  @ManyToOne(() => UserPersistence, user => user.posts, { lazy: true })
+  @ManyToOne(() => UserPersistence, user => user.posts, { eager: true })
   author: UserPersistence;
 
   @OneToMany(() => CommentPersistence, comment => comment.post, { lazy: true })
-  comments: CommentPersistence[];
+  comments: Promise<CommentPersistence[]>;
 
   @OneToMany(() => LikePostPersistence, likePost => likePost.post, {
     lazy: true,
   })
-  likes: LikePostPersistence[];
+  likes: Promise<LikePostPersistence[]>;
 
   // add status column enum ['draft', 'published', 'deleted']
   @Column()
