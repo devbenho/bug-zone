@@ -1,4 +1,4 @@
-import { BaseUseCase, UseCase } from '@application/shared';
+import { BaseUseCase } from '@application/shared';
 import { CreatePostRequest } from './create-post.request';
 import { PostDetailsResponseDto } from '@contracts/dtos/posts';
 import { inject, injectable } from 'inversify';
