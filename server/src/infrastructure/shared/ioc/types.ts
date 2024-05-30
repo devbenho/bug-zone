@@ -6,6 +6,7 @@ let TYPES = {
   IRegisterInputPort: Symbol.for('IRegisterInputPort'),
 
   ICreatePostInputPort: Symbol.for('ICreatePostInputPort'),
+  IFindAllPostInputPort: Symbol.for('IFindAllPostInputPort'),
   ICreatePostOutputPort: Symbol.for('ICreatePostOutputPort'),
 
   ILoginOutputPort: Symbol.for('ILoginOutputPort'),

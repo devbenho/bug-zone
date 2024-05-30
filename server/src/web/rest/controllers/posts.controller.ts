@@ -8,6 +8,8 @@ import { ExpressHandler } from '../infrastucture/express-handler';
 import BaseController from './base.controller';
 import { LOGGER } from '../logger';
 import { POST_STATUS } from '@domain/eums/post-status.enum';
+import { FindAllPostRequest } from '@application/post/find-all/find-all-post.request';
+import { PostResponseDto } from '@contracts/dtos/posts';
 
 @injectable()
 export class PostsController implements BaseController {
@@ -15,14 +17,21 @@ export class PostsController implements BaseController {
     CreatePostRequest,
     CreatePostResponseDto
   >;
+  private _findAllPostUseCase: BaseUseCase<
+    FindAllPostRequest,
+    PostResponseDto[]
+  >;
   constructor(
     @inject(TYPES.ICreatePostInputPort)
     _createPostInteractor: BaseUseCase<
       CreatePostRequest,
       CreatePostResponseDto
     >,
+    @inject(TYPES.IFindAllPostInputPort)
+    _findAllPostInteractor: BaseUseCase<FindAllPostRequest, PostResponseDto[]>,
   ) {
     this._createPostUseCase = _createPostInteractor;
+    this._findAllPostUseCase = _findAllPostInteractor;
   }
 
   public create: ExpressHandler<CreatePostRequest, CreatePostResponseDto> =
@@ -44,5 +53,17 @@ export class PostsController implements BaseController {
       );
       const result = await this._createPostUseCase.execute(request);
       return res.json(result);
+    };
+
+  public findAll: ExpressHandler<FindAllPostRequest, PostResponseDto[]> =
+    async (req, res) => {
+      LOGGER.info('PostsController.findAll');
+      const request = FindAllPostRequest.create(
+        new TriggeredByUser(res.locals.userId, []),
+        req.query.pageSize || 10,
+        req.query.pageNumber || 1,
+      );
+      const result = await this._findAllPostUseCase.execute(request);
+      return result;
     };
 }

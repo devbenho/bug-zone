@@ -27,6 +27,7 @@ export default class ApplicationRouter {
     app.post('/auth/login', this.getController(this.authController, 'login'));
     app
       .use(AuthMiddleware.jwtParseMiddleware)
-      .post('/posts', this.getController(this.postsController, 'create'));
+      .post('/posts', this.getController(this.postsController, 'create'))
+      .get('/posts', this.getController(this.postsController, 'findAll'));
   }
 }
