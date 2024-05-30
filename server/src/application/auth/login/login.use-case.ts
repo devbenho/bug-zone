@@ -19,7 +19,6 @@ class LoginUseCase extends BaseUseCase<AuthRequestDto, AuthResponseDto> {
   public async performOperation(
     request: AuthRequestDto,
   ): Promise<AuthResponseDto> {
-    log('request login use case', request);
     const user =
       (await this._userRepository.findByEmail(request.login)) ||
       (await this._userRepository.findByUsername(request.login));
