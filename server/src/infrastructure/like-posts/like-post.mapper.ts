@@ -4,13 +4,15 @@ import { PostMapper } from '@infrastructure/posts/post.mapper';
 import { LikePostPersistence } from './like-post.persistence';
 
 class LikePostMapper {
-  static toDomain(likePostPer: LikePostPersistence): LikePost {
+  static async toDomain(likePostPer: LikePostPersistence): Promise<LikePost> {
+    const post = await PostMapper.toDomain(likePostPer.post);
+    const user = await UserMapper.toDomain(likePostPer.user);
     return new LikePost(
       likePostPer.id,
       likePostPer.postId,
-      PostMapper.toDomain(likePostPer.post),
+      post,
       likePostPer.userId,
-      UserMapper.toDomain(likePostPer.user),
+      user,
       likePostPer.createdAt,
       likePostPer.userId,
       likePostPer.updatedAt,
@@ -20,17 +22,10 @@ class LikePostMapper {
     );
   }
 
-  static toPersistence(likePost: LikePost): LikePostPersistence {
-    return {
-      id: likePost.id!,
-      createdAt: likePost.createdAt,
-      updatedAt: likePost.updatedAt!,
-      deletedAt: likePost.deletedAt!,
-      user: UserMapper.toPersistence(likePost.user),
-      post: PostMapper.toPersistence(likePost.post),
-      postId: likePost.postId,
-      userId: likePost.userId,
-    }
+  static toPersistence(likePost: LikePost): Promise<LikePostPersistence> {
+    const likePostPersistence = new LikePostPersistence();
+
+    return Promise.resolve(likePostPersistence);
   }
 }
 

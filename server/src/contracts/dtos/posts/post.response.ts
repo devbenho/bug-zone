@@ -1,7 +1,7 @@
 import { Nullable } from '@domain/shared/types';
 import { CommentResponseDto } from '@dtos/comments';
 import { UserResponseDto } from '@dtos/users';
-import { Comment, Post } from '@domain/entities';
+import { Post } from '@domain/entities';
 
 export class PostResponseDto {
   constructor(
@@ -12,7 +12,7 @@ export class PostResponseDto {
     public comments: CommentResponseDto[],
     public createdAt: Date,
     public lastModifiedAt: Nullable<Date>,
-  ) { }
+  ) {}
 
   public static async fromEntity(entity: Post): Promise<PostResponseDto> {
     return new PostResponseDto(
@@ -20,7 +20,7 @@ export class PostResponseDto {
       entity.title,
       entity.content,
       UserResponseDto.fromEntity(entity.author),
-      entity.comments ? (await entity.comments).map(CommentResponseDto.fromEntity) : [],
+      entity.comments ? entity.comments.map(CommentResponseDto.fromEntity) : [],
       entity.createdAt,
       entity.updatedAt,
     );

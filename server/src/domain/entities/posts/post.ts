@@ -12,14 +12,42 @@ class Post extends AuditableBaseEntity {
     public content: string,
     public authorId: string,
     public author: User,
-    public likes: Nullable<LikePost[]>,
-    public comments: Nullable<Comment[]>,
+    public likes: LikePost[],
+    public comments: Comment[],
     public status: POST_STATUS = POST_STATUS.DRAFT,
     public createdAt: Date,
     public updatedAt: Nullable<Date>,
     public deletedAt: Nullable<Date>,
   ) {
     super(id, createdAt, authorId, updatedAt, authorId, deletedAt, authorId);
+  }
+
+  public static create(
+    id: Nullable<string>,
+    title: string,
+    content: string,
+    authorId: string,
+    author: User,
+    likes: LikePost[],
+    comments: Comment[],
+    status: POST_STATUS,
+    createdAt: Date,
+    updatedAt: Nullable<Date>,
+    deletedAt: Nullable<Date>,
+  ) {
+    return new Post(
+      id,
+      title,
+      content,
+      authorId,
+      author,
+      likes,
+      comments,
+      status,
+      createdAt,
+      updatedAt,
+      deletedAt,
+    );
   }
 }
 

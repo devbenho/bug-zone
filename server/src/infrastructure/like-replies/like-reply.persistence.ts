@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ReplyPersistence } from '@infrastructure/replies/reply.persistence';
-import { BaseEntity } from '@infrastructure/shared/persistence/entities/base.persistence';
 import { Nullable } from '@domain/shared/types';
 
 @Entity()
@@ -36,9 +35,7 @@ class LikeReplyPersistence {
   replyId: string;
 
   @ManyToOne(() => ReplyPersistence, reply => reply.likes, { lazy: true })
-  reply: ReplyPersistence;
-
-
+  reply: Promise<ReplyPersistence>;
 }
 
 export { LikeReplyPersistence };

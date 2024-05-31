@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   PrimaryGeneratedColumn,
+  JoinTable,
 } from 'typeorm';
 import { CommentPersistence } from '@infrastructure/comments/';
 import { UserPersistence } from '@infrastructure/users';
@@ -36,16 +37,19 @@ class PostPersistence {
   @Column()
   authorId: string;
 
-  @ManyToOne(() => UserPersistence, user => user.posts, { lazy: true })
-  author: UserPersistence;
+  @ManyToOne(() => UserPersistence, user => user.posts)
+  @JoinTable()
+  author: Promise<UserPersistence>;
 
   @OneToMany(() => CommentPersistence, comment => comment.post, { lazy: true })
-  comments: CommentPersistence[];
+  @JoinTable()
+  comments: Promise<CommentPersistence[]>;
 
   @OneToMany(() => LikePostPersistence, likePost => likePost.post, {
     lazy: true,
   })
-  likes: LikePostPersistence[];
+  @JoinTable()
+  likes: Promise<LikePostPersistence[]>;
 
   // add status column enum ['draft', 'published', 'deleted']
   @Column()

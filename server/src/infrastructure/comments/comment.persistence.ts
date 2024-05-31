@@ -29,7 +29,7 @@ class CommentPersistence {
   deletedAt: Nullable<Date>;
 
   @Column()
-  userId: Nullable<string>;
+  userId: string;
 
   @ManyToOne(() => UserPersistence, user => user.comments, { lazy: true })
   user: UserPersistence;

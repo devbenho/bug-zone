@@ -1,4 +1,5 @@
 import { User } from '@domain/entities';
+import { Nullable } from '@domain/shared/types';
 
 export interface IUserRepository {
   saveUser(user: User): Promise<User>;
@@ -10,4 +11,5 @@ export interface IUserRepository {
   isEmailExists(payload: string): Promise<boolean>;
   isUsernameExists(payload: string): Promise<boolean>;
   updateUser(user: User): Promise<User>;
+  findById(id: string): Promise<Nullable<User>>;
 }

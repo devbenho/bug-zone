@@ -9,6 +9,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  JoinColumn,
+  JoinTable,
 } from 'typeorm';
 import { CommentPersistence } from '../comments/comment.persistence';
 import { PostPersistence } from '../posts/post.persistence';
@@ -53,33 +55,30 @@ class UserPersistence {
   @DeleteDateColumn({ nullable: true })
   public deletedAt: Nullable<Date>;
 
-  @OneToMany(
-    () => LikePostPersistence,
-    likePost => likePost.user /** {lazy: true,}*/,
-  )
-  public likedPosts: LikePostPersistence[];
+  @OneToMany(() => LikePostPersistence, likePost => likePost.user)
+  @JoinTable()
+  public likedPosts: Promise<LikePostPersistence[]>;
 
-  @OneToMany(() => ReplyPersistence, reply => reply.userId /** {lazy: true,}*/)
-  public replies: ReplyPersistence[];
+  @OneToMany(() => ReplyPersistence, reply => reply.user /** {lazy: true,}*/)
+  @JoinTable()
+  public replies: Promise<ReplyPersistence[]>;
 
-  @OneToMany(
-    () => CommentPersistence,
-    comment => comment.user /** {lazy: true,}*/,
-  )
-  public comments: CommentPersistence[];
+  @OneToMany(() => CommentPersistence, comment => comment.user)
+  @JoinTable()
+  public comments: Promise<CommentPersistence[]>;
 
-  @OneToMany(() => PostPersistence, post => post.author /** {lazy: true,}*/)
-  public posts: PostPersistence[];
+  @OneToMany(() => PostPersistence, post => post.author)
+  @JoinTable()
+  public posts: Promise<PostPersistence[]>;
 
   // add likeComment
-  @OneToMany(
-    () => LikeCommentPersistence,
-    likeComment => likeComment.user /** {lazy: true,}*/,
-  )
-  public likedComments: LikeCommentPersistence[];
+  @OneToMany(() => LikeCommentPersistence, likeComment => likeComment.user)
+  @JoinTable()
+  public likedComments: Promise<LikeCommentPersistence[]>;
 
-  @OneToMany(() => LikeReplyPersistence, likePost => likePost.user, {})
-  public likedReplies: LikeReplyPersistence[];
+  @OneToMany(() => LikeReplyPersistence, likePost => likePost.user)
+  @JoinTable()
+  public likedReplies: Promise<LikeReplyPersistence[]>;
 }
 
 export { UserPersistence };
