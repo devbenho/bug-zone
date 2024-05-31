@@ -5,7 +5,6 @@ import { Post } from '@domain/entities';
 import { IPostRepository } from '@domain/repositories/post.repository';
 import { PostPersistence } from './post.persistence';
 import { PostMapper } from './post.mapper';
-import { LOGGER } from '@/web/rest/logger';
 import { log } from 'console';
 
 @injectable()
@@ -23,7 +22,7 @@ export class PostRepository implements IPostRepository {
   async createPost(post: Post): Promise<Post> {
     const postPersistence = await PostMapper.toPersistence(post);
     const createdPost = await this._repository.save(postPersistence);
-    return PostMapper.toDomain(createdPost);
+    return PostMapper.toDomain(createdPost, { includeAuthor: true });
   }
 
   async findPostById(postId: string): Promise<Post | null> {
@@ -48,7 +47,9 @@ export class PostRepository implements IPostRepository {
 
   async findAll(limit: number, page: number): Promise<Post[]> {
     const [posts, count] = await this._repository.findAndCount();
-    const postPromises = posts.map(post => PostMapper.toDomain(post));
+    const postPromises = posts.map(post =>
+      PostMapper.toDomain(post, { includeAuthor: true }),
+    );
     return Promise.all(postPromises);
   }
 

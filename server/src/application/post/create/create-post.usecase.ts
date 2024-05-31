@@ -1,10 +1,11 @@
 import { BaseUseCase } from '@application/shared';
 import { CreatePostRequest } from './create-post.request';
-import { PostDetailsResponseDto } from '@contracts/dtos/posts';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@infrastructure/shared/ioc/types';
 import { IPostRepository } from '@domain/repositories/post.repository';
 import { LOGGER } from '@/web/rest/logger';
+import { PostDetailsResponseDto } from '@contracts/dtos/posts/post-details.response';
+import { log } from 'console';
 
 @injectable()
 class CreatePostUseCase extends BaseUseCase<
@@ -20,8 +21,14 @@ class CreatePostUseCase extends BaseUseCase<
   public async performOperation(
     request: CreatePostRequest,
   ): Promise<PostDetailsResponseDto> {
+    LOGGER.info('CreatePostUseCase.performOperation');
     const post = CreatePostRequest.toEntity(request);
+    LOGGER.info(
+      'mapped post is kjkhkhkhfkldhskjhdfksjahjdshajkhfdjskahfsdhjksah',
+      post.toString(),
+    );
     const createdPost = await this._postRepository.createPost(post);
+    log('created post is', createdPost);
     if (createdPost) {
       return PostDetailsResponseDto.fromEntity(createdPost);
     }

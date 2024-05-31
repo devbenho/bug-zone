@@ -6,15 +6,31 @@ import { LikeReplyMapper } from '@infrastructure/like-replies/like-reply.mapper'
 import { CommentMapper } from '@infrastructure/comments/comment.mapper';
 import { PostMapper } from '@infrastructure/posts/post.mapper';
 import { ReplyMapper } from '@infrastructure/replies/reply.mapper';
+import { MapperConfig } from '@infrastructure/shared/persistence/mapper.config';
 
 class UserMapper {
-  static async toDomain(persistence: UserPersistence): Promise<User> {
-    const comments = await (persistence.comments ?? Promise.resolve([]));
-    const posts = await (persistence.posts ?? Promise.resolve([]));
-    const likedPosts = await (persistence.likedPosts ?? Promise.resolve([]));
-    const likedReplies = await (persistence.likedReplies ?? Promise.resolve([]));
-    const replies = await (persistence.replies ?? Promise.resolve([]));
-    const likedComments = await (persistence.likedComments ?? Promise.resolve([]));
+  static async toDomain(
+    persistence: UserPersistence,
+    config: MapperConfig = {},
+  ): Promise<User> {
+    const comments = config.includeComments
+      ? await (persistence.comments ?? Promise.resolve([]))
+      : [];
+    const posts = config.includePosts
+      ? await (persistence.posts ?? Promise.resolve([]))
+      : [];
+    const likedPosts = config.includeLikedPosts
+      ? await (persistence.likedPosts ?? Promise.resolve([]))
+      : [];
+    const likedReplies = config.includeLikedReplies
+      ? await (persistence.likedReplies ?? Promise.resolve([]))
+      : [];
+    const replies = config.includeReplies
+      ? await (persistence.replies ?? Promise.resolve([]))
+      : [];
+    const likedComments = config.includeLikedComments
+      ? await (persistence.likedComments ?? Promise.resolve([]))
+      : [];
 
     return User.create(
       persistence.id,
@@ -28,19 +44,34 @@ class UserMapper {
       persistence.id ?? '',
       persistence.updatedAt,
       persistence.id ?? '',
-      await Promise.all(comments.map(comment => CommentMapper.toDomain(comment))),
-      await Promise.all(likedComments.map(likeComment => LikeCommentMapper.toDomain(likeComment))),
-      await Promise.all(posts.map(post => PostMapper.toDomain(post)),),
-      await Promise.all(likedPosts.map(likePost => LikePostMapper.toDomain(likePost))),
+      await Promise.all(
+        comments.map(comment => CommentMapper.toDomain(comment)),
+      ),
+      await Promise.all(
+        likedComments.map(likeComment =>
+          LikeCommentMapper.toDomain(likeComment),
+        ),
+      ),
+      await Promise.all(posts.map(post => PostMapper.toDomain(post))),
+      await Promise.all(
+        likedPosts.map(likePost => LikePostMapper.toDomain(likePost)),
+      ),
       await Promise.all(replies.map(reply => ReplyMapper.toDomain(reply))),
-      await Promise.all(likedReplies.map(likeReply => LikeReplyMapper.toDomain(likeReply))),
+      await Promise.all(
+        likedReplies.map(likeReply => LikeReplyMapper.toDomain(likeReply)),
+      ),
     );
   }
 
-  static async toPersistence(domain: User): Promise<UserPersistence> {
+  static async toPersistence(
+    domain: User,
+    config: MapperConfig = {},
+  ): Promise<UserPersistence> {
     const userPersistence = new UserPersistence();
 
-    userPersistence.id = domain.id;
+    if (domain.id) {
+      userPersistence.id = domain.id;
+    }
     userPersistence.username = domain.username;
     userPersistence.email = domain.email;
     userPersistence.firstName = domain.firstName;
@@ -51,41 +82,61 @@ class UserMapper {
     userPersistence.updatedAt = domain.updatedAt;
     userPersistence.deletedAt = domain.deletedAt;
 
-    userPersistence.likedPosts = Promise.resolve(
-      await Promise.all(
-        domain.likedPosts?.map(likePost => LikePostMapper.toPersistence(likePost)) ?? []
-      )
-    );
+    if (config.includeLikedPosts) {
+      userPersistence.likedPosts = Promise.resolve(
+        await Promise.all(
+          domain.likedPosts?.map(likePost =>
+            LikePostMapper.toPersistence(likePost),
+          ) ?? [],
+        ),
+      );
+    }
 
-    userPersistence.replies = Promise.resolve(
-      await Promise.all(
-        domain.replies?.map(reply => ReplyMapper.toPersistence(reply)) ?? []
-      )
-    );
+    if (config.includeReplies) {
+      userPersistence.replies = Promise.resolve(
+        await Promise.all(
+          domain.replies?.map(reply => ReplyMapper.toPersistence(reply)) ?? [],
+        ),
+      );
+    }
 
-    userPersistence.comments = Promise.resolve(
-      await Promise.all(
-        domain.comments?.map(comment => CommentMapper.toPersistence(comment)) ?? []
-      )
-    );
+    if (config.includeComments) {
+      userPersistence.comments = Promise.resolve(
+        await Promise.all(
+          domain.comments?.map(comment =>
+            CommentMapper.toPersistence(comment),
+          ) ?? [],
+        ),
+      );
+    }
 
-    userPersistence.posts = Promise.resolve(
-      await Promise.all(
-        domain.posts?.map(post => PostMapper.toPersistence(post)) ?? []
-      )
-    );
+    if (config.includePosts) {
+      userPersistence.posts = Promise.resolve(
+        await Promise.all(
+          domain.posts?.map(post => PostMapper.toPersistence(post)) ?? [],
+        ),
+      );
+    }
 
-    userPersistence.likedComments = Promise.resolve(
-      await Promise.all(
-        domain.likedComments?.map(likeComment => LikeCommentMapper.toPersistence(likeComment)) ?? []
-      )
-    );
+    if (config.includeLikedComments) {
+      userPersistence.likedComments = Promise.resolve(
+        await Promise.all(
+          domain.likedComments?.map(likeComment =>
+            LikeCommentMapper.toPersistence(likeComment),
+          ) ?? [],
+        ),
+      );
+    }
 
-    userPersistence.likedReplies = Promise.resolve(
-      await Promise.all(
-        domain.likedReplies?.map(likeReply => LikeReplyMapper.toPersistence(likeReply)) ?? []
-      )
-    );
+    if (config.includeLikedReplies) {
+      userPersistence.likedReplies = Promise.resolve(
+        await Promise.all(
+          domain.likedReplies?.map(likeReply =>
+            LikeReplyMapper.toPersistence(likeReply),
+          ) ?? [],
+        ),
+      );
+    }
 
     return userPersistence;
   }
