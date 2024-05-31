@@ -1,7 +1,13 @@
 {
-  "name": "backend",
+  "name": "Bug-Zone Api",
+  "description": "Application to manage bugs in a project",
+  "author": {
+    "name": "Benho",
+    "email": "Name",
+    "url": "url",
+    },
+
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon src/web/rest/app.ts",
@@ -10,7 +16,6 @@
     "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "@tsed/ajv": "^7.62.2",

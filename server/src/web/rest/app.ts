@@ -7,10 +7,15 @@ import 'reflect-metadata';
 import { LOGGER } from './logger';
 import { errorHandlerMiddleware } from './middlewares/error.mw';
 import ApplicationRouter from './routes';
+
 const app = express();
+
 dotenv.config();
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
+
 appDataSource
   .initialize()
   .then(() => {

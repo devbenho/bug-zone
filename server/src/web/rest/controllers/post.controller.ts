@@ -1,6 +1,6 @@
 import { CreatePostCommandFf } from '@application/posts/create';
 import { CommandBus } from '@nestjs/cqrs';
-import { ExpressHandler } from '../infrastucture/express-handler';
+import { ExpressHandler } from '../infrastructure/express-handler';
 import { CreatePostRequestDto } from '../dtos/requests';
 import { CreatePostResponseDto } from '../dtos/responses';
 

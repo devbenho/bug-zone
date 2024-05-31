@@ -23,7 +23,8 @@
       "@infrastructure/*": ["src/infrastructure/*"],
       "@web/*": ["src/web/*"],
       "@test/*": ["test/*"],
-      "@/*": ["src/*"]
+      "@log": ["log/"],
+      "@/*": ["src/*"],
     }
   },
   "include": [

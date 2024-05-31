@@ -4,7 +4,7 @@ import { Application } from 'express';
 import { inject, injectable } from 'inversify';
 import { AuthController } from './controllers/auth.controller';
 import BaseController from './controllers/base.controller';
-import asyncWrapper from './infrastucture/async-wrapper';
+import asyncWrapper from './infrastructure/async-wrapper';
 
 @injectable()
 export default class ApplicationRouter {
