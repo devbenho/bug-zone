@@ -2,8 +2,6 @@ import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { LikeCommentPersistence } from './like-comment.persistence';
 import { LikeComment } from '@domain/entities/like-comment';
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments/';
-import { User } from '@domain/entities/user';
-import { Comment } from '@domain/entities/comment';
 
 class LikeCommentMapper {
   static toDomain(
@@ -13,19 +11,19 @@ class LikeCommentMapper {
       user?: UserPersistence;
     },
   ): LikeComment {
-    const comment = lazyEntities?.comment
+    const domainComment = lazyEntities?.comment
       ? CommentMapper.toDomain(lazyEntities.comment)
-      : CommentMapper.toDomain(likeCommentPer.comment);
-    const user = lazyEntities?.user
+      : null;
+    const domainAuthor = lazyEntities?.user
       ? UserMapper.toDomain(lazyEntities.user)
-      : UserMapper.toDomain(likeCommentPer.user);
+      : null;
 
     return new LikeComment(
       likeCommentPer.id,
       likeCommentPer.commentId,
-      comment,
+      domainComment,
       likeCommentPer.userId,
-      user,
+      domainAuthor,
       likeCommentPer.createdAt,
       likeCommentPer.userId,
       likeCommentPer.updatedAt,
@@ -35,12 +33,10 @@ class LikeCommentMapper {
     );
   }
 
-  static async toPersistence(
-    likeComment: LikeComment,
-  ): Promise<LikeCommentPersistence> {
+  static toPersistence(likeComment: LikeComment): LikeCommentPersistence {
     const likeCommentPersistence = new LikeCommentPersistence();
 
-    if (likeComment.id != null) {
+    if (likeComment.id) {
       likeCommentPersistence.id = likeComment.id;
     }
     likeCommentPersistence.commentId = likeComment.commentId;
@@ -48,6 +44,17 @@ class LikeCommentMapper {
     likeCommentPersistence.createdAt = likeComment.createdAt;
     likeCommentPersistence.deletedAt = likeComment.deletedAt;
 
+    if (likeComment.user) {
+      likeCommentPersistence.user = Promise.resolve(
+        UserMapper.toPersistence(likeComment.user),
+      );
+    }
+
+    if (likeComment.comment) {
+      likeCommentPersistence.comment = Promise.resolve(
+        CommentMapper.toPersistence(likeComment.comment),
+      );
+    }
     return likeCommentPersistence;
   }
 }

@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -29,13 +30,15 @@ class LikeCommentPersistence {
   userId: string;
 
   @ManyToOne(() => UserPersistence, user => user.likedComments)
-  user: UserPersistence;
+  @JoinTable()
+  user: Promise<UserPersistence>;
 
   @Column()
   commentId: string;
 
   @ManyToOne(() => CommentPersistence, comment => comment.likes, { lazy: true })
-  comment: CommentPersistence;
+  @JoinTable()
+  comment: Promise<CommentPersistence>;
 }
 
 export { LikeCommentPersistence };

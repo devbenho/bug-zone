@@ -7,9 +7,9 @@ class LikeComment extends AuditableBaseEntity {
   constructor(
     public id: Nullable<string>,
     public commentId: string,
-    public comment: Comment,
+    public comment: Nullable<Comment>,
     public userId: string,
-    public user: User,
+    public user: Nullable<User>,
     public createdAt: Date,
     public createdBy: string,
     public updatedAt: Nullable<Date>,
