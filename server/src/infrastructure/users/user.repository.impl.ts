@@ -43,13 +43,13 @@ class UserRepository implements IUserRepository {
   }
 
   async saveUser(user: User): Promise<User> {
-    const persistence = await UserMapper.toPersistence(user);
+    const persistence = UserMapper.toPersistence(user);
     const savedUser = await this._repository.save(persistence);
     return UserMapper.toDomain(savedUser);
   }
 
   async updateUser(user: User): Promise<User> {
-    const persistence = await UserMapper.toPersistence(user);
+    const persistence = UserMapper.toPersistence(user);
     const updatedUser = await this._repository.save(persistence);
     return UserMapper.toDomain(updatedUser);
   }

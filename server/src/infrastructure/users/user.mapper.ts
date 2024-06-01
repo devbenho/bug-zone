@@ -15,8 +15,6 @@ import {
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments/';
 import { PostMapper, PostPersistence } from '@infrastructure/posts/';
 import { ReplyMapper, ReplyPersistence } from '@infrastructure/replies/';
-import { Comment, LikePost, LikeReply, Post, Reply } from '@domain/entities';
-import { LikeComment } from '@domain/entities/like-comment';
 
 class UserMapper {
   static toDomain(
@@ -30,12 +28,29 @@ class UserMapper {
       likedReplies?: LikeReplyPersistence[];
     },
   ): User {
-    const comments = lazyEntities?.comments ?? [];
-    const likedComments = lazyEntities?.likedComments ?? [];
-    const posts = lazyEntities?.posts ?? [];
-    const likedPosts = lazyEntities?.likedPosts ?? [];
-    const replies = lazyEntities?.replies ?? [];
-    const likedReplies = lazyEntities?.likedReplies ?? [];
+    const domainComments = (lazyEntities?.comments ?? []).map(comment =>
+      CommentMapper.toDomain(comment),
+    );
+
+    const domainLikedComments = (lazyEntities?.likedComments ?? []).map(
+      likeComment => LikeCommentMapper.toDomain(likeComment),
+    );
+
+    const domainPosts = (lazyEntities?.posts ?? []).map(post =>
+      PostMapper.toDomain(post),
+    );
+
+    const domainLikedPosts = (lazyEntities?.likedPosts ?? []).map(likePost =>
+      LikePostMapper.toDomain(likePost),
+    );
+
+    const domainReplies = (lazyEntities?.replies ?? []).map(reply =>
+      ReplyMapper.toDomain(reply),
+    );
+
+    const domainLikedReplies = (lazyEntities?.likedReplies ?? []).map(
+      likeReply => LikeReplyMapper.toDomain(likeReply),
+    );
 
     return User.create(
       persistence.id,
@@ -50,68 +65,69 @@ class UserMapper {
       persistence.updatedAt,
       persistence.id ?? '',
 
-      comments.map(comment => CommentMapper.toDomain(comment)),
-      likedComments.map(likeComment => LikeCommentMapper.toDomain(likeComment)),
-      posts.map(post => PostMapper.toDomain(post)),
-      likedPosts.map(likePost => LikePostMapper.toDomain(likePost)),
-      replies.map(reply => ReplyMapper.toDomain(reply)),
-      likedReplies.map(likeReply => LikeReplyMapper.toDomain(likeReply)),
+      domainComments,
+      domainLikedComments,
+      domainPosts,
+      domainLikedPosts,
+      domainReplies,
+      domainLikedReplies,
     );
   }
 
-  static toPersistence(
-    domain: User,
-    domainEntities?: {
-      comments?: Comment[];
-      likedComments?: LikeComment[];
-      posts?: Post[];
-      likedPosts?: LikePost[];
-      replies?: Reply[];
-      likedReplies?: LikeReply[];
-    },
-  ): Promise<UserPersistence> {
+  static toPersistence(domainUser: User): UserPersistence {
     const userPersistence = new UserPersistence();
 
-    if (domain.id) {
-      userPersistence.id = domain.id;
+    if (domainUser.id) {
+      userPersistence.id = domainUser.id;
     }
-    userPersistence.username = domain.username;
-    userPersistence.email = domain.email;
-    userPersistence.firstName = domain.firstName;
-    userPersistence.lastName = domain.lastName;
-    userPersistence.hashedPassword = domain.password;
-    userPersistence.role = domain.role;
-    userPersistence.createdAt = domain.createdAt;
-    userPersistence.updatedAt = domain.updatedAt;
-    userPersistence.deletedAt = domain.deletedAt;
+    userPersistence.username = domainUser.username;
+    userPersistence.email = domainUser.email;
+    userPersistence.firstName = domainUser.firstName;
+    userPersistence.lastName = domainUser.lastName;
+    userPersistence.hashedPassword = domainUser.password;
+    userPersistence.role = domainUser.role;
+    userPersistence.createdAt = domainUser.createdAt;
+    userPersistence.updatedAt = domainUser.updatedAt;
+    userPersistence.deletedAt = domainUser.deletedAt;
 
-    userPersistence.comments = domainEntities?.comments
-      ? Promise.all(domainEntities.comments.map(comment => CommentMapper.toPersistence(comment)))
-      : Promise.resolve([]);
+    if (domainUser.posts) {
+      userPersistence.posts = Promise.all(
+        domainUser.posts.map(PostMapper.toPersistence),
+      );
+    }
 
-    userPersistence.likedComments = domainEntities?.likedComments
-      ? Promise.all(domainEntities.likedComments.map(likeComment => LikeCommentMapper.toPersistence(likeComment)))
-      : Promise.resolve([]);
+    if (domainUser.likedPosts) {
+      userPersistence.likedPosts = Promise.all(
+        domainUser.likedPosts.map(LikePostMapper.toPersistence),
+      );
+    }
 
-    userPersistence.posts = domainEntities?.posts
-      ? Promise.all(domainEntities.posts.map(post => PostMapper.toPersistence(post)))
-      : Promise.resolve([]);
+    if (domainUser.comments) {
+      userPersistence.comments = Promise.all(
+        domainUser.comments.map(CommentMapper.toPersistence),
+      );
+    }
 
-    userPersistence.likedPosts = domainEntities?.likedPosts
-      ? Promise.all(domainEntities.likedPosts.map(likePost => LikePostMapper.toPersistence(likePost)))
-      : Promise.resolve([]);
+    if (domainUser.likedComments) {
+      userPersistence.likedComments = Promise.all(
+        domainUser.likedComments.map(LikeCommentMapper.toPersistence),
+      );
+    }
 
-    userPersistence.replies = domainEntities?.replies
-      ? Promise.all(domainEntities.replies.map(reply => ReplyMapper.toPersistence(reply)))
-      : Promise.resolve([]);
+    if (domainUser.replies) {
+      userPersistence.replies = Promise.all(
+        domainUser.replies.map(ReplyMapper.toPersistence),
+      );
+    }
 
-    userPersistence.likedReplies = domainEntities?.likedReplies
-      ? Promise.all(domainEntities.likedReplies.map(likeReply => LikeReplyMapper.toPersistence(likeReply)))
-      : Promise.resolve([]);
+    if (domainUser.likedReplies) {
+      userPersistence.likedReplies = Promise.all(
+        domainUser.likedReplies.map(LikeReplyMapper.toPersistence),
+      );
+    }
 
-    return Promise.resolve(userPersistence);
+    return userPersistence;
   }
-
 }
 
 export { UserMapper };
