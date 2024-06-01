@@ -1,6 +1,6 @@
 import { PostPersistence } from '@infrastructure/posts';
 import { POST_STATUS } from '@domain/eums/post-status.enum';
-import { Comment, LikePost, Post, User } from '@domain/entities';
+import { Post } from '@domain/entities';
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments';
 import {
@@ -17,60 +17,66 @@ class PostMapper {
       comments?: CommentPersistence[];
     },
   ): Post {
-    const author = lazyEntities?.author;
-    const likes = lazyEntities?.likes ?? [];
-    const comments = lazyEntities?.comments ?? [];
+    const domainAuthor = lazyEntities?.author
+      ? UserMapper.toDomain(lazyEntities.author)
+      : null;
+
+    const domainLikes = (lazyEntities?.likes ?? []).map(like =>
+      LikePostMapper.toDomain(like),
+    );
+    const domainComments = (lazyEntities?.comments ?? []).map(comment =>
+      CommentMapper.toDomain(comment),
+    );
+    const postStatus =
+      POST_STATUS[persistence.status.toUpperCase() as keyof typeof POST_STATUS];
 
     return Post.create(
       persistence.id,
       persistence.title,
       persistence.content,
       persistence.authorId,
-      author as any,
-      likes.map(like => LikePostMapper.toDomain(like)),
-      comments.map(comment => CommentMapper.toDomain(comment)),
-      POST_STATUS[persistence.status.toUpperCase() as keyof typeof POST_STATUS],
+      domainAuthor,
+      domainLikes,
+      domainComments,
+      postStatus,
       persistence.createdAt,
       persistence.updatedAt,
       persistence.deletedAt,
     );
   }
 
-  public static toPersistence(
-    domain: Post,
-    domainEntities?: {
-      author?: User;
-      likes?: LikePost[];
-      comments?: Comment[];
-    },
-  ): Promise<PostPersistence> {
+  public static toPersistence(domainPost: Post): PostPersistence {
     const postPersistence = new PostPersistence();
 
-    if (domain.id) {
-      postPersistence.id = domain.id;
+    if (domainPost.id) {
+      postPersistence.id = domainPost.id;
     }
-    postPersistence.title = domain.title;
-    postPersistence.content = domain.content;
-    postPersistence.authorId = domain.authorId;
 
-    postPersistence.status = domain.status.toLowerCase();
-    postPersistence.createdAt = domain.createdAt;
-    postPersistence.deletedAt = domain.deletedAt;
+    postPersistence.title = domainPost.title;
+    postPersistence.content = domainPost.content;
+    postPersistence.authorId = domainPost.authorId;
 
-    if (domainEntities?.author) {
-      postPersistence.author = UserMapper.toPersistence(domainEntities.author);
-    }
-    postPersistence.likes = domainEntities?.likes
-      ? Promise.all(domainEntities.likes.map(like => LikePostMapper.toPersistence(like)))
-      : Promise.resolve([]);
+    postPersistence.status = domainPost.status.toLowerCase(); //TODO: Refactor this
+    postPersistence.createdAt = domainPost.createdAt;
+    postPersistence.deletedAt = domainPost.deletedAt;
 
-    postPersistence.comments = domainEntities?.comments
-      ? Promise.all(domainEntities.comments.map(comment => CommentMapper.toPersistence(comment)))
-      : Promise.resolve([]);
+    if (domainPost.author)
+      postPersistence.author = Promise.resolve(
+        UserMapper.toPersistence(domainPost.author),
+      );
 
-    return Promise.resolve(postPersistence);
+    if (domainPost.likes)
+      postPersistence.likes = Promise.all(
+        domainPost.likes.map(LikePostMapper.toPersistence),
+      );
+
+    if (domainPost.comments)
+      postPersistence.comments = Promise.all(
+        domainPost.comments.map(CommentMapper.toPersistence),
+      );
+
+    return postPersistence;
   }
-
 }
 
 export { PostMapper };
