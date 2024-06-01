@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   PrimaryGeneratedColumn,
+  JoinTable,
 } from 'typeorm';
 import { Nullable } from '@domain/shared/types';
 import { UserPersistence } from '@infrastructure/users';
@@ -32,22 +33,26 @@ class CommentPersistence {
   userId: string;
 
   @ManyToOne(() => UserPersistence, user => user.comments, { lazy: true })
-  user: UserPersistence;
+  @JoinTable()
+  user: Promise<UserPersistence>;
 
   @Column()
   postId: string;
 
   @ManyToOne(() => PostPersistence, post => post.comments, { lazy: true })
-  post: PostPersistence;
+  @JoinTable()
+  post: Promise<PostPersistence>;
 
   @Column()
   content: string;
 
   @OneToMany(() => LikeCommentPersistence, like => like.comment, { lazy: true })
-  likes: LikeCommentPersistence[];
+  @JoinTable()
+  likes: Promise<LikeCommentPersistence[]>;
 
   @OneToMany(() => ReplyPersistence, reply => reply.comment, { lazy: true })
-  replies: ReplyPersistence[];
+  @JoinTable()
+  replies: Promise<ReplyPersistence[]>;
 }
 
 export { CommentPersistence };

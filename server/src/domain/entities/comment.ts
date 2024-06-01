@@ -9,7 +9,7 @@ export class Comment extends AuditableBaseEntity {
   constructor(
     public id: Nullable<string>,
     public postId: string,
-    public post: Post,
+    public post: Nullable<Post>,
     public authorId: string,
     public author: Nullable<User>,
     public content: string,

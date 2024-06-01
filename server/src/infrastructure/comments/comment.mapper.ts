@@ -12,45 +12,80 @@ export class CommentMapper {
   public static toDomain(
     commentPer: CommentPersistence,
     lazyEntities?: {
-      author?: UserPersistence;
-      user?: PostPersistence;
+      user?: UserPersistence;
+      post?: PostPersistence;
       replies?: ReplyPersistence[];
       likes?: LikeCommentPersistence[];
     },
   ): Comment {
-    const replies = lazyEntities?.replies
-      ? lazyEntities.replies.map(reply => ReplyMapper.toDomain(reply))
-      : [];
-    const likes = lazyEntities?.likes
-      ? lazyEntities.likes.map(like => LikeCommentMapper.toDomain(like))
-      : [];
+    const domainReplies = (lazyEntities?.replies ?? []).map(reply =>
+      ReplyMapper.toDomain(reply),
+    );
 
-    const author = lazyEntities?.user
-      ? UserMapper.toDomain(lazyEntities.author as UserPersistence)
+    const domainLikes = (lazyEntities?.likes ?? []).map(like =>
+      LikeCommentMapper.toDomain(like),
+    );
+
+    const domainUser = lazyEntities?.user
+      ? UserMapper.toDomain(lazyEntities.user)
+      : null;
+
+    const domainPost = lazyEntities?.post
+      ? PostMapper.toDomain(lazyEntities.post)
       : null;
 
     return new Comment(
       commentPer.id,
       commentPer.postId,
-      PostMapper.toDomain(commentPer.post),
+      domainPost,
       commentPer.userId,
-      UserMapper.toDomain(commentPer.user),
+      domainUser,
       commentPer.content,
-      replies,
-      likes,
+      domainReplies,
+      domainLikes,
       commentPer.createdAt,
       commentPer.updatedAt,
       commentPer.deletedAt,
     );
   }
 
-  public static toPersistence(comment: Comment): Promise<CommentPersistence> {
+  public static toPersistence(comment: Comment): CommentPersistence {
     const commentPersistence = new CommentPersistence();
 
     if (comment.id != null) {
       commentPersistence.id = comment.id;
     }
 
-    return Promise.resolve(commentPersistence);
+    commentPersistence.postId = comment.postId;
+    commentPersistence.userId = comment.authorId;
+    commentPersistence.content = comment.content;
+    commentPersistence.createdAt = comment.createdAt;
+    commentPersistence.deletedAt = comment.deletedAt;
+
+    if (comment.author) {
+      commentPersistence.user = Promise.resolve(
+        UserMapper.toPersistence(comment.author),
+      );
+    }
+
+    if (comment.post) {
+      commentPersistence.post = Promise.resolve(
+        PostMapper.toPersistence(comment.post),
+      );
+    }
+
+    if (comment.replies) {
+      commentPersistence.replies = Promise.all(
+        comment.replies.map(reply => ReplyMapper.toPersistence(reply)),
+      );
+    }
+
+    if (comment.likes) {
+      commentPersistence.likes = Promise.all(
+        comment.likes.map(like => LikeCommentMapper.toPersistence(like)),
+      );
+    }
+
+    return commentPersistence;
   }
 }
