@@ -1,7 +1,5 @@
-{"level":30,"time":1717202072939,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1717202072942,"msg":"Environment: development"}
-{"level":30,"time":1717202072968,"msg":"Data source initialized"}
-{"level":30,"time":1717202075408,"msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5YWIxYjMwYS1iNjE2LTQwZDktODAzZi1jNzg1MzAzOGNkNzUiLCJpYXQiOjE3MTcxNTMzMTd9.rvPLsi6NPcwTCUEcko2m5AAFraL6qVkzNFnUGQfeRmc"}
-{"level":30,"time":1717202075418,"msg":"PostsController.create"}
-{"level":30,"time":1717202075420,"msg":"CreatePostUseCase.performOperation"}
-{"level":30,"time":1717202075420,"msg":"mapped post is kjkhkhkhfkldhskjhdfksjahjdshajkhfdjskahfsdhjksah"}
+{"level":30,"time":1717202659332,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1717202659336,"msg":"Environment: development"}
+{"level":30,"time":1717202659359,"msg":"Data source initialized"}
+{"level":30,"time":1717202660982,"msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGU4MTMxMi1hNDNlLTQ2NGEtYjRjNy1kYjc2NTI5YzIxOWIiLCJpYXQiOjE3MTcwMjIxNzd9.5RnwT3TDulPO5cEw5_AkqZBe4LXSfmrr6gCbCrLQeZ8"}
+{"level":30,"time":1717202661002,"msg":"PostsController.findAll"}

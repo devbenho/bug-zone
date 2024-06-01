@@ -50,7 +50,11 @@ export class PostRepository implements IPostRepository {
 
   async findAll(limit: number, page: number): Promise<Post[]> {
     const [posts, count] = await this._repository.findAndCount();
-    const postPromises = posts.map(post => PostMapper.toDomain(post));
+    const postPromises = posts.map(async post =>
+      PostMapper.toDomain(post, {
+        author: await post.author,
+      }),
+    );
     return Promise.all(postPromises);
   }
 
