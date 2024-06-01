@@ -4,6 +4,8 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { AuthController } from './controllers/auth.controller';
 import BaseController from './controllers/base.controller';
+import { PostsController } from './controllers/posts.controller';
+import { AuthMiddleware } from './middlewares/login.mw';
 import asyncWrapper from './infrastructure/async-wrapper';
 
 @injectable()
