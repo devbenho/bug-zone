@@ -1,18 +1,28 @@
 import { LikePost } from '@domain/entities/like-post';
-import { UserMapper } from '@infrastructure/users';
-import { PostMapper } from '@infrastructure/posts/post.mapper';
+import { UserMapper, UserPersistence } from '@infrastructure/users';
+import { PostMapper, PostPersistence } from '@infrastructure/posts/';
 import { LikePostPersistence } from './like-post.persistence';
 
 class LikePostMapper {
-  static toDomain(likePostPer: LikePostPersistence): LikePost {
-    const post = PostMapper.toDomain(likePostPer.post);
-    const user = UserMapper.toDomain(likePostPer.user);
+  static toDomain(
+    likePostPer: LikePostPersistence,
+    lazyEntitis?: {
+      post?: PostPersistence;
+      user?: UserPersistence;
+    },
+  ): LikePost {
+    const domainPost = lazyEntitis?.post
+      ? PostMapper.toDomain(lazyEntitis.post)
+      : null;
+    const domainUser = lazyEntitis?.user
+      ? UserMapper.toDomain(lazyEntitis.user)
+      : null;
     return new LikePost(
       likePostPer.id,
       likePostPer.postId,
-      post,
+      domainPost,
       likePostPer.userId,
-      user,
+      domainUser,
       likePostPer.createdAt,
       likePostPer.userId,
       likePostPer.updatedAt,
@@ -22,10 +32,31 @@ class LikePostMapper {
     );
   }
 
-  static toPersistence(likePost: LikePost): Promise<LikePostPersistence> {
+  static toPersistence(likePostDomain: LikePost): LikePostPersistence {
     const likePostPersistence = new LikePostPersistence();
 
-    return Promise.resolve(likePostPersistence);
+    if (likePostDomain.id) {
+      likePostPersistence.id = likePostDomain.id;
+    }
+
+    likePostPersistence.postId = likePostDomain.postId;
+    likePostPersistence.userId = likePostDomain.userId;
+    likePostPersistence.createdAt = likePostDomain.createdAt;
+    likePostPersistence.deletedAt = likePostDomain.createdAt;
+
+    if (likePostDomain.user) {
+      likePostPersistence.user = Promise.resolve(
+        UserMapper.toPersistence(likePostDomain.user),
+      );
+    }
+
+    if (likePostDomain.post) {
+      likePostPersistence.post = Promise.resolve(
+        PostMapper.toPersistence(likePostDomain.post),
+      );
+    }
+
+    return likePostPersistence;
   }
 }
 

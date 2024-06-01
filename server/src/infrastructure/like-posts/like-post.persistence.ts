@@ -4,12 +4,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { PostPersistence } from '../posts/post.persistence';
-import { BaseEntity } from '@infrastructure/shared/persistence/entities/base.persistence';
 
 @Entity()
 class LikePostPersistence {
@@ -29,13 +29,15 @@ class LikePostPersistence {
   userId: string;
 
   @ManyToOne(() => UserPersistence)
-  user: UserPersistence;
+  @JoinTable()
+  user: Promise<UserPersistence>;
 
   @Column()
   postId: string;
 
   @ManyToOne(() => PostPersistence)
-  post: PostPersistence;
+  @JoinTable()
+  post: Promise<PostPersistence>;
 }
 
 export { LikePostPersistence };

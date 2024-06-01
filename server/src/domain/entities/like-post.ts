@@ -7,9 +7,9 @@ class LikePost extends AuditableBaseEntity {
   constructor(
     public id: Nullable<string>,
     public postId: string,
-    public post: Post,
+    public post: Nullable<Post>,
     public userId: string,
-    public user: User,
+    public user: Nullable<User>,
     public createdAt: Date,
     public createdBy: string,
     public updatedAt: Nullable<Date>,
@@ -19,8 +19,6 @@ class LikePost extends AuditableBaseEntity {
   ) {
     super(id, createdAt, createdBy, updatedAt, updatedBy, deletedAt, deletedBy);
   }
-
-
 }
 
 export { LikePost };
