@@ -1,6 +1,6 @@
 import { PostPersistence } from '@infrastructure/posts';
 import { POST_STATUS } from '@domain/eums/post-status.enum';
-import { Post, User } from '@domain/entities';
+import { Comment, LikePost, Post, User } from '@domain/entities';
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments';
 import {
@@ -8,6 +8,7 @@ import {
   LikePostPersistence,
 } from '@infrastructure/like-posts';
 import { MapperConfig } from '@infrastructure/shared/persistence/mapper.config';
+import { Nullable } from '@domain/shared/types';
 
 class PostMapper {
   public static toDomain(
@@ -37,44 +38,28 @@ class PostMapper {
     );
   }
 
-  public static async toPersistence(
+  public static toPersistence(
     domain: Post,
-    config: MapperConfig = {},
+    domainEntities?: {
+      author?: User;
+      likes?: LikePost[];
+      comments?: Comment[];
+    },
   ): Promise<PostPersistence> {
     const postPersistence = new PostPersistence();
+
     if (domain.id) {
       postPersistence.id = domain.id;
     }
-
     postPersistence.title = domain.title;
     postPersistence.content = domain.content;
     postPersistence.authorId = domain.authorId;
-
-    if (config.includeAuthor) {
-      postPersistence.author = UserMapper.toPersistence(domain.author as User);
-    }
-
-    if (config.includeLikes) {
-      postPersistence.likes = Promise.resolve(
-        await Promise.all(
-          domain.likes.map(like => LikePostMapper.toPersistence(like)),
-        ),
-      );
-    }
-
-    if (config.includeComments) {
-      postPersistence.comments = Promise.resolve(
-        await Promise.all(
-          domain.comments.map(comment => CommentMapper.toPersistence(comment)),
-        ),
-      );
-    }
 
     postPersistence.status = domain.status.toLowerCase();
     postPersistence.createdAt = domain.createdAt;
     postPersistence.deletedAt = domain.deletedAt;
 
-    return postPersistence;
+    return Promise.resolve(postPersistence);
   }
 }
 
