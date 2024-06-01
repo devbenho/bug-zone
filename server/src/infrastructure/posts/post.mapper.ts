@@ -1,25 +1,26 @@
 import { PostPersistence } from '@infrastructure/posts';
 import { POST_STATUS } from '@domain/eums/post-status.enum';
-import { Post } from '@domain/entities';
-import { UserMapper } from '@infrastructure/users';
-import { CommentMapper } from '@infrastructure/comments';
-import { LikePostMapper } from '@infrastructure/like-posts';
+import { Post, User } from '@domain/entities';
+import { UserMapper, UserPersistence } from '@infrastructure/users';
+import { CommentMapper, CommentPersistence } from '@infrastructure/comments';
+import {
+  LikePostMapper,
+  LikePostPersistence,
+} from '@infrastructure/like-posts';
 import { MapperConfig } from '@infrastructure/shared/persistence/mapper.config';
 
 class PostMapper {
-  public static async toDomain(
+  public static toDomain(
     persistence: PostPersistence,
-    config: MapperConfig = {},
-  ): Promise<Post> {
-    const likes = config.includeLikes
-      ? await (persistence.likes ?? Promise.resolve([]))
-      : [];
-    const comments = config.includeComments
-      ? await (persistence.comments ?? Promise.resolve([]))
-      : [];
-    const author = config.includeAuthor
-      ? await UserMapper.toDomain(await persistence.author)
-      : null;
+    lazyEntities?: {
+      author?: UserPersistence;
+      likes?: LikePostPersistence[];
+      comments?: CommentPersistence[];
+    },
+  ): Post {
+    const author = lazyEntities?.author;
+    const likes = lazyEntities?.likes ?? [];
+    const comments = lazyEntities?.comments ?? [];
 
     return Post.create(
       persistence.id,
@@ -27,10 +28,8 @@ class PostMapper {
       persistence.content,
       persistence.authorId,
       author as any,
-      await Promise.all(likes.map(like => LikePostMapper.toDomain(like))),
-      await Promise.all(
-        comments.map(comment => CommentMapper.toDomain(comment)),
-      ),
+      likes.map(like => LikePostMapper.toDomain(like)),
+      comments.map(comment => CommentMapper.toDomain(comment)),
       POST_STATUS[persistence.status.toUpperCase() as keyof typeof POST_STATUS],
       persistence.createdAt,
       persistence.updatedAt,
@@ -52,7 +51,7 @@ class PostMapper {
     postPersistence.authorId = domain.authorId;
 
     if (config.includeAuthor) {
-      postPersistence.author = UserMapper.toPersistence(domain.author);
+      postPersistence.author = UserMapper.toPersistence(domain.author as User);
     }
 
     if (config.includeLikes) {

@@ -1,14 +1,24 @@
-import { UserMapper } from '@infrastructure/users';
+import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { LikeCommentPersistence } from './like-comment.persistence';
 import { LikeComment } from '@domain/entities/like-comment';
-import { CommentMapper } from '@infrastructure/comments/comment.mapper';
+import { CommentMapper, CommentPersistence } from '@infrastructure/comments/';
+import { User } from '@domain/entities/user';
+import { Comment } from '@domain/entities/comment';
 
 class LikeCommentMapper {
-  static async toDomain(
+  static toDomain(
     likeCommentPer: LikeCommentPersistence,
-  ): Promise<LikeComment> {
-    const comment = await CommentMapper.toDomain(likeCommentPer.comment);
-    const user = await UserMapper.toDomain(likeCommentPer.user);
+    lazyEntities?: {
+      comment?: CommentPersistence;
+      user?: UserPersistence;
+    },
+  ): LikeComment {
+    const comment = lazyEntities?.comment
+      ? CommentMapper.toDomain(lazyEntities.comment)
+      : CommentMapper.toDomain(likeCommentPer.comment);
+    const user = lazyEntities?.user
+      ? UserMapper.toDomain(lazyEntities.user)
+      : UserMapper.toDomain(likeCommentPer.user);
 
     return new LikeComment(
       likeCommentPer.id,
@@ -25,8 +35,20 @@ class LikeCommentMapper {
     );
   }
 
-  static toPersistence(likeComment: LikeComment): LikeCommentPersistence {
-    return new LikeCommentPersistence();
+  static async toPersistence(
+    likeComment: LikeComment,
+  ): Promise<LikeCommentPersistence> {
+    const likeCommentPersistence = new LikeCommentPersistence();
+
+    if (likeComment.id != null) {
+      likeCommentPersistence.id = likeComment.id;
+    }
+    likeCommentPersistence.commentId = likeComment.commentId;
+    likeCommentPersistence.userId = likeComment.userId;
+    likeCommentPersistence.createdAt = likeComment.createdAt;
+    likeCommentPersistence.deletedAt = likeComment.deletedAt;
+
+    return likeCommentPersistence;
   }
 }
 

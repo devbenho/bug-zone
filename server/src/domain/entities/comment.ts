@@ -11,7 +11,7 @@ export class Comment extends AuditableBaseEntity {
     public postId: string,
     public post: Post,
     public authorId: string,
-    public author: User,
+    public author: Nullable<User>,
     public content: string,
     public replies: Reply[],
     public likes: LikeComment[],

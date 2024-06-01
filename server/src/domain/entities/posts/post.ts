@@ -11,7 +11,7 @@ class Post extends AuditableBaseEntity {
     public title: string,
     public content: string,
     public authorId: string,
-    public author: User,
+    public author: Nullable<User>,
     public likes: LikePost[],
     public comments: Comment[],
     public status: POST_STATUS = POST_STATUS.DRAFT,

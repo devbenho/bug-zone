@@ -7,9 +7,9 @@ class LikeReply extends AuditableBaseEntity {
   constructor(
     public id: Nullable<string>,
     public replyId: string,
-    public reply: Reply,
+    public reply: Nullable<Reply>,
     public userId: string,
-    public user: User,
+    public user: Nullable<User>,
     public createdAt: Date,
     public createdBy: string,
     public updatedAt: Nullable<Date>,

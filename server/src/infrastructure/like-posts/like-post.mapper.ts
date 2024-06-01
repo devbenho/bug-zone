@@ -4,9 +4,9 @@ import { PostMapper } from '@infrastructure/posts/post.mapper';
 import { LikePostPersistence } from './like-post.persistence';
 
 class LikePostMapper {
-  static async toDomain(likePostPer: LikePostPersistence): Promise<LikePost> {
-    const post = await PostMapper.toDomain(likePostPer.post);
-    const user = await UserMapper.toDomain(likePostPer.user);
+  static toDomain(likePostPer: LikePostPersistence): LikePost {
+    const post = PostMapper.toDomain(likePostPer.post);
+    const user = UserMapper.toDomain(likePostPer.user);
     return new LikePost(
       likePostPer.id,
       likePostPer.postId,

@@ -19,7 +19,7 @@ export class PostResponseDto {
       entity.id,
       entity.title,
       entity.content,
-      UserResponseDto.fromEntity(entity.author),
+      UserResponseDto.fromEntity(entity.author as any),
       entity.comments ? entity.comments.map(CommentResponseDto.fromEntity) : [],
       entity.createdAt,
       entity.updatedAt,
