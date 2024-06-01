@@ -59,7 +59,7 @@ class UserMapper {
     );
   }
 
-  static async toPersistence(
+  static toPersistence(
     domain: User,
     domainEntities?: {
       comments?: Comment[];
@@ -85,68 +85,33 @@ class UserMapper {
     userPersistence.updatedAt = domain.updatedAt;
     userPersistence.deletedAt = domain.deletedAt;
 
-    if (domainEntities) {
-      if (domainEntities.comments) {
-        userPersistence.comments = Promise.resolve(
-          await Promise.all(
-            domainEntities.comments.map(comment =>
-              CommentMapper.toPersistence(comment),
-            ),
-          ),
-        );
-      }
+    userPersistence.comments = domainEntities?.comments
+      ? Promise.all(domainEntities.comments.map(comment => CommentMapper.toPersistence(comment)))
+      : Promise.resolve([]);
 
-      if (domainEntities.likedComments) {
-        userPersistence.likedComments = Promise.resolve(
-          await Promise.all(
-            domainEntities.likedComments.map(likeComment =>
-              LikeCommentMapper.toPersistence(likeComment),
-            ),
-          ),
-        );
-      }
+    userPersistence.likedComments = domainEntities?.likedComments
+      ? Promise.all(domainEntities.likedComments.map(likeComment => LikeCommentMapper.toPersistence(likeComment)))
+      : Promise.resolve([]);
 
-      if (domainEntities.posts) {
-        userPersistence.posts = Promise.resolve(
-          await Promise.all(
-            domainEntities.posts.map(post => PostMapper.toPersistence(post)),
-          ),
-        );
-      }
+    userPersistence.posts = domainEntities?.posts
+      ? Promise.all(domainEntities.posts.map(post => PostMapper.toPersistence(post)))
+      : Promise.resolve([]);
 
-      if (domainEntities.likedPosts) {
-        userPersistence.likedPosts = Promise.resolve(
-          await Promise.all(
-            domainEntities.likedPosts.map(likePost =>
-              LikePostMapper.toPersistence(likePost),
-            ),
-          ),
-        );
-      }
+    userPersistence.likedPosts = domainEntities?.likedPosts
+      ? Promise.all(domainEntities.likedPosts.map(likePost => LikePostMapper.toPersistence(likePost)))
+      : Promise.resolve([]);
 
-      if (domainEntities.replies) {
-        userPersistence.replies = Promise.resolve(
-          await Promise.all(
-            domainEntities.replies.map(reply =>
-              ReplyMapper.toPersistence(reply),
-            ),
-          ),
-        );
-      }
+    userPersistence.replies = domainEntities?.replies
+      ? Promise.all(domainEntities.replies.map(reply => ReplyMapper.toPersistence(reply)))
+      : Promise.resolve([]);
 
-      if (domainEntities.likedReplies) {
-        userPersistence.likedReplies = Promise.resolve(
-          await Promise.all(
-            domainEntities.likedReplies.map(likeReply =>
-              LikeReplyMapper.toPersistence(likeReply),
-            ),
-          ),
-        );
-      }
-    }
+    userPersistence.likedReplies = domainEntities?.likedReplies
+      ? Promise.all(domainEntities.likedReplies.map(likeReply => LikeReplyMapper.toPersistence(likeReply)))
+      : Promise.resolve([]);
 
-    return userPersistence;
+    return Promise.resolve(userPersistence);
   }
+
 }
 
 export { UserMapper };

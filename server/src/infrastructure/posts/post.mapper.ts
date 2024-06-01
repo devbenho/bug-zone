@@ -7,8 +7,6 @@ import {
   LikePostMapper,
   LikePostPersistence,
 } from '@infrastructure/like-posts';
-import { MapperConfig } from '@infrastructure/shared/persistence/mapper.config';
-import { Nullable } from '@domain/shared/types';
 
 class PostMapper {
   public static toDomain(
@@ -59,8 +57,20 @@ class PostMapper {
     postPersistence.createdAt = domain.createdAt;
     postPersistence.deletedAt = domain.deletedAt;
 
+    if (domainEntities?.author) {
+      postPersistence.author = UserMapper.toPersistence(domainEntities.author);
+    }
+    postPersistence.likes = domainEntities?.likes
+      ? Promise.all(domainEntities.likes.map(like => LikePostMapper.toPersistence(like)))
+      : Promise.resolve([]);
+
+    postPersistence.comments = domainEntities?.comments
+      ? Promise.all(domainEntities.comments.map(comment => CommentMapper.toPersistence(comment)))
+      : Promise.resolve([]);
+
     return Promise.resolve(postPersistence);
   }
+
 }
 
 export { PostMapper };
