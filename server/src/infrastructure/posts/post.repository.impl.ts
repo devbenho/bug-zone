@@ -5,7 +5,6 @@ import { Post } from '@domain/entities';
 import { IPostRepository } from '@domain/repositories/post.repository';
 import { PostPersistence } from './post.persistence';
 import { PostMapper } from './post.mapper';
-import { log } from 'console';
 
 @injectable()
 export class PostRepository implements IPostRepository {
@@ -20,7 +19,7 @@ export class PostRepository implements IPostRepository {
   }
 
   async createPost(post: Post): Promise<Post> {
-    const postPersistence = await PostMapper.toPersistence(post);
+    const postPersistence = PostMapper.toPersistence(post);
     const createdPost = await this._repository.save(postPersistence);
 
     return PostMapper.toDomain(createdPost, {
