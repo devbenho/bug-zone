@@ -19,7 +19,7 @@ export class PostDetailsResponseDto {
       entity.id ?? '',
       entity.title,
       entity.content,
-      UserResponseDto.fromEntity(entity.author),
+      UserResponseDto.fromEntity(entity.author ?? ({} as any)),
       entity.createdAt,
       entity.updatedAt,
     );

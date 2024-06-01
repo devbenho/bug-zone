@@ -1,50 +1,45 @@
-import { UserMapper } from '@infrastructure/users';
+import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { LikeReply, Reply, User } from '@domain/entities';
 import { LikeReplyPersistence } from './like-reply.persistence';
-import { ReplyMapper } from '@infrastructure/replies/reply.mapper';
+import { ReplyMapper, ReplyPersistence } from '@infrastructure/replies';
 
 class LikeReplyMapper {
-  static async toDomain(
+  static toDomain(
     likeReplyPer: LikeReplyPersistence,
-  ): Promise<LikeReply> {
-    const userPromise = likeReplyPer.user
-      ? UserMapper.toDomain(likeReplyPer.user)
-      : null;
-    const replyPromise = likeReplyPer.reply
-      ? await ReplyMapper.toDomain(await likeReplyPer.reply)
+    lazyEntities?: {
+      user?: UserPersistence;
+      reply?: ReplyPersistence;
+    },
+  ): LikeReply {
+    const user = lazyEntities?.user
+      ? UserMapper.toDomain(lazyEntities.user)
+      : likeReplyPer.user
+        ? UserMapper.toDomain(likeReplyPer.user)
+        : null;
+
+    const reply = lazyEntities?.reply
+      ? ReplyMapper.toDomain(lazyEntities.reply)
       : null;
 
-    const [user, reply] = await Promise.all([userPromise, replyPromise]);
-
-    return {
-      id: likeReplyPer.id,
-      createdAt: likeReplyPer.createdAt,
-      updatedAt: likeReplyPer.updatedAt,
-      deletedAt: likeReplyPer.deletedAt,
-      user: user as User,
-      reply: reply as Reply,
-      replyId: likeReplyPer.replyId,
-      userId: likeReplyPer.userId,
-      createdBy: likeReplyPer.userId,
-      updatedBy: likeReplyPer.userId,
-      deletedBy: likeReplyPer.userId,
-      equals: (likeReply: LikeReply) => likeReply.id === likeReplyPer.id,
-    };
+    return new LikeReply(
+      likeReplyPer.id,
+      likeReplyPer.replyId,
+      reply,
+      likeReplyPer.userId,
+      user,
+      likeReplyPer.createdAt,
+      likeReplyPer.userId,
+      likeReplyPer.updatedAt,
+      likeReplyPer.userId,
+      likeReplyPer.deletedAt,
+      likeReplyPer.userId,
+    );
   }
 
-  static async toPersistence(
-    likeReply: LikeReply,
-  ): Promise<LikeReplyPersistence> {
-    return {
-      id: likeReply.id!,
-      createdAt: likeReply.createdAt,
-      updatedAt: likeReply.updatedAt!,
-      deletedAt: likeReply.deletedAt,
-      user: await UserMapper.toPersistence(likeReply.user),
-      reply: ReplyMapper.toPersistence(likeReply.reply),
-      replyId: likeReply.replyId,
-      userId: likeReply.userId,
-    };
+  static toPersistence(likeReply: LikeReply): Promise<LikeReplyPersistence> {
+    const likeReplyPersistence = new LikeReplyPersistence();
+
+    return Promise.resolve(likeReplyPersistence);
   }
 }
 

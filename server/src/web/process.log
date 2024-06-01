@@ -1,3 +1,7 @@
-{"level":30,"time":1717153656237,"msg":"Application is running on port 2105 🚀"}
-{"level":30,"time":1717153656240,"msg":"Environment: development"}
-{"level":30,"time":1717153656261,"msg":"Data source initialized"}
+{"level":30,"time":1717202072939,"msg":"Application is running on port 2105 🚀"}
+{"level":30,"time":1717202072942,"msg":"Environment: development"}
+{"level":30,"time":1717202072968,"msg":"Data source initialized"}
+{"level":30,"time":1717202075408,"msg":"Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5YWIxYjMwYS1iNjE2LTQwZDktODAzZi1jNzg1MzAzOGNkNzUiLCJpYXQiOjE3MTcxNTMzMTd9.rvPLsi6NPcwTCUEcko2m5AAFraL6qVkzNFnUGQfeRmc"}
+{"level":30,"time":1717202075418,"msg":"PostsController.create"}
+{"level":30,"time":1717202075420,"msg":"CreatePostUseCase.performOperation"}
+{"level":30,"time":1717202075420,"msg":"mapped post is kjkhkhkhfkldhskjhdfksjahjdshajkhfdjskahfsdhjksah"}

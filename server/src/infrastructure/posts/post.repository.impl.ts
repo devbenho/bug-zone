@@ -22,7 +22,10 @@ export class PostRepository implements IPostRepository {
   async createPost(post: Post): Promise<Post> {
     const postPersistence = await PostMapper.toPersistence(post);
     const createdPost = await this._repository.save(postPersistence);
-    return PostMapper.toDomain(createdPost, { includeAuthor: true });
+
+    return PostMapper.toDomain(createdPost, {
+      author: await createdPost.author,
+    });
   }
 
   async findPostById(postId: string): Promise<Post | null> {
@@ -47,9 +50,7 @@ export class PostRepository implements IPostRepository {
 
   async findAll(limit: number, page: number): Promise<Post[]> {
     const [posts, count] = await this._repository.findAndCount();
-    const postPromises = posts.map(post =>
-      PostMapper.toDomain(post, { includeAuthor: true }),
-    );
+    const postPromises = posts.map(post => PostMapper.toDomain(post));
     return Promise.all(postPromises);
   }
 

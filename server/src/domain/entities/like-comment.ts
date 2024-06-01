@@ -16,7 +16,6 @@ class LikeComment extends AuditableBaseEntity {
     public updatedBy: Nullable<string>,
     public deletedAt: Nullable<Date>,
     public deletedBy: Nullable<string>,
-
   ) {
     super(id, createdAt, createdBy, updatedAt, updatedBy, deletedAt, deletedBy);
   }
