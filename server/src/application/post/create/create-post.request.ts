@@ -42,9 +42,10 @@ class CreatePostRequest extends UseCaseRequest {
       triggeredBy,
       title,
       content,
-      author,
+      // authorId,
+      // author,
       attachments,
-      status,
+      // status,
     );
   }
 

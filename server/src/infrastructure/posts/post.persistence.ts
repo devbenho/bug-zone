@@ -37,7 +37,7 @@ class PostPersistence {
   @Column()
   authorId: string;
 
-  @ManyToOne(() => UserPersistence, user => user.posts)
+  @ManyToOne(() => UserPersistence, user => user.posts, { lazy: true })
   @JoinTable()
   author: Promise<UserPersistence>;
 

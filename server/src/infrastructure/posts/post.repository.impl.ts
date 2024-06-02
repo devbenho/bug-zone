@@ -29,7 +29,13 @@ export class PostRepository implements IPostRepository {
 
   async findPostById(postId: string): Promise<Post | null> {
     const post = await this._repository.findOne({ where: { id: postId } });
-    return post ? PostMapper.toDomain(post) : null;
+    return post
+      ? PostMapper.toDomain(post, {
+          author: await post.author,
+          comments: await post.comments,
+          likes: await post.likes,
+        })
+      : null;
   }
 
   async findUserPosts(
