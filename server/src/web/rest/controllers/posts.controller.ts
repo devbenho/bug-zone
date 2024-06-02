@@ -9,8 +9,8 @@ import { LOGGER } from '../logger';
 import { POST_STATUS } from '@domain/eums/post-status.enum';
 import { FindAllPostRequest } from '@application/post/find-all/find-all-post.request';
 import { PostResponseDto } from '@contracts/dtos/posts';
-import { ExpressHandler } from '../infrastucture/express-handler';
 import { log } from 'console';
+import { ExpressHandler } from '../infrastructure/express-handler';
 
 @injectable()
 export class PostsController implements BaseController {

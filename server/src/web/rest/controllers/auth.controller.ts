@@ -1,34 +1,39 @@
 import { BaseUseCase } from '@application/shared';
-import BaseController from './base.controller';
 import { TriggeredByUser } from '@domain/shared/entities';
 import { CreateUserDto } from '@dtos/users';
 import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
-import { ExpressHandler } from '../infrastructure/express-handler';
+import {
+  interfaces,
+  controller,
+  httpPost,
+  request,
+  response,
+} from 'inversify-express-utils';
 import { AuthRequest, AuthResponseDto } from '@contracts/dtos/auth';
+import { ExpressHandler } from '../infrastructure/express-handler';
 
-@injectable()
-export class AuthController implements BaseController {
+@controller('/auth')
+export class AuthController implements interfaces.Controller {
   private _loginUseCase: BaseUseCase<AuthRequest, AuthResponseDto>;
   private _registerUseCase: BaseUseCase<CreateUserDto, AuthResponseDto>;
+
   constructor(
     @inject(TYPES.ILoginInputPort)
-    _loginInteractor: BaseUseCase<AuthRequest, AuthResponseDto>,
+    loginInteractor: BaseUseCase<AuthRequest, AuthResponseDto>,
     @inject(TYPES.IRegisterInputPort)
-    _registerInteractor: BaseUseCase<CreateUserDto, AuthResponseDto>,
+    registerInteractor: BaseUseCase<CreateUserDto, AuthResponseDto>,
   ) {
-    this._loginUseCase = _loginInteractor;
-    this._registerUseCase = _registerInteractor;
+    this._loginUseCase = loginInteractor;
+    this._registerUseCase = registerInteractor;
   }
 
   public register: ExpressHandler<CreateUserDto, AuthResponseDto> = async (
     req,
     res,
   ) => {
-    // destructuring the request body
     const { email, password, firstName, lastName, username } = req.body;
 
-    // preparing the request object
     const request = CreateUserDto.create(
       new TriggeredByUser(username!, []),
       firstName!,
@@ -38,7 +43,6 @@ export class AuthController implements BaseController {
       username!,
     );
 
-    // excuting the use case
     const result = await this._registerUseCase.execute(request);
 
     res.json(result);
