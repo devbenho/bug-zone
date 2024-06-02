@@ -1,12 +1,12 @@
 import { AuthRequest, AuthResponseDto } from '@contracts/dtos/auth';
 import { UnauthorizedError } from '@contracts/errors/unauthorized.error';
 import { IHasherService } from '@contracts/services/IHasher';
-import { IJwtService, JwtPayload } from '@contracts/services/IJwt';
+import { IJwtService } from '@contracts/services/IJwt';
 import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
 import { BaseUseCase } from '@application/shared';
 import { IUserRepository } from '@domain/repositories/user.repository';
-import { log } from 'console';
+
 @injectable()
 class LoginUseCase extends BaseUseCase<AuthRequest, AuthResponseDto> {
   constructor(
@@ -16,7 +16,9 @@ class LoginUseCase extends BaseUseCase<AuthRequest, AuthResponseDto> {
   ) {
     super();
   }
-  public async performOperation(request: AuthRequest): Promise<AuthResponseDto> {
+  public async performOperation(
+    request: AuthRequest,
+  ): Promise<AuthResponseDto> {
     const user =
       (await this._userRepository.findByEmail(request.login)) ||
       (await this._userRepository.findByUsername(request.login));
