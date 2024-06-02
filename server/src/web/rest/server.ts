@@ -1,7 +1,7 @@
 import '@tsed/platform-express';
 import '@tsed/swagger';
 import '@tsed/ajv';
-import './filters';
+// import './filters';
 
 import { PlatformApplication } from '@tsed/common';
 import { importProviders } from '@tsed/components-scan';
@@ -20,7 +20,6 @@ import { CacheConfig, GlobalConfig } from '@infrastructure/shared/config';
 
 import { AppConfig, AppInfo } from './config';
 import {
-  // ErrorHandlerMiddleware,
   // LoggerMiddleware,
   // MetadataMiddleware,
   NotFoundMiddleware,
@@ -132,12 +131,12 @@ class Server {
       .use(cookieParser())
       .use(compression({}))
       .use(methodOverride());
-    // .use(MetadataMiddleware)
+    // .use(MetadataMiddleware);
     // .use(LoggerMiddleware);
   }
 
   public $afterRoutesInit(): void {
-    this.app.use(NotFoundMiddleware).use(ErrorHandlerMiddleware);
+    // this.app.use(NotFoundMiddleware).use(ErrorHandlerMiddleware);
   }
 
   public $onReady(): void {
