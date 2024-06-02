@@ -10,7 +10,10 @@ const AppInfo = Object.freeze({
     'APP_VERSION',
     readPackageJsonSync().version,
   ),
-  APP_NAME: getEnvironmentString('APP_NAME', readPackageJsonSync().name),
+  APP_NAME: getEnvironmentString(
+    'APP_NAME',
+    readPackageJsonSync().name || 'N/A',
+  ),
   APP_DESCRIPTION: getEnvironmentString(
     'APP_DESCRIPTION',
     readPackageJsonSync().description || 'N/A',
@@ -43,4 +46,3 @@ const AppConfig = Object.freeze({
 });
 
 export { AppConfig, AppInfo };
-
