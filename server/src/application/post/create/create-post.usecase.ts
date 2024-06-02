@@ -23,10 +23,6 @@ class CreatePostUseCase extends BaseUseCase<
   ): Promise<PostDetailsResponseDto> {
     LOGGER.info('CreatePostUseCase.performOperation');
     const post = CreatePostRequest.toEntity(request);
-    LOGGER.info(
-      'mapped post is kjkhkhkhfkldhskjhdfksjahjdshajkhfdjskahfsdhjksah',
-      post.toString(),
-    );
     const createdPost = await this._postRepository.createPost(post);
     log('created post is', createdPost);
     if (createdPost) {

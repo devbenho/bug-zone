@@ -18,12 +18,34 @@ class CreatePostRequest extends UseCaseRequest {
     triggeredBy: TriggeredBy,
     title: string,
     content: string,
+    authorId: string,
+    author: User,
     attachments: UploadedFiles[],
+    status: POST_STATUS = POST_STATUS.DRAFT,
   ) {
     super(triggeredBy);
     this.title = title;
     this.content = content;
+    this.authorId = authorId;
+    this.author = author;
     this.attachments = attachments;
+    this.status = status;
+  }
+
+  public static toEntity(request: CreatePostRequest): Post {
+    return Post.create(
+      null,
+      request.title,
+      request.content,
+      request.triggeredBy.who,
+      request.author,
+      [],
+      [],
+      request.status,
+      new Date(),
+      null,
+      null,
+    );
   }
 
   public static create(
