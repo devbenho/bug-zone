@@ -18,7 +18,6 @@ class CreatePostRequest extends UseCaseRequest {
     triggeredBy: TriggeredBy,
     title: string,
     content: string,
-    authorId: string,
     author: User,
     attachments: UploadedFiles[],
     status: POST_STATUS = POST_STATUS.DRAFT,
@@ -26,33 +25,15 @@ class CreatePostRequest extends UseCaseRequest {
     super(triggeredBy);
     this.title = title;
     this.content = content;
-    this.authorId = authorId;
     this.author = author;
     this.attachments = attachments;
     this.status = status;
-  }
-
-  public static toEntity(request: CreatePostRequest): Post {
-    return Post.create(
-      null,
-      request.title,
-      request.content,
-      request.triggeredBy.who,
-      request.author,
-      [],
-      [],
-      request.status,
-      new Date(),
-      null,
-      null,
-    );
   }
 
   public static create(
     triggeredBy: TriggeredBy,
     title: string,
     content: string,
-    authorId: string,
     author: User,
     attachments: UploadedFiles[],
     status: POST_STATUS = POST_STATUS.DRAFT,
@@ -61,7 +42,6 @@ class CreatePostRequest extends UseCaseRequest {
       triggeredBy,
       title,
       content,
-      authorId,
       author,
       attachments,
       status,
@@ -70,7 +50,7 @@ class CreatePostRequest extends UseCaseRequest {
 
   // Validate here using EnsureClass
   protected validatePayload(): void {
-    if (!this.title || !this.content || !this.authorId || !this.author) {
+    if (!this.title || !this.content || !this.triggeredBy.who || !this.author) {
       throw new InvalidParameterException('Invalid request');
     }
   }
