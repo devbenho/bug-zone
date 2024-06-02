@@ -1,5 +1,4 @@
 import { VerifyErrors } from 'jsonwebtoken';
-import { ExpressHandler } from '../infrastucture/express-handler';
 import { JwtService } from '../../../infrastructure/shared/jwt/jwt.service.impl';
 import { UserRepository } from '@infrastructure/users';
 import { container } from '@infrastructure/shared/ioc/inversify.config';
@@ -9,14 +8,14 @@ import {
 } from '@contracts/errors/unauthorized.error';
 import { DataSource } from 'typeorm';
 import { LOGGER } from '../logger';
-import { log } from 'console';
 import { JwtPayload } from '@contracts/services/IJwt';
+import { ExpressHandler } from '../infrastructure/express-handler';
 
 class AuthMiddleware {
   public static jwtParseMiddleware: ExpressHandler<any, any> = async (
-    req,
-    res,
-    next,
+    req: any,
+    res: any,
+    next: any,
   ) => {
     const jwtService = new JwtService();
     const userRepository = new UserRepository(container.get(DataSource));
@@ -50,9 +49,9 @@ class AuthMiddleware {
   };
 
   public static enforceJwtMiddleware: ExpressHandler<any, any> = async (
-    _,
-    res,
-    next,
+    _: any,
+    res: any,
+    next: any,
   ) => {
     if (!res.locals.userId) {
       return res.sendStatus(401);
