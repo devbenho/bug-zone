@@ -1,9 +1,7 @@
 import 'reflect-metadata';
-import { IMapper, Mapper } from '@application/shared/mapper';
 import { AuthResponseDto } from '@contracts/dtos/auth';
 import { CreateUserDto } from '@contracts/dtos/users';
 import { IJwtService } from '@contracts/services/IJwt';
-import { User } from '@domain/entities';
 import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
 import { BaseUseCase } from '@application/shared';
