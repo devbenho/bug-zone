@@ -6,10 +6,11 @@
     "email": "Name",
     "url": "url"
   },
+
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon src/web/rest/app.ts",
+    "dev": "cross-env NODE_ENV=development nodemon",
     "typeorm": "typeorm-ts-node-esm",
     "typeorm:generate": "npm run typeorm -- migration:generate -n",
     "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
@@ -17,6 +18,9 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "pino": "^8.19.0",
+    "pino-http": "^9.0.0",
+    "pino-pretty": "^10.3.1",
     "@tsed/ajv": "^7.62.2",
     "@tsed/common": "^7.62.2",
     "@tsed/components-scan": "^7.69.4",
@@ -55,9 +59,6 @@
     "method-override": "^3.0.0",
     "node-emoji": "^2.1.3",
     "nodemon": "^3.0.3",
-    "pino": "^8.19.0",
-    "pino-http": "^10.1.0",
-    "pino-pretty": "^10.3.1",
     "read-pkg": "5.2.0",
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.7",

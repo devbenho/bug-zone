@@ -8,7 +8,9 @@ interface PinoRotateFileOptions {
   extension: string;
 }
 
-export default async (options: PinoRotateFileOptions): Promise<EventEmitter> => {
+export default async (
+  options: PinoRotateFileOptions,
+): Promise<EventEmitter> => {
   const stream = FileStreamRotator.getStream({
     filename: `${options.folder}/${options.filename}.%DATE%`,
     frequency: 'date',
@@ -16,7 +18,7 @@ export default async (options: PinoRotateFileOptions): Promise<EventEmitter> => 
     utc: true,
     verbose: false,
     date_format: 'YYYYMM',
-    audit_file: `${options.folder}/log-audit.json`
+    audit_file: `${options.folder}/log-audit.json`,
   });
   await once(stream, 'open');
   return stream;

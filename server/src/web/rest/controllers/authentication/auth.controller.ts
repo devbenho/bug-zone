@@ -13,10 +13,9 @@ import {
   Title,
 } from '@tsed/schema';
 import { StatusCodes } from 'http-status-codes';
-import { BodyParams, Context, Res } from '@tsed/common';
+import { BodyParams } from '@tsed/common';
 import { RestController } from '@web/rest/infrastructure/rest-controller.decorator';
-import { log } from 'console';
-import { LOGGER } from '@web/rest/logger';
+import { UserSuccessfullyAuthenticatedApiResponse } from './user-successfully-authenticated.api-response';
 
 @RestController('/auth')
 @Tags({ name: 'Authentication', description: 'Login and register users' })
@@ -35,19 +34,24 @@ class AuthController {
   @Description(
     'Endpoint to perform a user login to obtain access token and refresh token',
   )
-  @Returns(StatusCodes.OK, AuthResponseDto)
-  @Status(StatusCodes.OK, AuthResponseDto)
+  @Returns(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  @Status(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
   public async authenticateUser(
     @Example('janedoe') @BodyParams('username') username: string,
     @Example('123456') @BodyParams('password') password: string,
-  ): Promise<AuthResponseDto> {
-    LOGGER.info('Login key is ', username);
+  ): Promise<UserSuccessfullyAuthenticatedApiResponse> {
     let triggeredBy = new TriggeredByUser(username, []);
     const authenticatedUser = await this._loginUseCase.execute(
       AuthRequest.create(triggeredBy, username, password),
     );
 
-    return authenticatedUser;
+    return UserSuccessfullyAuthenticatedApiResponse.create(
+      authenticatedUser.userDetails.id as string,
+      username,
+      authenticatedUser.userDetails.email,
+      authenticatedUser.userDetails.roles,
+      authenticatedUser.token,
+    );
   }
 }
 

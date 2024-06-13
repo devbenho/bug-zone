@@ -2,7 +2,6 @@ import { BaseUseCase, UseCase } from '@application/shared';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@infrastructure/shared/ioc/types';
 import { PostRepository } from '@domain/entities/posts/post.repository';
-import { LOGGER } from '@/web/rest/logger';
 import { PostDetailsResponseDto } from '@contracts/dtos/posts/post-details.response';
 import { log } from 'console';
 import { CreatePostRequest } from './create-post.request';
@@ -22,7 +21,6 @@ class CreatePostUseCase extends BaseUseCase<
   public async performOperation(
     request: CreatePostRequest,
   ): Promise<PostDetailsResponseDto> {
-
     const post = Post.create(
       null,
       request.title,

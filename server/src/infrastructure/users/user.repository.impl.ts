@@ -5,14 +5,13 @@ import { Repository } from 'typeorm'; // Import EntityManager
 import { RepositoryDec } from '@infrastructure/shared/persistence/repository.decorator';
 import { UserRepository } from '@domain/entities/users';
 import { appDataSource } from '@infrastructure/shared/persistence/data-source';
+import { Logger } from '@domain/shared';
 // Import your preferred logging library (e.g., import { logger } from 'your-logger';)
 
 @RepositoryDec({ type: UserRepository })
 class UserRepositoryImp implements UserRepository {
-  private _repository: Repository<UserPersistence> = appDataSource.getRepository(
-    UserPersistence,
-  );
-
+  private _repository: Repository<UserPersistence> =
+    appDataSource.getRepository(UserPersistence);
 
   delete(user: User): Promise<boolean> {
     throw new Error('Method not implemented.');
@@ -29,6 +28,7 @@ class UserRepositoryImp implements UserRepository {
   }
 
   async findByUsername(username: string): Promise<User | null> {
+    Logger.info('findByUsername From userRepositoryImp');
     const user = await this._repository.findOne({ where: { username } });
     return user ? UserMapper.toDomain(user) : null;
   }

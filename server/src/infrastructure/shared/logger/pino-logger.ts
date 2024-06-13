@@ -1,6 +1,10 @@
 import { getContext } from '@tsed/di';
 import { NextFunction, Request, Response } from 'express';
-import pino, { Level, Logger as PinoLoggerType, TransportTargetOptions } from 'pino';
+import pino, {
+  Level,
+  Logger as PinoLoggerType,
+  TransportTargetOptions,
+} from 'pino';
 import pinoHttp from 'pino-http';
 
 import { LoggerDomainService } from '@domain/shared/services';
@@ -10,7 +14,7 @@ enum LogLevel {
   DEBUG = 'debug',
   INFO = 'info',
   WARN = 'warn',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 const PinoLoggerConfig = Object.freeze({
@@ -20,7 +24,7 @@ const PinoLoggerConfig = Object.freeze({
   LOG_HTTP: true,
   LOG_HTTP_IN_ALL_MESSAGES: false,
   LOG_ROTATION_AUDIT_FILE: 'log-audit.json',
-  ROTATE_FILE_TRANSPORT_PATH: `${__dirname}/pino-rotate-file.transport`
+  ROTATE_FILE_TRANSPORT_PATH: `/Users/mbanhawy/dev/projects/bug-zone/server/src/infrastructure/shared/logger/pino-rotate-file.transport.ts`,
 });
 
 class PinoLogger implements LoggerDomainService {
@@ -31,7 +35,9 @@ class PinoLogger implements LoggerDomainService {
   }
 
   public get logger(): PinoLoggerType {
-    return getContext()?.get(GlobalConfig.PINO_LOGGER_KEY) || this.defaultLogger;
+    return (
+      getContext()?.get(GlobalConfig.PINO_LOGGER_KEY) || this.defaultLogger
+    );
   }
 
   public debug(message: any, ...optionalParameters: any[]): void {
@@ -50,7 +56,11 @@ class PinoLogger implements LoggerDomainService {
     this.call(LogLevel.ERROR, message, ...optionalParameters);
   }
 
-  public createPinoHttpMiddleware(): (request: Request, response: Response, next?: NextFunction) => void {
+  public createPinoHttpMiddleware(): (
+    request: Request,
+    response: Response,
+    next?: NextFunction,
+  ) => void {
     return pinoHttp({
       logger: this.defaultLogger,
       autoLogging: PinoLoggerConfig.LOG_HTTP,
@@ -60,14 +70,16 @@ class PinoLogger implements LoggerDomainService {
         res: 'response',
         err: 'error',
         reqId: 'requestId',
-        responseTime: 'timeTaken'
+        responseTime: 'timeTaken',
       },
       customSuccessMessage: (_request, response) => {
-        return response.writableEnded ? 'Request completed!' : 'Request aborted!';
+        return response.writableEnded
+          ? 'Request completed!'
+          : 'Request aborted!';
       },
       customErrorMessage: (_request, response) => {
         return `Request failed! An error ${response.statusCode} occurred during the HTTP request.`;
-      }
+      },
     });
   }
 
@@ -87,7 +99,9 @@ class PinoLogger implements LoggerDomainService {
         Object.assign(objectArgument, message);
       }
       this.logger[level](objectArgument, ...parameters);
-    } else if (this.isWrongExceptionsHandlerContract(level, message, parameters)) {
+    } else if (
+      this.isWrongExceptionsHandlerContract(level, message, parameters)
+    ) {
       const error = new Error(message);
       const [errorStack] = parameters;
 
@@ -100,7 +114,11 @@ class PinoLogger implements LoggerDomainService {
     }
   }
 
-  private isWrongExceptionsHandlerContract(level: Level, message: any, parameters: any[]): parameters is [string] {
+  private isWrongExceptionsHandlerContract(
+    level: Level,
+    message: any,
+    parameters: any[],
+  ): parameters is [string] {
     return (
       level === LogLevel.ERROR &&
       typeof message === 'string' &&
@@ -117,44 +135,46 @@ class PinoLogger implements LoggerDomainService {
       options: {
         folder: PinoLoggerConfig.LOGS_FOLDER,
         filename: 'all',
-        extension: 'log'
-      }
+        extension: 'log',
+      },
     };
 
     const errorRotateFileTarget = {
       level: LogLevel.ERROR,
-      // target: PinoLoggerConfig.ROTATE_FILE_TRANSPORT_PATH,
+      target: PinoLoggerConfig.ROTATE_FILE_TRANSPORT_PATH,
       options: {
         folder: PinoLoggerConfig.LOGS_FOLDER,
         filename: 'error',
-        extension: 'log'
-      }
+        extension: 'log',
+      },
     };
 
     const pinoPrettyTarget = {
       level: LogLevel.DEBUG,
       target: 'pino-pretty',
-      options: { colorize: true, messageKey: 'message' }
+      options: { colorize: true, messageKey: 'message' },
     };
 
     const standardOutputTarget = {
       level: LogLevel.DEBUG,
       target: 'pino/file',
-      options: { destination: 1, append: true }
+      options: { destination: 1, append: true },
     };
 
-    // const targets: TransportTargetOptions[] = [
-    //   ...(GlobalConfig.IS_TEST ? [] : [errorRotateFileTarget, rotateFileTarget]),
-    //   GlobalConfig.IS_DEVELOPMENT ? pinoPrettyTarget : standardOutputTarget
-    // ];
+    const targets: TransportTargetOptions[] = [
+      ...(GlobalConfig.IS_TEST
+        ? []
+        : [errorRotateFileTarget, rotateFileTarget]),
+      GlobalConfig.IS_DEVELOPMENT ? pinoPrettyTarget : standardOutputTarget,
+    ];
 
     return pino(
       {
         enabled: !GlobalConfig.IS_TEST && GlobalConfig.LOGS_ENABLED,
         level: PinoLoggerConfig.LOG_LEVEL,
-        messageKey: 'message'
+        messageKey: 'message',
       },
-      // pino.transport({ targets, dedupe: false })
+      pino.transport({ targets, dedupe: false }), // Fixed uncommented line
     );
   };
 }

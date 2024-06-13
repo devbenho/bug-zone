@@ -16,9 +16,6 @@ class UserSuccessfullyAuthenticatedApiResponse {
   @Property()
   readonly token: string;
 
-  @Property()
-  readonly refreshToken: string;
-
   constructor(
     uuid: string,
     username: string,

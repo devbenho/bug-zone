@@ -35,7 +35,10 @@ const AppInfo = Object.freeze({
 const AppConfig = Object.freeze({
   PORT: getEnvironmentNumber('PORT', 5000),
   BASE_PATH: getEnvironmentString('BASE_PATH', '/api'),
-  LOGGER_PATH: getEnvironmentString('LOGGER_PATH', '../../../../logs/'),
+  LOGGER_PATH: getEnvironmentString(
+    'LOGGER_PATH',
+    '/Users/mbanhawy/dev/projects/bug-zone/server/logs',
+  ),
   AUTHORIZATION_ACCESS_TOKEN_HEADER_NAME: 'authorization',
   ACCESS_TOKEN_HEADER_NAME: 'access-token',
   ACCESS_TOKEN_COOKIE_NAME: 'access-token',
