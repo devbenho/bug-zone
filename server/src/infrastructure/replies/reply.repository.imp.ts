@@ -1,5 +1,5 @@
 import { Reply } from '@domain/entities';
-import { IReplyRepository } from '@domain/repositories/reply.repository';
+import { IReplyRepository } from '@domain/entities/replies/reply.repository';
 import { Nullable } from '@domain/shared/types';
 import { injectable } from 'inversify';
 import { DataSource, Repository } from 'typeorm';

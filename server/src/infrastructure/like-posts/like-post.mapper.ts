@@ -1,4 +1,4 @@
-import { LikePost } from '@domain/entities/like-post';
+import { LikePost } from '@domain/entities/';
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { PostMapper, PostPersistence } from '@infrastructure/posts/';
 import { LikePostPersistence } from './like-post.persistence';

@@ -4,12 +4,10 @@ import {
   Column,
   OneToMany,
   Unique,
-  BeforeInsert,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  JoinColumn,
   JoinTable,
 } from 'typeorm';
 import { CommentPersistence } from '../comments/comment.persistence';
@@ -43,8 +41,8 @@ class UserPersistence {
   @Column()
   public hashedPassword: string;
 
-  @Column({ nullable: false, default: 'user' })
-  public role: Role;
+  @Column({ nullable: false, default: ['user'] })
+  public role: string[];
 
   @CreateDateColumn()
   public createdAt: Date;

@@ -1,9 +1,7 @@
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
-import { User } from '../user';
-import { LikePost } from '../like-post';
-import { Comment } from '../comment';
 import { Nullable } from '@domain/shared/types';
-import { POST_STATUS } from '@domain/eums/post-status.enum';
+import { POST_STATUS } from '@domain/entities/posts/post-status.enum';
+import { User, Comment, LikePost } from '..';
 
 class Post extends AuditableBaseEntity {
   constructor(

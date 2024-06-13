@@ -1,18 +1,19 @@
 import { User } from '@domain/entities';
-import { IUserRepository } from '@domain/repositories/user.repository';
-import { injectable } from 'inversify';
 import { UserMapper } from './user.mapper';
 import { UserPersistence } from './user.persistence';
-import { DataSource, Repository } from 'typeorm'; // Import EntityManager
+import { Repository } from 'typeorm'; // Import EntityManager
+import { RepositoryDec } from '@infrastructure/shared/persistence/repository.decorator';
+import { UserRepository } from '@domain/entities/users';
+import { appDataSource } from '@infrastructure/shared/persistence/data-source';
 // Import your preferred logging library (e.g., import { logger } from 'your-logger';)
 
-@injectable()
-class UserRepository implements IUserRepository {
-  private _repository: Repository<UserPersistence>;
+@RepositoryDec({ type: UserRepository })
+class UserRepositoryImp implements UserRepository {
+  private _repository: Repository<UserPersistence> = appDataSource.getRepository(
+    UserPersistence,
+  );
 
-  constructor(private readonly dataSource: DataSource) {
-    this._repository = this.dataSource.getRepository(UserPersistence);
-  }
+
   delete(user: User): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
@@ -55,4 +56,4 @@ class UserRepository implements IUserRepository {
   }
 }
 
-export { UserRepository };
+export { UserRepositoryImp as UserRepository };

@@ -24,6 +24,8 @@ import {
   // MetadataMiddleware,
   NotFoundMiddleware,
 } from './middlewares';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { log } from 'console';
 
 class Server {
   @Inject()
@@ -46,7 +48,7 @@ class Server {
         },
         imports: [
           `${__dirname}/../../infrastructure/**/*.domain-service.ts`,
-          `${__dirname}/../../infrastructure/**/*.repository.ts`,
+          `${__dirname}/../../infrastructure/**/*.repository.impl.ts`,
         ],
       });
 
@@ -130,9 +132,9 @@ class Server {
       .use(express.urlencoded({ extended: true }))
       .use(cookieParser())
       .use(compression({}))
-      .use(methodOverride());
-    // .use(MetadataMiddleware);
-    // .use(LoggerMiddleware);
+      .use(methodOverride())
+      // .use(MetadataMiddleware);
+      .use(LoggerMiddleware);
   }
 
   public $afterRoutesInit(): void {

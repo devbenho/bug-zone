@@ -1,10 +1,8 @@
-interface IJwtService {
-  sign: (payload: JwtPayload) => string;
-  verify: (token: string) => JwtPayload;
-}
+import { Role } from "@domain/eums/role.enum";
 
 export interface JwtPayload {
-  userId: string;
+  userUuid: { value: string };
+  username: { value: string };
+  email: { value: string };
+  roles: { value: string }[];
 }
-
-export { IJwtService };

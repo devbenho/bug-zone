@@ -1,12 +1,11 @@
-import { Role } from '@domain/eums/role.enum';
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 import { Nullable } from '@domain/shared/types';
-import { Comment } from './comment';
-import { LikePost } from './like-post';
-import { LikeComment } from './like-comment';
-import { LikeReply } from './like-reply';
-import { Post } from './posts';
-import { Reply } from './reply';
+import { LikeComment } from '../like-comments/like-comment';
+import { Post } from '../posts';
+import { LikePost } from '../like-posts';
+import { Reply } from '../replies';
+import { LikeReply } from '../like-replies';
+import { Comment } from '../comments';
 
 class User extends AuditableBaseEntity {
   constructor(
@@ -16,7 +15,7 @@ class User extends AuditableBaseEntity {
     public email: string,
     public username: string,
     public password: string,
-    public role: Role = Role.USER,
+    public roles: string[] = ['user'],
     public createdAt: Date,
     public createdBy: string,
     public updatedAt: Nullable<Date>,
@@ -41,7 +40,7 @@ class User extends AuditableBaseEntity {
     email: string,
     username: string,
     password: string,
-    role: Role = Role.USER,
+    roles: string[] = ['user'],
     createdAt: Date,
     createdBy: string,
     updatedAt?: Nullable<Date>,
@@ -60,7 +59,7 @@ class User extends AuditableBaseEntity {
       email,
       username,
       password,
-      role,
+      roles,
       createdAt,
       createdBy,
       updatedAt,

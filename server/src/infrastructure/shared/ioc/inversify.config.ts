@@ -11,7 +11,7 @@ import { RegisterUsecase } from '@application/auth/register/register.use-case';
 import { DataSource } from 'typeorm';
 import { appDataSource } from '@infrastructure/shared/persistence/data-source';
 import { PostsController } from '@/web/rest/controllers/posts.controller';
-import { PostRepository } from '@infrastructure/posts';
+import { PostRepositoryImp } from '@infrastructure/posts';
 import { CreatePostUseCase } from '@application/post';
 import { FindAllPostUseCase } from '@application/post/find-all/find-all-post.usecase';
 
@@ -23,7 +23,7 @@ container.bind(TYPES.IUserMapper).to(UserMapper);
 
 // Inject the repositories
 container.bind(TYPES.IUserRepository).to(UserRepository);
-container.bind(TYPES.IPostRepository).to(PostRepository);
+container.bind(TYPES.IPostRepository).to(PostRepositoryImp);
 
 // Inject input ports
 container.bind(TYPES.ILoginInputPort).to(LoginUseCase);

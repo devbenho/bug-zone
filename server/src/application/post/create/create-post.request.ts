@@ -1,6 +1,6 @@
 import { UseCaseRequest } from '@application/shared';
 import { Post, User } from '@domain/entities';
-import { POST_STATUS } from '@domain/eums/post-status.enum';
+import { POST_STATUS } from '@domain/entities/posts/post-status.enum';
 import { TriggeredBy } from '@domain/shared/entities/triggered-by';
 import { UploadedFiles } from '@domain/shared/models';
 import { InvalidParameterException } from '@domain/shared/exceptions';
@@ -42,10 +42,9 @@ class CreatePostRequest extends UseCaseRequest {
       triggeredBy,
       title,
       content,
-      // authorId,
-      // author,
+      author,
       attachments,
-      // status,
+      status,
     );
   }
 

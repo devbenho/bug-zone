@@ -1,21 +1,20 @@
-import { BaseUseCase } from '@application/shared';
+import { BaseUseCase, UseCase } from '@application/shared';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@infrastructure/shared/ioc/types';
-import { IPostRepository } from '@domain/repositories/post.repository';
+import { PostRepository } from '@domain/entities/posts/post.repository';
 import { LOGGER } from '@/web/rest/logger';
 import { PostDetailsResponseDto } from '@contracts/dtos/posts/post-details.response';
 import { log } from 'console';
-import { Post } from '@domain/entities';
 import { CreatePostRequest } from './create-post.request';
 import { Post } from '@domain/entities';
 
-@injectable()
+@UseCase()
 class CreatePostUseCase extends BaseUseCase<
   CreatePostRequest,
   PostDetailsResponseDto
 > {
   constructor(
-    @inject(TYPES.IPostRepository) private _postRepository: IPostRepository,
+    @inject(TYPES.IPostRepository) private _postRepository: PostRepository,
   ) {
     super();
   }

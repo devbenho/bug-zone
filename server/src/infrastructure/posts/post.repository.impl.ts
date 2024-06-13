@@ -1,18 +1,17 @@
-import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { injectable } from 'inversify';
 import { Post } from '@domain/entities';
-import { IPostRepository } from '@domain/repositories/post.repository';
+import { PostRepository } from '@domain/entities/posts/post.repository';
 import { PostPersistence } from './post.persistence';
 import { PostMapper } from './post.mapper';
+import { appDataSource } from '@infrastructure/shared/persistence/data-source';
+import { RepositoryDec } from '@infrastructure/shared/persistence/repository.decorator';
 
-@injectable()
-export class PostRepository implements IPostRepository {
-  private _repository: Repository<PostPersistence>;
-
-  constructor(private readonly dataSource: DataSource) {
-    this._repository = this.dataSource.getRepository(PostPersistence);
-  }
+@RepositoryDec({ type: PostRepository })
+export class PostRepositoryImp implements PostRepository {
+  private _repository: Repository<PostPersistence> = appDataSource.getRepository(
+    PostPersistence,
+  );
   async findByAuthor(authorId: string): Promise<Post | null> {
     const post = await this._repository.findOne({ where: { authorId } });
     return post ? PostMapper.toDomain(post) : null;
@@ -31,10 +30,10 @@ export class PostRepository implements IPostRepository {
     const post = await this._repository.findOne({ where: { id: postId } });
     return post
       ? PostMapper.toDomain(post, {
-          author: await post.author,
-          comments: await post.comments,
-          likes: await post.likes,
-        })
+        author: await post.author,
+        comments: await post.comments,
+        likes: await post.likes,
+      })
       : null;
   }
 

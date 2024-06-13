@@ -1,7 +1,7 @@
 /* eslint-disable hexagonal-architecture/enforce */
 import { PINO_LOGGER } from '@infrastructure/shared/logger/pino-logger';
-import { LoggerDomainService } from '@contracts/services/logger.domain-service';
 import { Nullable } from './types';
+import { LoggerDomainService } from './services';
 
 /**
  * Logger class is a domain service that provides logging functionalities.

@@ -1,5 +1,4 @@
 import { CommentPersistence } from '@infrastructure/comments';
-import { Comment } from '@/domain/entities';
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { PostMapper, PostPersistence } from '@infrastructure/posts';
 import { ReplyMapper, ReplyPersistence } from '@infrastructure/replies';
@@ -7,6 +6,7 @@ import {
   LikeCommentMapper,
   LikeCommentPersistence,
 } from '@infrastructure/like-comments';
+import { Comment } from '@domain/entities';
 
 export class CommentMapper {
   public static toDomain(

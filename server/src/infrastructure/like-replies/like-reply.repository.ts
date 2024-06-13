@@ -1,22 +1,17 @@
 import { DataSource, Repository } from 'typeorm';
 import { injectable } from 'inversify';
 import { LikeReply } from '@domain/entities';
-import { ILikeReplyRepository } from '@domain/repositories/like-reply.repository';
+import { ILikeReplyRepository } from '@domain/entities/like-replies';
 
 @injectable()
 export class LikeReplyRepository
   extends Repository<LikeReply>
-  implements ILikeReplyRepository
-{
+  implements ILikeReplyRepository {
   constructor(dataSource: DataSource) {
     super(LikeReply, dataSource.createEntityManager());
   }
   async createLikeReply(likeReply: LikeReply): Promise<LikeReply> {
-    await this.createQueryBuilder('likeReply')
-      .insert()
-      .values(likeReply)
-      .execute();
-    return likeReply;
+    throw new Error('Method not implemented.');
   }
   findLikeReplyById(likeReplyId: string): Promise<LikeReply | null> {
     return this.createQueryBuilder('likeReply')

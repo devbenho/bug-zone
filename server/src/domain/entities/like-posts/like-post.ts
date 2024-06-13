@@ -1,13 +1,13 @@
-import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
-import { Comment } from './comment';
-import { User } from './user';
 import { Nullable } from '@domain/shared/types';
+import { Post } from '@domain/entities/posts';
+import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
+import { User } from '../users';
 
-class LikeComment extends AuditableBaseEntity {
+class LikePost extends AuditableBaseEntity {
   constructor(
     public id: Nullable<string>,
-    public commentId: string,
-    public comment: Nullable<Comment>,
+    public postId: string,
+    public post: Nullable<Post>,
     public userId: string,
     public user: Nullable<User>,
     public createdAt: Date,
@@ -21,4 +21,4 @@ class LikeComment extends AuditableBaseEntity {
   }
 }
 
-export { LikeComment };
+export { LikePost };

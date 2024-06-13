@@ -1,7 +1,6 @@
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
-import { Reply } from './reply';
-import { User } from './user';
 import { Nullable } from '@domain/shared/types';
+import { Reply, User } from '..';
 
 class LikeReply extends AuditableBaseEntity {
   constructor(

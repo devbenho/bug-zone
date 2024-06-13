@@ -4,7 +4,7 @@ import { CreatePostResponseDto } from '@contracts/dtos/posts/create/create-post.
 import { TriggeredByUser } from '@domain/shared/entities';
 import { TYPES } from '@infrastructure/shared/ioc/types';
 import { inject, injectable } from 'inversify';
-import { POST_STATUS } from '@domain/eums/post-status.enum';
+import { POST_STATUS } from '@domain/entities/posts/post-status.enum';
 import { FindAllPostRequest } from '@application/post/find-all/find-all-post.request';
 import { PostResponseDto } from '@contracts/dtos/posts';
 import { ExpressHandler } from '../infrastructure/express-handler';

@@ -1,4 +1,3 @@
-import { User } from '@domain/entities/user';
 import { UserPersistence } from '@infrastructure/users/user.persistence';
 import {
   LikePostMapper,
@@ -15,6 +14,8 @@ import {
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments/';
 import { PostMapper, PostPersistence } from '@infrastructure/posts/';
 import { ReplyMapper, ReplyPersistence } from '@infrastructure/replies/';
+import { User } from '@domain/entities';
+import { Comment } from '@domain/entities/comments/';
 
 class UserMapper {
   static toDomain(
@@ -29,7 +30,7 @@ class UserMapper {
     },
   ): User {
     const domainComments = (lazyEntities?.comments ?? []).map(comment =>
-      CommentMapper.toDomain(comment),
+      CommentMapper.toDomain(comment as CommentPersistence),
     );
 
     const domainLikedComments = (lazyEntities?.likedComments ?? []).map(
@@ -64,7 +65,6 @@ class UserMapper {
       persistence.id ?? '',
       persistence.updatedAt,
       persistence.id ?? '',
-
       domainComments,
       domainLikedComments,
       domainPosts,
@@ -85,7 +85,7 @@ class UserMapper {
     userPersistence.firstName = domainUser.firstName;
     userPersistence.lastName = domainUser.lastName;
     userPersistence.hashedPassword = domainUser.password;
-    userPersistence.role = domainUser.role;
+    userPersistence.role = domainUser.roles;
     userPersistence.createdAt = domainUser.createdAt;
     userPersistence.updatedAt = domainUser.updatedAt;
     userPersistence.deletedAt = domainUser.deletedAt;
@@ -104,7 +104,9 @@ class UserMapper {
 
     if (domainUser.comments) {
       userPersistence.comments = Promise.all(
-        domainUser.comments.map(CommentMapper.toPersistence),
+        domainUser.comments.map(comment =>
+          CommentMapper.toPersistence(comment)
+        ),
       );
     }
 

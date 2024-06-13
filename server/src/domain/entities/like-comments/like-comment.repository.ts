@@ -1,4 +1,4 @@
-import { LikeComment } from '@domain/entities/like-comment';
+import { LikeComment } from ".";
 
 interface ILikeCommentRepository {
   createLikeComment(likeComment: LikeComment): Promise<LikeComment>;

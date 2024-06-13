@@ -1,7 +1,6 @@
 import { UseCaseRequest } from '@application/shared';
 import { TriggeredBy, TriggeredByUser } from '@domain/shared/entities';
 import { User } from '@domain/entities';
-import { Role } from '@domain/eums/role.enum';
 
 class CreateUserDto extends UseCaseRequest {
   constructor(
@@ -12,7 +11,7 @@ class CreateUserDto extends UseCaseRequest {
     public password: string,
     public username: string,
     public profilePicture?: string,
-    public role: Role = Role.USER,
+    public roles: string[] = ['user'],
   ) {
     super(triggeredBy);
     this.validate();
@@ -65,7 +64,7 @@ class CreateUserDto extends UseCaseRequest {
       this.email,
       this.username,
       this.password,
-      this.role,
+      this.roles,
       new Date(),
       this.triggeredBy.who,
     );

@@ -1,5 +1,5 @@
 import { PostPersistence } from '@infrastructure/posts';
-import { POST_STATUS } from '@domain/eums/post-status.enum';
+import { POST_STATUS } from '@domain/entities/posts/post-status.enum';
 import { Post } from '@domain/entities';
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments';

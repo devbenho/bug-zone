@@ -2,7 +2,7 @@ import { BaseUseCase } from '@application/shared';
 import { FindAllPostRequest } from './find-all-post.request';
 import { PostResponseDto } from '@contracts/dtos/posts';
 import { TYPES } from '@infrastructure/shared/ioc/types';
-import { IPostRepository } from '@domain/repositories/post.repository';
+import { PostRepository } from '@domain/entities/posts/post.repository';
 import { inject } from 'inversify';
 import { log } from 'console';
 
@@ -12,7 +12,7 @@ class FindAllPostUseCase extends BaseUseCase<
 > {
   constructor(
     @inject(TYPES.IPostRepository)
-    private readonly _postRepository: IPostRepository,
+    private readonly _postRepository: PostRepository,
   ) {
     super();
   }

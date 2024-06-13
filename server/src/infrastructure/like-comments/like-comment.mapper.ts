@@ -1,6 +1,6 @@
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { LikeCommentPersistence } from './like-comment.persistence';
-import { LikeComment } from '@domain/entities/like-comment';
+import { LikeComment } from '@domain/entities/like-comments';
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments/';
 
 class LikeCommentMapper {

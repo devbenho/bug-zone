@@ -1,13 +1,11 @@
 import { DataSource, Repository } from 'typeorm';
 import { injectable } from 'inversify';
-import { LikeComment } from '@domain/entities/like-comment';
-import { ILikeCommentRepository } from '@domain/repositories/like-comment.repository';
+import { LikeComment, ILikeCommentRepository } from '@domain/entities/like-comments';
 
 @injectable()
 export class LikeCommentRepository
   extends Repository<LikeComment>
-  implements ILikeCommentRepository
-{
+  implements ILikeCommentRepository {
   constructor(dataSource: DataSource) {
     super(LikeComment, dataSource.createEntityManager());
   }
