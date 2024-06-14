@@ -17,20 +17,20 @@ class ReplyMapper {
       likes?: LikeReplyPersistence[];
     },
   ): Reply {
-    const comment = (lazyEntities?.comment ?? null) as Nullable<Comment>;
-    const user = (lazyEntities?.user ?? null) as Nullable<User>;
-    const likes = lazyEntities?.likes
+    const domainComment = (lazyEntities?.comment ?? null) as Nullable<Comment>;
+    const domainUser = (lazyEntities?.user ?? null) as Nullable<User>;
+    const domainLikes = lazyEntities?.likes
       ? lazyEntities.likes.map(like => LikeReplyMapper.toDomain(like))
       : [];
 
     return new Reply(
       reply.id,
       reply.commentId,
-      comment,
+      domainComment,
       reply.userId,
-      user,
+      domainUser,
       reply.content,
-      likes,
+      domainLikes,
       reply.createdAt,
       reply.userId,
       reply.updatedAt,
@@ -40,7 +40,7 @@ class ReplyMapper {
     );
   }
 
-  static async toPersistence(reply: Reply): Promise<ReplyPersistence> {
+  static toPersistence(reply: Reply): ReplyPersistence {
     const replyPersistence = new ReplyPersistence();
 
     if (reply.id != null) {
@@ -51,13 +51,22 @@ class ReplyMapper {
     replyPersistence.content = reply.content;
     replyPersistence.createdAt = reply.createdAt;
     replyPersistence.deletedAt = reply.deletedAt;
-    replyPersistence.comment = await CommentMapper.toPersistence(
-      reply.comment as Comment,
-    );
-    replyPersistence.user = await UserMapper.toPersistence(reply.user as User);
-    replyPersistence.likes = await Promise.all(
-      (reply.likes ?? []).map(like => LikeReplyMapper.toPersistence(like)),
-    );
+    if (reply.comment) {
+      replyPersistence.comment = Promise.resolve(
+        CommentMapper.toPersistence(reply.comment),
+      );
+    }
+    if (reply.user) {
+      replyPersistence.user = Promise.resolve(
+        UserMapper.toPersistence(reply.user),
+      );
+    }
+
+    if (reply.likes) {
+      replyPersistence.likes = Promise.all(
+        reply.likes.map(like => LikeReplyMapper.toPersistence(like)),
+      );
+    }
 
     return replyPersistence;
   }

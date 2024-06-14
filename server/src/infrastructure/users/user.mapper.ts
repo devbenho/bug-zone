@@ -15,7 +15,6 @@ import { CommentMapper, CommentPersistence } from '@infrastructure/comments/';
 import { PostMapper, PostPersistence } from '@infrastructure/posts/';
 import { ReplyMapper, ReplyPersistence } from '@infrastructure/replies/';
 import { User } from '@domain/entities';
-import { Comment } from '@domain/entities/comments/';
 
 class UserMapper {
   static toDomain(
@@ -60,7 +59,7 @@ class UserMapper {
       persistence.email,
       persistence.username,
       persistence.hashedPassword,
-      persistence.role,
+      persistence.role.split(',').map(role => role.trim() as string),
       persistence.createdAt,
       persistence.id ?? '',
       persistence.updatedAt,
@@ -85,7 +84,7 @@ class UserMapper {
     userPersistence.firstName = domainUser.firstName;
     userPersistence.lastName = domainUser.lastName;
     userPersistence.hashedPassword = domainUser.password;
-    userPersistence.role = domainUser.roles;
+    userPersistence.role = domainUser.roles.toString();
     userPersistence.createdAt = domainUser.createdAt;
     userPersistence.updatedAt = domainUser.updatedAt;
     userPersistence.deletedAt = domainUser.deletedAt;
@@ -105,7 +104,7 @@ class UserMapper {
     if (domainUser.comments) {
       userPersistence.comments = Promise.all(
         domainUser.comments.map(comment =>
-          CommentMapper.toPersistence(comment)
+          CommentMapper.toPersistence(comment),
         ),
       );
     }

@@ -1,33 +1,52 @@
-// import 'reflect-metadata';
-// import { AuthResponseDto } from '@contracts/dtos/auth';
-// import { CreateUserDto } from '@contracts/dtos/users';
-// import { TYPES } from '@infrastructure/shared/ioc/types';
-// import { inject, injectable } from 'inversify';
-// import { BaseUseCase } from '@application/shared';
-// import { UserRepository } from '@domain/repositories/user.repository';
-// import { log } from 'console';
-// import { TokenProviderDomainService } from '@domain/shared/services/token-provider.domain-service';
+import 'reflect-metadata';
+import { AuthResponseDto } from '@contracts/dtos/auth';
+import { CreateUserDto } from '@contracts/dtos/users';
+import { BaseUseCase, UseCase } from '@application/shared';
+import { TokenProviderDomainService } from '@domain/shared/services/token-provider.domain-service';
+import { UserRepository } from '@domain/entities';
+import { JwtPayload } from '@contracts/services/IJwt';
+import { HasherDomainService } from '@domain/shared/services';
+import { Hash } from 'crypto';
 
-// @injectable()
-// class RegisterUsecase extends BaseUseCase<CreateUserDto, AuthResponseDto> {
-//   private _userRepository: UserRepository,
-//   private _jwtService: TokenProviderDomainService,
+@UseCase()
+class RegisterUsecase extends BaseUseCase<CreateUserDto, AuthResponseDto> {
+  private _userRepository: UserRepository;
+  private _jwtService: TokenProviderDomainService;
+  private _hasherService: HasherDomainService;
 
-//   public async performOperation(
-//     request: CreateUserDto,
-//   ): Promise<AuthResponseDto> {
-//     const user = request.toEntity();
-//     const createdUser = await this._userRepository.saveUser(user);
-//     log('createdUser', createdUser);
-//     const result: AuthResponseDto = {
-//       token: this._jwtService.({ userId: createdUser.id as string }),
-//       tokenExpiration: new Date(Date.now() + 1000 * 60 * 60),
-//       // refreshToken: this._jwtService.sign({ userId: createdUser.id as string }),
-//       // refreshTokenExpiration: new Date(Date.now() + 1000 * 60 * 60 * 24),
-//       userDetails: createdUser,
-//     };
-//     return result;
-//   }
-// }
+  constructor(
+    userRepository: UserRepository,
+    jwtService: TokenProviderDomainService,
+    hasherService: HasherDomainService,
+  ) {
+    super();
+    this._userRepository = userRepository;
+    this._jwtService = jwtService;
+    this._hasherService = hasherService;
+  }
 
-// export { RegisterUsecase };
+  public async performOperation(
+    request: CreateUserDto,
+  ): Promise<AuthResponseDto> {
+    const user = request.toEntity();
+    user.password = await HasherDomainService.hash(user.password);
+    const createdUser = await this._userRepository.saveUser(user);
+    const payload = {
+      email: { value: user.email },
+      roles: user.roles.map(role => ({ value: role })),
+      username: { value: user.username },
+      userUuid: { value: user.id as string },
+    } as JwtPayload;
+
+    const token = this._jwtService.createAccessToken(payload);
+
+    const result: AuthResponseDto = {
+      token,
+      tokenExpiration: new Date(Date.now() + 1000 * 60 * 60),
+      userDetails: createdUser,
+    };
+    return result;
+  }
+}
+
+export { RegisterUsecase };

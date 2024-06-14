@@ -28,8 +28,8 @@ class UserRepositoryImp implements UserRepository {
   }
 
   async findByUsername(username: string): Promise<User | null> {
-    Logger.info('findByUsername From userRepositoryImp');
     const user = await this._repository.findOne({ where: { username } });
+    Logger.info('Found user', user);
     return user ? UserMapper.toDomain(user) : null;
   }
 

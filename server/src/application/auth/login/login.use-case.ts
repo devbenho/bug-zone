@@ -5,6 +5,7 @@ import { UserRepository } from '@domain/entities/users';
 import { HasherDomainService } from '@domain/shared/services';
 import { TokenProviderDomainService } from '@domain/shared/services/token-provider.domain-service';
 import { JwtPayload } from '@contracts/services/IJwt';
+import { Logger } from '@domain/shared';
 
 @UseCase()
 class LoginUseCase extends BaseUseCase<AuthRequest, AuthResponseDto> {
@@ -29,6 +30,16 @@ class LoginUseCase extends BaseUseCase<AuthRequest, AuthResponseDto> {
     if (!user) {
       throw new UnauthorizedError();
     }
+    const isPasswordValid = await HasherDomainService.compare(
+      await HasherDomainService.hash(request.password),
+      user.password,
+    );
+    Logger.info('user password', user.password);
+    Logger.info(
+      'request password',
+      await HasherDomainService.hash(request.password),
+    );
+    Logger.info('Is password valid', isPasswordValid);
     if (!(await HasherDomainService.compare(request.password, user.password))) {
       throw new UnauthorizedError();
     }
@@ -41,12 +52,14 @@ class LoginUseCase extends BaseUseCase<AuthRequest, AuthResponseDto> {
     };
 
     const token = this._jwtService.createAccessToken(payload);
+    Logger.info('Token created', token);
     const result: AuthResponseDto = {
       token,
       // tokenExpiration type is Date
       tokenExpiration: new Date(),
       userDetails: user,
     };
+    Logger.info('Result', result);
     return result;
   }
 }

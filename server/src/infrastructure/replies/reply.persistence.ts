@@ -3,9 +3,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -37,14 +37,19 @@ class ReplyPersistence {
   @Column()
   commentId: string;
 
-  @ManyToOne(() => CommentPersistence, comment => comment.replies, { lazy: true })
-  comment: CommentPersistence;
+  @ManyToOne(() => CommentPersistence, comment => comment.replies, {
+    lazy: true,
+  })
+  @JoinTable()
+  comment: Promise<CommentPersistence>;
 
   @ManyToOne(() => UserPersistence, user => user.replies, { lazy: true })
-  user: UserPersistence;
+  @JoinTable()
+  user: Promise<UserPersistence>;
 
   @OneToMany(() => LikeReplyPersistence, like => like.reply, { lazy: true })
-  likes: LikeReplyPersistence[];
+  @JoinTable()
+  likes: Promise<LikeReplyPersistence[]>;
 }
 
 export { ReplyPersistence };

@@ -1,7 +1,7 @@
 import { TriggeredByUser } from '@domain/shared/entities';
-import { AuthRequest, AuthResponseDto } from '@contracts/dtos/auth';
+import { AuthRequest } from '@contracts/dtos/auth';
 import { LoginUseCase } from '@application/auth/login/login.use-case';
-// import { RegisterUsecase } from '@application/auth/register/register.use-case';
+import { RegisterUsecase } from '@application/auth/register/register.use-case';
 import {
   Description,
   Example,
@@ -16,16 +16,17 @@ import { StatusCodes } from 'http-status-codes';
 import { BodyParams } from '@tsed/common';
 import { RestController } from '@web/rest/infrastructure/rest-controller.decorator';
 import { UserSuccessfullyAuthenticatedApiResponse } from './user-successfully-authenticated.api-response';
+import { CreateUserDto } from '@contracts/dtos/users';
 
 @RestController('/auth')
 @Tags({ name: 'Authentication', description: 'Login and register users' })
 class AuthController {
   private _loginUseCase: LoginUseCase;
-  // private _registerUseCase: RegisterUsecase;
+  private _registerUseCase: RegisterUsecase;
 
-  constructor(loginUseCase: LoginUseCase) {
+  constructor(loginUseCase: LoginUseCase, registerUseCase: RegisterUsecase) {
     this._loginUseCase = loginUseCase;
-    // this._registerUseCase = registerUseCase;
+    this._registerUseCase = registerUseCase;
   }
 
   @Post('/login')
@@ -43,6 +44,40 @@ class AuthController {
     let triggeredBy = new TriggeredByUser(username, []);
     const authenticatedUser = await this._loginUseCase.execute(
       AuthRequest.create(triggeredBy, username, password),
+    );
+
+    return UserSuccessfullyAuthenticatedApiResponse.create(
+      authenticatedUser.userDetails.id as string,
+      username,
+      authenticatedUser.userDetails.email,
+      authenticatedUser.userDetails.roles,
+      authenticatedUser.token,
+    );
+  }
+
+  @Post('/register')
+  @Title('Register')
+  @Summary('User Register')
+  @Description('Endpoint to register the user')
+  @Returns(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  @Status(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  public async registerUser(
+    @Example('Muhammad') @BodyParams('firstname') firstName: string,
+    @Example('Banhawy') @BodyParams('lastname') lastName: string,
+    @Example('devbenho') @BodyParams('username') username: string,
+    @Example('devbenho@benho.com') @BodyParams('email') email: string,
+    @Example('123456') @BodyParams('password') password: string,
+  ): Promise<UserSuccessfullyAuthenticatedApiResponse> {
+    let triggeredBy = new TriggeredByUser(username, []);
+    const authenticatedUser = await this._registerUseCase.execute(
+      CreateUserDto.create(
+        triggeredBy,
+        firstName,
+        lastName,
+        email,
+        password,
+        username,
+      ),
     );
 
     return UserSuccessfullyAuthenticatedApiResponse.create(

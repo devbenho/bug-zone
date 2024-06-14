@@ -1,4 +1,3 @@
-import { Role } from '@domain/eums/role.enum';
 import {
   Entity,
   Column,
@@ -41,8 +40,8 @@ class UserPersistence {
   @Column()
   public hashedPassword: string;
 
-  @Column({ nullable: false, default: ['user'] })
-  public role: string[];
+  @Column({ nullable: false, default: 'user' })
+  public role: string;
 
   @CreateDateColumn()
   public createdAt: Date;

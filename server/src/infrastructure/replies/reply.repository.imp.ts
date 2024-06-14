@@ -7,7 +7,8 @@ import { DataSource, Repository } from 'typeorm';
 @injectable()
 export class ReplyRepository
   extends Repository<Reply>
-  implements IReplyRepository {
+  implements IReplyRepository
+{
   constructor(dataSource: DataSource) {
     super(Reply, dataSource.createEntityManager());
   }

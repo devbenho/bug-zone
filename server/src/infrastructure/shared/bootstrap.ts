@@ -6,6 +6,7 @@ import { Logger } from '@domain/shared';
 
 // import { Cache } from './cache/cache';
 import { DependencyInjection } from './di/dependency-injection';
+import { appDataSource } from './persistence/data-source';
 
 interface BootstrapResult {
   bootstrapDuration: number;
@@ -23,6 +24,7 @@ const bootstrap = async (): Promise<BootstrapResult> => {
   Logger.info(decorateLoggerMessage('Initializing DI container...'));
 
   await DependencyInjection.initialize();
+  await appDataSource.initialize(); // Initialize the database connection
 
   Logger.info(decorateLoggerMessage('DI container initialized!'));
 

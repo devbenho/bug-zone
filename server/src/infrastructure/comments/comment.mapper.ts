@@ -75,9 +75,9 @@ export class CommentMapper {
     }
 
     if (comment.replies) {
-      commentPersistence.replies = Promise.all(
-        comment.replies.map(reply => ReplyMapper.toPersistence(reply)),
-      );
+      // commentPersistence.replies = Promise.all(
+      //   comment.replies.map(reply => ReplyMapper.toPersistence(reply)),
+      // );
     }
 
     if (comment.likes) {
