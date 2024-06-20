@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 
-import { Nullable } from '@domain/shared';
+import { Logger, Nullable } from '@domain/shared';
 import { GlobalConfig } from '@infrastructure/shared/config';
 import { DomainService } from '@domain/shared/services/domain-service.decorator';
 import { TokenProviderDomainService } from '@domain/shared/services/token-provider.domain-service';
@@ -12,11 +12,14 @@ class JwtTokenProvider extends TokenProviderDomainService {
   public createAccessToken(payload: JwtPayload): string {
     return jwt.sign(payload, this.jwtSecret, {
       algorithm: this.jwtAlgorithm,
-      expiresIn: this.jwtExpiration,
+      expiresIn: '3h',
     });
   }
   public verifyAccessToken(token: string): Nullable<JwtPayload> {
+    const decoded = jwt.verify(token, this.jwtSecret) as JwtPayload;
+    Logger.debug('JwtTokenProvider.verifyAccessToken', decoded);
     try {
+      Logger.debug('JwtTokenProvider.verifyAccessToken', jwt.verify(token, this.jwtSecret) as JwtPayload);
       return jwt.verify(token, this.jwtSecret) as JwtPayload;
     } catch {
       return null;

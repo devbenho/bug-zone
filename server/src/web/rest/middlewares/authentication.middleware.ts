@@ -6,20 +6,25 @@ import { TriggeredByUser } from '@domain/shared/entities/triggered-by';
 import { JwtTokenProvider } from '@infrastructure/shared/jwt/jwt-token-provider.domain-service';
 import { ForbiddenException } from '../expections';
 import { AppConfig } from '../config';
+import { Logger } from '@domain/shared';
+import { User, UserRepository } from '@domain/entities';
 
 type UserRoles = 'admin' | 'user';
 
 @Middleware()
 class AuthenticationMiddleware implements MiddlewareMethods {
-    constructor(private jwtTokenProvider: JwtTokenProvider) { }
+    constructor(private jwtTokenProvider: JwtTokenProvider, private userRepository: UserRepository) { }
 
     public async use(@Req() request: Req, @Res() response: Res, @Context() context: Context): Promise<void> {
+        Logger.debug('AuthenticationMiddleware.use');
         const token = this.getTokenFromRequest(request);
         if (!token) {
+            Logger.error('Token not found');
             throw new ForbiddenException();
         }
 
         const payload = this.jwtTokenProvider.verifyAccessToken(token);
+        Logger.debug('Payload', payload);
         if (!payload) {
             throw new ForbiddenException();
         }
@@ -31,14 +36,17 @@ class AuthenticationMiddleware implements MiddlewareMethods {
     }
 
     private getTokenFromRequest(request: Req): string | null {
+        Logger.debug('AuthenticationMiddleware.getTokenFromRequest', request.headers);
         const authHeader = request.headers['authorization'];
         if (!authHeader) {
+            Logger.error('Authorization header not found');
             return null;
         }
         const parts = authHeader.split(' ');
         if (parts.length !== 2 || parts[0] !== 'Bearer') {
             return null;
         }
+        Logger.debug('Token found', parts[1]);
         return parts[1];
     }
 
@@ -71,7 +79,24 @@ class AuthenticationMiddleware implements MiddlewareMethods {
 
             const triggeredBy = new TriggeredByUser(accessToken.username.value, userRoles);
             context.set(AppConfig.TRIGGERED_BY_CONTEXT_KEY, triggeredBy);
+
+            // assign user to context
+            this.ensureUserExists(context, validatedSessionResponse).then(user => {
+                context.set(AppConfig.AUTHENTICATION_CONTEXT_KEY, user);
+            });
         }
+    }
+
+    // ensure user exists
+
+    private async ensureUserExists(context: Context, validatedSessionResponse: { accessToken: JwtPayload }): Promise<User | null> {
+        const { accessToken } = validatedSessionResponse;
+        const user = await this.userRepository.findById(accessToken.userUuid.value);
+        if (!user) {
+            throw new ForbiddenException();
+        }
+
+        return user;
     }
 }
 

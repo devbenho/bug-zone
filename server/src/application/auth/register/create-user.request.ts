@@ -1,6 +1,8 @@
 import { UseCaseRequest } from '@application/shared';
 import { TriggeredBy, TriggeredByUser } from '@domain/shared/entities';
 import { User } from '@domain/entities';
+import { Logger } from '@domain/shared';
+import { InvalidParameterException } from '@domain/shared/exceptions';
 
 class CreateUserDto extends UseCaseRequest {
   constructor(
@@ -25,7 +27,9 @@ class CreateUserDto extends UseCaseRequest {
       !this.password ||
       !this.username
     ) {
-      throw new Error('Invalid request: Missing required fields');
+      Logger.debug('Entered Input: ', this);
+      // show the missing fields to the user
+      throw new InvalidParameterException('Invalid request: Missing required fields');
     }
   }
 

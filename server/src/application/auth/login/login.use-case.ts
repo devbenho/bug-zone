@@ -55,8 +55,6 @@ class LoginUseCase extends BaseUseCase<AuthRequest, AuthResponseDto> {
     Logger.info('Token created', token);
     const result: AuthResponseDto = {
       token,
-      // tokenExpiration type is Date
-      tokenExpiration: new Date(),
       userDetails: user,
     };
     Logger.info('Result', result);
