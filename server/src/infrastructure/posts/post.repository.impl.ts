@@ -6,6 +6,7 @@ import { PostPersistence } from './post.persistence';
 import { PostMapper } from './post.mapper';
 import { appDataSource } from '@infrastructure/shared/persistence/data-source';
 import { RepositoryDec } from '@infrastructure/shared/persistence/repository.decorator';
+import { Logger } from '@domain/shared';
 
 @RepositoryDec({ type: PostRepository })
 export class PostRepositoryImp implements PostRepository {
@@ -18,7 +19,9 @@ export class PostRepositoryImp implements PostRepository {
   }
 
   async createPost(post: Post): Promise<Post> {
+    Logger.info('PostRepositoryImp.createPost', post);
     const postPersistence = PostMapper.toPersistence(post);
+    Logger.info('PostRepositoryImp.createPost', postPersistence);
     const createdPost = await this._repository.save(postPersistence);
 
     return PostMapper.toDomain(createdPost, {
@@ -53,7 +56,10 @@ export class PostRepositoryImp implements PostRepository {
   }
 
   async findAll(limit: number, page: number): Promise<Post[]> {
+    Logger.info('PostRepositoryImp.findAll');
     const [posts, count] = await this._repository.findAndCount();
+
+    Logger.info('posts from repo', posts);
     const postPromises = posts.map(async post =>
       PostMapper.toDomain(post, {
         author: await post.author,

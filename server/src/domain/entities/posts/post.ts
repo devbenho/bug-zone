@@ -1,6 +1,5 @@
 import { AuditableBaseEntity } from '@domain/shared/auditable.entity';
 import { Nullable } from '@domain/shared/types';
-import { POST_STATUS } from '@domain/entities/posts/post-status.enum';
 import { User, Comment, LikePost } from '..';
 
 class Post extends AuditableBaseEntity {
@@ -12,7 +11,7 @@ class Post extends AuditableBaseEntity {
     public author: Nullable<User>,
     public likes: LikePost[],
     public comments: Comment[],
-    public status: POST_STATUS = POST_STATUS.DRAFT,
+    public status: string = 'draft',
     public createdAt: Date,
     public updatedAt: Nullable<Date>,
     public deletedAt: Nullable<Date>,
@@ -28,7 +27,7 @@ class Post extends AuditableBaseEntity {
     author: Nullable<User>,
     likes: LikePost[],
     comments: Comment[],
-    status: POST_STATUS,
+    status: string,
     createdAt: Date,
     updatedAt: Nullable<Date>,
     deletedAt: Nullable<Date>,

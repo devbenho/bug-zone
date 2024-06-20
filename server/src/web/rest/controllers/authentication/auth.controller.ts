@@ -45,7 +45,6 @@ class AuthController {
     const authenticatedUser = await this._loginUseCase.execute(
       AuthRequest.create(triggeredBy, username, password),
     );
-
     return UserSuccessfullyAuthenticatedApiResponse.create(
       authenticatedUser.userDetails.id as string,
       username,

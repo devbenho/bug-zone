@@ -1,22 +1,24 @@
 import { BaseUseCase, UseCase } from '@application/shared';
-import { inject, injectable } from 'inversify';
-import { TYPES } from '@infrastructure/shared/ioc/types';
 import { PostRepository } from '@domain/entities/posts/post.repository';
 import { PostDetailsResponseDto } from '@contracts/dtos/posts/post-details.response';
-import { log } from 'console';
 import { CreatePostRequest } from './create-post.request';
 import { Post } from '@domain/entities';
+import { Logger } from '@domain/shared';
 
 @UseCase()
 class CreatePostUseCase extends BaseUseCase<
   CreatePostRequest,
   PostDetailsResponseDto
 > {
+  private readonly _postRepository: PostRepository;
+
   constructor(
-    @inject(TYPES.IPostRepository) private _postRepository: PostRepository,
+    postRepository: PostRepository,
   ) {
     super();
+    this._postRepository = postRepository;
   }
+
 
   public async performOperation(
     request: CreatePostRequest,
@@ -26,7 +28,7 @@ class CreatePostUseCase extends BaseUseCase<
       request.title,
       request.content,
       request.authorId,
-      request.author,
+      null,
       [],
       [],
       request.status,
@@ -34,11 +36,9 @@ class CreatePostUseCase extends BaseUseCase<
       null,
       null,
     );
-
+    Logger.info('CreatePostUseCase.performOperation', post);
     const createdPost = await this._postRepository.createPost(post);
-
-    log('created post is', createdPost);
-
+    Logger.info('Done', createdPost);
     if (createdPost) {
       return PostDetailsResponseDto.fromEntity(createdPost);
     }

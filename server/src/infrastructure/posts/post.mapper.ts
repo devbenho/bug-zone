@@ -1,5 +1,4 @@
 import { PostPersistence } from '@infrastructure/posts';
-import { POST_STATUS } from '@domain/entities/posts/post-status.enum';
 import { Post } from '@domain/entities';
 import { UserMapper, UserPersistence } from '@infrastructure/users';
 import { CommentMapper, CommentPersistence } from '@infrastructure/comments';
@@ -7,6 +6,7 @@ import {
   LikePostMapper,
   LikePostPersistence,
 } from '@infrastructure/like-posts';
+import { Logger } from '@domain/shared';
 
 class PostMapper {
   public static toDomain(
@@ -28,7 +28,11 @@ class PostMapper {
       CommentMapper.toDomain(comment),
     );
     const postStatus =
-      POST_STATUS[persistence.status.toUpperCase() as keyof typeof POST_STATUS];
+      persistence.status === 'draft'
+        ? 'draft'
+        : persistence.status === 'published'
+          ? 'published'
+          : 'archived';
 
     return Post.create(
       persistence.id,
@@ -46,6 +50,7 @@ class PostMapper {
   }
 
   public static toPersistence(domainPost: Post): PostPersistence {
+    Logger.info('PostMapper.toPersistence', domainPost);
     const postPersistence = new PostPersistence();
 
     if (domainPost.id) {
@@ -56,7 +61,7 @@ class PostMapper {
     postPersistence.content = domainPost.content;
     postPersistence.authorId = domainPost.authorId;
 
-    postPersistence.status = domainPost.status.toLowerCase(); //TODO: Refactor this
+    postPersistence.status = domainPost.status.toString(); //TODO: Refactor this
     postPersistence.createdAt = domainPost.createdAt;
     postPersistence.deletedAt = domainPost.deletedAt;
 
@@ -74,7 +79,7 @@ class PostMapper {
       postPersistence.comments = Promise.all(
         domainPost.comments.map(CommentMapper.toPersistence),
       );
-
+    Logger.info('PostMapper.toPersistence done', postPersistence);
     return postPersistence;
   }
 }

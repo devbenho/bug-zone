@@ -17,7 +17,7 @@ const GlobalConfig = Object.freeze({
 
   JWT_SECRET: getEnvironmentString('JWT_SECRET', 'jwtSecretPassphrase'),
 
-  JWT_EXPIRATION: getEnvironmentNumber('JWT_EXPIRATION', 1),
+  JWT_EXPIRATION: getEnvironmentNumber('JWT_EXPIRATION', 2),
 
   JWT_REFRESH_EXPIRATION: getEnvironmentNumber('JWT_REFRESH_EXPIRATION', 6),
 

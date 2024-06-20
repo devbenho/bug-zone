@@ -13,6 +13,7 @@ import { CommentPersistence } from '@infrastructure/comments/';
 import { UserPersistence } from '@infrastructure/users';
 import { LikePostPersistence } from '@infrastructure/like-posts/';
 import { Nullable } from '@domain/shared/types';
+import { Default } from '@tsed/schema';
 
 @Entity()
 class PostPersistence {
@@ -53,6 +54,7 @@ class PostPersistence {
 
   // add status column enum ['draft', 'published', 'deleted']
   @Column()
+  @Default('draft')
   status: string;
 }
 
