@@ -1,15 +1,14 @@
 import { BaseUseCase, UseCase } from '@application/shared';
 import { DeleteCommentRequest } from './delete-comment.request';
-	
-@UseCase()
-class DeleteCommentUseCase extends BaseUseCase<DeleteCommentRequest,bool> {
 
+@UseCase()
+class DeleteCommentUseCase extends BaseUseCase<DeleteCommentRequest, boolean> {
   constructor() {
-	super();
+    super();
   }
 
-  public async performOperation({  }: DeleteCommentRequest): Promise<bool> {
-	throw new Error('Method not implemented.');
+  public async performOperation({}: DeleteCommentRequest): Promise<boolean> {
+    throw new Error('Method not implemented.');
   }
 }
 

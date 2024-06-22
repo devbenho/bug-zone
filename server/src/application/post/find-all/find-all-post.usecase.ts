@@ -2,8 +2,6 @@ import { BaseUseCase, UseCase } from '@application/shared';
 import { FindAllPostRequest } from './find-all-post.request';
 import { PostResponseDto } from '@contracts/dtos/posts';
 import { PostRepository } from '@domain/entities/posts/post.repository';
-import { log } from 'console';
-import { Logger } from '@domain/shared';
 
 @UseCase()
 class FindAllPostUseCase extends BaseUseCase<
@@ -19,21 +17,17 @@ class FindAllPostUseCase extends BaseUseCase<
   public async performOperation(
     request: FindAllPostRequest,
   ): Promise<PostResponseDto[]> {
-    Logger.info('FindAllPostUseCase.performOperation');
     const { pageSize, pageNumber } = request;
     const posts = await this._postRepository.findAll(
       pageSize || 10,
       pageNumber || 1,
     );
 
-    Logger.info('posts from usecase', posts);
     const postDtos = await Promise.all(
       posts.map(async post => {
         return await PostResponseDto.fromEntity(post);
       }),
     );
-    Logger.info('postsDtos from usecase', postDtos);
-
     return postDtos;
   }
 }

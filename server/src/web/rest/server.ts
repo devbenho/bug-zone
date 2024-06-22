@@ -21,11 +21,10 @@ import { CacheConfig, GlobalConfig } from '@infrastructure/shared/config';
 import { AppConfig, AppInfo } from './config';
 import {
   // LoggerMiddleware,
-  // MetadataMiddleware,
+  MetadataMiddleware,
   NotFoundMiddleware,
 } from './middlewares';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { log } from 'console';
 
 class Server {
   @Inject()
@@ -133,7 +132,7 @@ class Server {
       .use(cookieParser())
       .use(compression({}))
       .use(methodOverride())
-      // .use(MetadataMiddleware);
+      .use(MetadataMiddleware)
       .use(LoggerMiddleware);
   }
 

@@ -1,10 +1,8 @@
-
 import { UseCaseRequest } from '@application/shared';
 import { TriggeredBy } from '@domain/shared/entities/triggered-by';
 // import { InvalidParameterException } from '@domain/shared/exceptions';
 
-class GetByPostIdCommentRequest extends UseCaseRequest {
-
+class FindCommentsByPostIdRequest extends UseCaseRequest {
   readonly postId: string;
   readonly pageSize: number;
   readonly pageNumber: number;
@@ -27,18 +25,17 @@ class GetByPostIdCommentRequest extends UseCaseRequest {
     postId: string,
     pageSize: number,
     pageNumber: number,
-  ): GetByPostIdCommentRequest {
-    return new GetByPostIdCommentRequest(
+  ): FindCommentsByPostIdRequest {
+    return new FindCommentsByPostIdRequest(
       triggeredBy,
       postId,
       pageSize,
       pageNumber,
     );
-  } 
+  }
 
   // Validate here using EnsureClass
-  protected validatePayload(): void {
-  }
+  protected validatePayload(): void {}
 }
 
-export { GetByPostIdCommentRequest };
+export { FindCommentsByPostIdRequest };

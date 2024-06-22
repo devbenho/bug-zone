@@ -17,13 +17,13 @@ const RequestUtils = {
       : accessTokenHeader || accessTokenCookie || null;
   },
 
-  getRefreshToken: (request: Req): Nullable<string> => {
-    const refreshTokenHeader = request.get(AppConfig.REFRESH_TOKEN_HEADER_NAME);
-    const refreshTokenCookie =
-      request.cookies[AppConfig.REFRESH_TOKEN_COOKIE_NAME];
+  // getRefreshToken: (request: Req): Nullable<string> => {
+  //   const refreshTokenHeader = request.get(AppConfig.REFRESH_TOKEN_HEADER_NAME);
+  //   const refreshTokenCookie =
+  //     request.cookies[AppConfig.REFRESH_TOKEN_COOKIE_NAME];
 
-    return refreshTokenHeader || refreshTokenCookie || null;
-  },
+  //   return refreshTokenHeader || refreshTokenCookie || null;
+  // },
 };
 
 export { RequestUtils };

@@ -9,19 +9,16 @@ import { RepositoryDec } from '@infrastructure/shared/persistence/repository.dec
 import { Logger } from '@domain/shared';
 
 @RepositoryDec({ type: PostRepository })
-export class PostRepositoryImp implements PostRepository {
-  private _repository: Repository<PostPersistence> = appDataSource.getRepository(
-    PostPersistence,
-  );
+export class PostRepositoryImpl implements PostRepository {
+  private _repository: Repository<PostPersistence> =
+    appDataSource.getRepository(PostPersistence);
   async findByAuthor(authorId: string): Promise<Post | null> {
     const post = await this._repository.findOne({ where: { authorId } });
     return post ? PostMapper.toDomain(post) : null;
   }
 
   async createPost(post: Post): Promise<Post> {
-    Logger.info('PostRepositoryImp.createPost', post);
     const postPersistence = PostMapper.toPersistence(post);
-    Logger.info('PostRepositoryImp.createPost', postPersistence);
     const createdPost = await this._repository.save(postPersistence);
 
     return PostMapper.toDomain(createdPost, {
@@ -33,10 +30,10 @@ export class PostRepositoryImp implements PostRepository {
     const post = await this._repository.findOne({ where: { id: postId } });
     return post
       ? PostMapper.toDomain(post, {
-        author: await post.author,
-        comments: await post.comments,
-        likes: await post.likes,
-      })
+          author: await post.author,
+          comments: await post.comments,
+          likes: await post.likes,
+        })
       : null;
   }
 
@@ -56,10 +53,7 @@ export class PostRepositoryImp implements PostRepository {
   }
 
   async findAll(limit: number, page: number): Promise<Post[]> {
-    Logger.info('PostRepositoryImp.findAll');
     const [posts, count] = await this._repository.findAndCount();
-
-    Logger.info('posts from repo', posts);
     const postPromises = posts.map(async post =>
       PostMapper.toDomain(post, {
         author: await post.author,

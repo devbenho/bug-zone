@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { DateTime } from 'luxon';
 
-import { Logger, Nullable } from '@domain/shared';
+import { Nullable } from '@domain/shared';
 import { GlobalConfig } from '@infrastructure/shared/config';
 import { DomainService } from '@domain/shared/services/domain-service.decorator';
 import { TokenProviderDomainService } from '@domain/shared/services/token-provider.domain-service';
@@ -16,10 +15,7 @@ class JwtTokenProvider extends TokenProviderDomainService {
     });
   }
   public verifyAccessToken(token: string): Nullable<JwtPayload> {
-    const decoded = jwt.verify(token, this.jwtSecret) as JwtPayload;
-    Logger.debug('JwtTokenProvider.verifyAccessToken', decoded);
     try {
-      Logger.debug('JwtTokenProvider.verifyAccessToken', jwt.verify(token, this.jwtSecret) as JwtPayload);
       return jwt.verify(token, this.jwtSecret) as JwtPayload;
     } catch {
       return null;
@@ -33,7 +29,6 @@ class JwtTokenProvider extends TokenProviderDomainService {
   private readonly jwtExpiration: number = GlobalConfig.JWT_EXPIRATION;
 
   // private readonly jwtRefreshExpiration: number = GlobalConfig.JWT_REFRESH_EXPIRATION;
-
 }
 
 export { JwtTokenProvider };

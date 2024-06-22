@@ -1,8 +1,10 @@
+import { Nullable } from '@domain/shared';
+
 export class Authentication {
   constructor(
-    public userUuid: string,
-    public username: string,
-    public email: string,
+    public userUuid: Nullable<string>,
+    public username: Nullable<string>,
+    public email: Nullable<string>,
     public roles: string[],
   ) {}
 
@@ -13,5 +15,9 @@ export class Authentication {
     roles: string[],
   ): Authentication {
     return new Authentication(userUuid, username, email, roles);
+  }
+
+  public static createEmpty(): Authentication {
+    return new Authentication(null, null, null, []);
   }
 }

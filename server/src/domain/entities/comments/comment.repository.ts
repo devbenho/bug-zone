@@ -1,12 +1,12 @@
 import { Comment } from '@domain/entities';
 
-interface ICommentRepository {
-  create(comment: Comment): Promise<Comment>;
-  findByPostId(postId: string): Promise<Comment[]>;
-  findById(commentId: string): Promise<Comment | null>;
-  findByAuthor(authorId: string): Promise<Comment[]>;
-  delete(commentId: string): Promise<void>;
-  update(comment: Comment): Promise<Comment>;
+abstract class CommentRepository {
+  abstract create(comment: Comment): Promise<Comment>;
+  abstract findByPostId(postId: string): Promise<Comment[]>;
+  abstract findById(commentId: string): Promise<Comment | null>;
+  abstract findByAuthor(authorId: string): Promise<Comment[]>;
+  abstract delete(commentId: string): Promise<boolean>;
+  abstract update(comment: Comment): Promise<Comment>;
 }
 
-export { ICommentRepository };
+export { CommentRepository };

@@ -1,28 +1,32 @@
-import { Property } from "@tsed/schema";
+import { Nullable } from '@domain/shared';
+import { Property } from '@tsed/schema';
 
 class ApiResponse<T> {
-    @Property()
-    success: boolean;
+  @Property()
+  success: boolean;
 
-    @Property()
-    message: string;
+  @Property()
+  message: string;
 
-    @Property()
-    data: T;
+  @Property()
+  data: Nullable<T>;
 
-    constructor(success: boolean, message: string, data: T) {
-        this.success = success;
-        this.message = message;
-        this.data = data;
-    }
+  constructor(success: boolean, message: string, data: Nullable<T> = null) {
+    this.success = success;
+    this.message = message;
+    this.data = data;
+  }
 
-    static success<T>(data: T, message: string = 'Operation successful'): ApiResponse<T> {
-        return new ApiResponse(true, message, data);
-    }
+  static success<T>(
+    data: T,
+    message: string = 'Operation successful',
+  ): ApiResponse<T> {
+    return new ApiResponse(true, message, data);
+  }
 
-    static failure<T>(message: string, data: T): ApiResponse<T> {
-        return new ApiResponse(false, message, data);
-    }
+  static failure<T>(message: string): ApiResponse<T> {
+    return new ApiResponse(false, message);
+  }
 }
 
 export { ApiResponse };

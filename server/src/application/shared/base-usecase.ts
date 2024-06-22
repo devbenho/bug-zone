@@ -1,9 +1,8 @@
 import { performance } from 'node:perf_hooks';
 
 import { UseCaseRequest } from './usecase.request';
-import { injectable } from 'inversify';
+import { Logger } from '@domain/shared';
 
-@injectable()
 abstract class BaseUseCase<IRequest extends UseCaseRequest, IResponse> {
   public async execute(request: IRequest): Promise<IResponse> {
     try {
@@ -12,6 +11,7 @@ abstract class BaseUseCase<IRequest extends UseCaseRequest, IResponse> {
       const response = await this.performOperation(request);
       const endTime = performance.now();
       const useCaseExecutionTime = endTime - startTime;
+      Logger.debug(`Use case execution time: ${useCaseExecutionTime}ms`);
       return response;
     } catch (error) {
       throw error;

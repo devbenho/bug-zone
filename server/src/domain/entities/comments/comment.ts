@@ -15,9 +15,37 @@ export class Comment extends AuditableBaseEntity {
     public replies: Reply[],
     public likes: LikeComment[],
     public createdAt: Date,
-    public updatedAt: Nullable<Date>,
+    public updatedAt: Date,
     public deletedAt: Nullable<Date>,
   ) {
     super(id, createdAt, authorId, updatedAt, authorId, deletedAt, authorId);
+  }
+
+  public static create(
+    id: Nullable<string>,
+    postId: string,
+    post: Nullable<Post>,
+    authorId: string,
+    author: Nullable<User>,
+    content: string,
+    createdAt: Date,
+    updatedAt: Date,
+    deletedAt: Nullable<Date>,
+    replies?: Reply[],
+    likes?: LikeComment[],
+  ): Comment {
+    return new Comment(
+      id,
+      postId,
+      post,
+      authorId,
+      author,
+      content,
+      replies || [],
+      likes || [],
+      createdAt,
+      updatedAt,
+      deletedAt,
+    );
   }
 }

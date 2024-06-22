@@ -1,15 +1,18 @@
 import { BaseUseCase, UseCase } from '@application/shared';
 import { GetDetailCommentRequest } from './get-detail-comment.request';
-	
-@UseCase()
-class GetDetailCommentUseCase extends BaseUseCase<GetDetailCommentRequest,CommentDetailsResponseDto> {
+import { CommentDetailsResponseDto } from '@contracts/dtos/comments';
 
+@UseCase()
+class GetDetailCommentUseCase extends BaseUseCase<
+  GetDetailCommentRequest,
+  CommentDetailsResponseDto
+> {
   constructor() {
-	super();
+    super();
   }
 
-  public async performOperation({  }: GetDetailCommentRequest): Promise<CommentDetailsResponseDto> {
-	throw new Error('Method not implemented.');
+  public async performOperation({}: GetDetailCommentRequest): Promise<CommentDetailsResponseDto> {
+    throw new Error('Method not implemented.');
   }
 }
 

@@ -1,19 +1,9 @@
 import { CreatePostRequest, CreatePostUseCase } from '@application/post';
-import { TriggeredByAnonymous, TriggeredByUser } from '@domain/shared/entities';
+import { TriggeredBy, TriggeredByUser } from '@domain/shared/entities';
 import { FindAllPostRequest } from '@application/post/find-all/find-all-post.request';
 import { RestController } from '../../infrastructure/rest-controller.decorator';
 import { FindAllPostUseCase } from '@application/post/find-all/find-all-post.usecase';
-import {
-  Description,
-  Example,
-  Get,
-  Post,
-  Returns,
-  Status,
-  Summary,
-  Tags,
-  Title,
-} from '@tsed/schema';
+import { Description, Get, Post, Returns, Summary, Title } from '@tsed/schema';
 import { StatusCodes } from 'http-status-codes';
 import { AllPostsApiResponse } from './all-posts.api-response';
 import { BodyParams, Context, RawQueryParams } from '@tsed/common';
@@ -21,6 +11,7 @@ import { WithAuth } from '@web/rest/shared/with-auth.decorator';
 import { AppConfig } from '@web/rest/config';
 import { CreatedPostApiResponse } from './created-post.api-response';
 import { ApiResponse } from '@web/rest/infrastructure/api-response-wrapper';
+import { Logger } from '@web/rest/logger';
 
 @RestController('/posts')
 export class PostsController {
@@ -45,9 +36,8 @@ export class PostsController {
     @BodyParams('title') title: string,
     @BodyParams('content') content: string,
     @Context() ctx: Context,
-
   ): Promise<CreatedPostApiResponse> {
-    const ctxBody = ctx.get(AppConfig.AUTHENTICATION_CONTEXT_KEY)
+    const ctxBody = ctx.get(AppConfig.AUTHENTICATION_CONTEXT_KEY);
     const request = CreatePostRequest.create(
       new TriggeredByUser(ctxBody.userUuid, []),
       title!,
@@ -58,7 +48,7 @@ export class PostsController {
     );
     const result = await this._createPostUseCase.execute(request);
     return CreatedPostApiResponse.fromCreatedPost(result);
-  };
+  }
 
   @Get('/')
   @Title('Find all posts')
@@ -67,22 +57,24 @@ export class PostsController {
   public async findAll(
     @RawQueryParams('pageSize') pageSize: string,
     @RawQueryParams('pageNumber') pageNumber: string,
-    @Context() ctx: Context,
+    @Context(AppConfig.TRIGGERED_BY_CONTEXT_KEY) triggeredBy: TriggeredBy,
   ): Promise<ApiResponse<AllPostsApiResponse[]>> {
+    const request = FindAllPostRequest.create(
+      triggeredBy,
+      parseInt(pageSize),
+      parseInt(pageNumber),
+    );
     try {
-      const request = FindAllPostRequest.create(
-        new TriggeredByUser("123", []),
-        parseInt(pageSize),
-        parseInt(pageNumber)
-      );
-
       const result = await this._findAllPostUseCase.execute(request);
-      const responseData = result.map(post => AllPostsApiResponse.fromPostResponse(post));
+      const responseData = result.map(post =>
+        AllPostsApiResponse.fromPostResponse(post),
+      );
 
       return ApiResponse.success(responseData, 'Posts retrieved successfully');
     } catch (error) {
-      // Log error if necessary
-      return ApiResponse.failure<AllPostsApiResponse[]>('Failed to retrieve posts', []);
+      return ApiResponse.failure<AllPostsApiResponse[]>(
+        'Failed to retrieve posts',
+      );
     }
   }
 }

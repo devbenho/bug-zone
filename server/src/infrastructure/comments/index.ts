@@ -1,3 +1,3 @@
-export * from './comment.mapper'
-export * from './comment.persistence'
-export * from './comment.repository.imp'
+export * from './comment.mapper';
+export * from './comment.persistence';
+export * from './comment.repository.impl';
