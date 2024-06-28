@@ -6,12 +6,12 @@ import { PostPersistence } from './post.persistence';
 import { PostMapper } from './post.mapper';
 import { appDataSource } from '@infrastructure/shared/persistence/data-source';
 import { RepositoryDec } from '@infrastructure/shared/persistence/repository.decorator';
-import { Logger } from '@domain/shared';
 
 @RepositoryDec({ type: PostRepository })
 export class PostRepositoryImpl implements PostRepository {
   private _repository: Repository<PostPersistence> =
     appDataSource.getRepository(PostPersistence);
+
   async findByAuthor(authorId: string): Promise<Post | null> {
     const post = await this._repository.findOne({ where: { authorId } });
     return post ? PostMapper.toDomain(post) : null;
