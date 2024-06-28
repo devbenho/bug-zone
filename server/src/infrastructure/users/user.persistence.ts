@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   JoinTable,
+  ManyToMany,
 } from 'typeorm';
 import { CommentPersistence } from '../comments/comment.persistence';
 import { PostPersistence } from '../posts/post.persistence';
@@ -16,6 +17,7 @@ import { Nullable } from '@domain/shared/types';
 import { ReplyPersistence } from '@infrastructure/replies';
 import { LikeReplyPersistence } from '@infrastructure/like-replies';
 import { LikePostPersistence } from '@infrastructure/like-posts';
+import { ChatPersistence } from '@infrastructure/chats/chat.persistence';
 
 @Entity()
 class UserPersistence {
@@ -76,6 +78,19 @@ class UserPersistence {
   @OneToMany(() => LikeReplyPersistence, likePost => likePost.user)
   @JoinTable()
   public likedReplies: Promise<LikeReplyPersistence[]>;
+
+  @ManyToMany(() => ChatPersistence, chat => chat.participants, {
+    lazy: true,
+    cascade: true,
+  })
+  @JoinTable()
+  chats: Promise<ChatPersistence[]>;
+
+  addChat(chat: ChatPersistence): void {
+    this.chats.then(chats => {
+      chats.push(chat);
+    });
+  }
 }
 
 export { UserPersistence };

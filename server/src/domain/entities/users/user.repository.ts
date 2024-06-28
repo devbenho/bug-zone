@@ -11,4 +11,5 @@ export abstract class UserRepository {
   abstract isUsernameExists(payload: string): Promise<boolean>;
   abstract updateUser(user: User): Promise<User>;
   abstract findById(id: string): Promise<Nullable<User>>;
+  abstract findAllByUserIds(ids: string[]): Promise<User[]>;
 }
