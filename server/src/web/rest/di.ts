@@ -50,7 +50,7 @@ class Configurationg {
                   type: 'http',
                   scheme: 'bearer',
                   bearerFormat: 'JWT',
-                  description: endent`A valid *Access Token* is required to access protected resources. To obtain one, simply authenticate to the API through the authentication endpoint. If the authentication is successful, an Access Token and a Refresh Token will be returned.
+                  description: `A valid *Access Token* is required to access protected resources. To obtain one, simply authenticate to the API through the authentication endpoint. If the authentication is successful, an Access Token and a Refresh Token will be returned.
               \n
               The *Access Token* can be attached to requests using one of the headers \`Authorization: Bearer <access_token>\` and \`access-token: <access-token>\` or a cookie called \`access-token\`.
               \n

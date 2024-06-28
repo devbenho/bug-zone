@@ -1,3 +1,4 @@
+import { ChatPersistence } from '@infrastructure/chats/chat.persistence';
 import { CommentPersistence } from '@infrastructure/comments';
 import { LikeCommentPersistence } from '@infrastructure/like-comments';
 import { LikePostPersistence } from '@infrastructure/like-posts';
@@ -22,6 +23,7 @@ export const appDataSource = new DataSource({
     LikeCommentPersistence,
     ReplyPersistence,
     LikeReplyPersistence,
+    ChatPersistence
   ],
 
   migrations: [path.join(__dirname, '/../migrations/**/*.{js,ts}')],

@@ -2,6 +2,7 @@ import { BaseUseCase, UseCase } from '@application/shared';
 import { FindAllPostRequest } from './find-all-post.request';
 import { PostResponseDto } from '@contracts/dtos/posts';
 import { PostRepository } from '@domain/entities/posts/post.repository';
+import { Logger } from '@domain/shared';
 
 @UseCase()
 class FindAllPostUseCase extends BaseUseCase<
@@ -14,10 +15,11 @@ class FindAllPostUseCase extends BaseUseCase<
     super();
     this._postRepository = postRepository;
   }
-  public async performOperation(
+  protected async performOperation(
     request: FindAllPostRequest,
   ): Promise<PostResponseDto[]> {
     const { pageSize, pageNumber } = request;
+    Logger.debug('KOOOL posts', this._postRepository);
     const posts = await this._postRepository.findAll(
       pageSize || 10,
       pageNumber || 1,
