@@ -1,9 +1,13 @@
 import { Post } from '@domain/entities';
 
-export abstract class PostRepository {
+abstract class PostRepository {
   abstract createPost(post: Post): Promise<Post>;
   abstract findPostById(postId: string): Promise<Post | null>;
-  abstract findUserPosts(limit: number, page: number, userId: string): Promise<Post[]>;
+  abstract findUserPosts(
+    limit: number,
+    page: number,
+    userId: string,
+  ): Promise<Post[]>;
   abstract findAll(limit: number, page: number): Promise<Post[]>;
   abstract findByTitle(title: string): Promise<Post | null>;
   abstract findByContent(content: string): Promise<Post | null>;
@@ -13,3 +17,5 @@ export abstract class PostRepository {
   // addEditor(postId: string, editorId: string): Promise<void>;
   // removeEditor(postId: string, editorId: string): Promise<void>;
 }
+
+export { PostRepository };

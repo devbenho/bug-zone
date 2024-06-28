@@ -11,7 +11,6 @@ import { WithAuth } from '@web/rest/shared/with-auth.decorator';
 import { AppConfig } from '@web/rest/config';
 import { CreatedPostApiResponse } from './created-post.api-response';
 import { ApiResponse } from '@web/rest/infrastructure/api-response-wrapper';
-import { Logger } from '@web/rest/logger';
 
 @RestController('/posts')
 export class PostsController {
