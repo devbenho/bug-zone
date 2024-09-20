@@ -1,6 +1,0 @@
-
-class RepliesResponseDto {
-
-}
-
-export { RepliesResponseDto }

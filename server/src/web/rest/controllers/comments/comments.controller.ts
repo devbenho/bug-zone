@@ -1,79 +1,87 @@
-import { RestController } from '../../infrastructure/rest-controller.decorator';
-import { Description, Get, Post, Returns, Summary, Title } from '@tsed/schema';
-import { StatusCodes } from 'http-status-codes';
-import { BodyParams, Context, RawQueryParams } from '@tsed/common';
-import { WithAuth } from '@web/rest/shared/with-auth.decorator';
-import { AppConfig } from '@web/rest/config';
-import { ApiResponse } from '@web/rest/infrastructure/api-response-wrapper';
-import {
-  CreateCommentRequest,
-  CreateCommentUseCase,
-  FindCommentsByPostIdRequest,
-  FindCommentsByPostIdUseCase,
-} from '@application/comment';
-import { CreatedCommentApiResponse } from './created-comment.api-response';
-import { AllCommentsApiResponse } from './all-comments.api-response';
 import { TriggeredByUser } from '@domain/shared/entities';
-import { Logger } from '@domain/shared';
+import { AuthRequest } from '@contracts/dtos/auth';
+import { LoginUseCase } from '@application/auth/login/login.use-case';
+import { RegisterUsecase } from '@application/auth/register/register.use-case';
+import {
+  Description,
+  Example,
+  Post,
+  Returns,
+  Status,
+  Summary,
+  Tags,
+  Title,
+} from '@tsed/schema';
+import { StatusCodes } from 'http-status-codes';
+import { BodyParams } from '@tsed/common';
+import { RestController } from '@web/rest/infrastructure/rest-controller.decorator';
+import { UserSuccessfullyAuthenticatedApiResponse } from './user-successfully-authenticated.api-response';
+import { CreateUserDto } from '@contracts/dtos/users';
+import {AddCommentUsecase} from "@application/comments/add-comment.use-case";
 
-@RestController('/comments')
-export class CommentsController {
-  private readonly _createCommentUseCase: CreateCommentUseCase;
-  private readonly _findCommentsByPostIdUseCase: FindCommentsByPostIdUseCase;
+@RestController('/:starshipId/comments')
+@Tags({ name: 'Comments', description: 'Add comment to the starship' })
+class AuthController {
+  private _addCommentUseCase: AddCommentUsecase;
 
-  constructor(
-    createCommentUseCase: CreateCommentUseCase,
-    findCommentsByPostId: FindCommentsByPostIdUseCase,
-  ) {
-    this._createCommentUseCase = createCommentUseCase;
-    this._findCommentsByPostIdUseCase = findCommentsByPostId;
+  constructor(addCommentUseCase: AddCommentUsecase) {
+    this._addCommentUseCase = addCommentUseCase;
   }
 
   @Post('/')
-  @WithAuth()
-  @Title('Create a comment')
-  @Summary('Create a comment')
-  @Description('Endpoint to create a new comment')
-  @Returns(StatusCodes.OK, ApiResponse<CreatedCommentApiResponse>)
-  public async create(
-    @BodyParams('content') content: string,
-    @BodyParams('postId') postId: string,
-    @Context() ctx: Context,
-  ): Promise<ApiResponse<CreatedCommentApiResponse>> {
-    const ctxBody = ctx.get(AppConfig.AUTHENTICATION_CONTEXT_KEY);
-    const request = CreateCommentRequest.create(
-      ctxBody.userUuid,
-      postId,
-      content,
+  @Title('Add comment')
+  @Summary('Comment on a starship')
+  @Description(
+    'Endpoint to add a comment to a starship',
+  )
+  @Returns(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  @Status(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  public async addComment(
+    @Example('123456') @BodyParams('text') password: string,
+  ): Promise<UserSuccessfullyAuthenticatedApiResponse> {
+    let triggeredBy = new TriggeredByUser(email, "");
+    const authenticatedUser = await this._loginUseCase.execute(
+      AuthRequest.create(triggeredBy, email, password),
     );
-    const response = await this._createCommentUseCase.execute(request);
-    return ApiResponse.success(
-      CreatedCommentApiResponse.fromCommentResponseDto(response),
+    return UserSuccessfullyAuthenticatedApiResponse.Create(
+        authenticatedUser.userDetails.id as string,
+        authenticatedUser.userDetails.email,
+        authenticatedUser.userDetails.scopeId,
+        authenticatedUser.token,
     );
   }
 
-  @Get('/')
-  @Title('Find all comments')
-  @Summary('Find all comments')
-  @Returns(StatusCodes.OK, ApiResponse<AllCommentsApiResponse[]>)
-  public async findAll(
-    @RawQueryParams('pageSize') pageSize: string,
-    @RawQueryParams('pageNumber') pageNumber: string,
-    @RawQueryParams('postId') postId: string,
-  ): Promise<ApiResponse<AllCommentsApiResponse[]>> {
-    const request = FindCommentsByPostIdRequest.create(
-      new TriggeredByUser('123', []),
-      postId,
-      parseInt(pageSize),
-      parseInt(pageNumber),
-    );
-
-    const result = await this._findCommentsByPostIdUseCase.execute(request);
-    Logger.info('CommentsController.findAll', result);
-    return ApiResponse.success(
-      result.map(comment =>
-        AllCommentsApiResponse.fromCommentResponseDto(comment),
+  @Post('/register')
+  @Title('Register')
+  @Summary('User Register')
+  @Description('Endpoint to register the user')
+  @Returns(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  @Status(StatusCodes.OK, UserSuccessfullyAuthenticatedApiResponse)
+  public async registerUser(
+    @Example('Muhammad') @BodyParams('name') name: string,
+    @Example('devbenho@benho.com') @BodyParams('email') email: string,
+    @Example('123456') @BodyParams('password') password: string,
+    @Example('1') @BodyParams('scope') scope: string,
+    
+  ): Promise<UserSuccessfullyAuthenticatedApiResponse> {
+    let triggeredBy = new TriggeredByUser(email, "");
+    const authenticatedUser = await this._registerUseCase.execute(
+      CreateUserDto.create(
+        triggeredBy,
+        email,
+        name,
+        password,
+        scope,
       ),
+    );
+    
+    return UserSuccessfullyAuthenticatedApiResponse.Create(
+      authenticatedUser.userDetails.id as string,
+      authenticatedUser.userDetails.email,
+      authenticatedUser.userDetails.scopeId,
+      authenticatedUser.token,
     );
   }
 }
+
+export { AuthController };
